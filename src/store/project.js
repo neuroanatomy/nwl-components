@@ -32,7 +32,6 @@ export default function useProject() {
     state.project = processProject(
       await (await fetch(`${baseURL}/project/json/${id}`)).json()
     );
-    console.log(state.project);
     state.loading = false;
   };
 
@@ -102,9 +101,7 @@ export default function useProject() {
   };
 
   const updateFile = (idx, data) => {
-    console.log("fooo");
     if (!state.project) return;
-    console.log("update", idx, data);
     const file = state.project.files.list[idx];
     state.project.files.list[idx] = {
       ...file,

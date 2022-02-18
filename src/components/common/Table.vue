@@ -20,13 +20,10 @@ table {
 
 table :deep(td),
 table :deep(th) {
-  padding-right: 20px;
-  padding-bottom: 5px;
-  padding: 10px 20px 10px 0;
+  padding: 2px 10px;
   vertical-align: middle;
 }
 table :deep(th) {
-  font-weight: normal;
   font-weight: 700;
 }
 table :deep(thead) {

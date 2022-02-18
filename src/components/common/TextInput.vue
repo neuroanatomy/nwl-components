@@ -21,13 +21,12 @@ const handleInput = (event) => {
 input[type="text"] {
   color: white;
   width: 100%;
-  background: #555;
-  padding: 10px;
+  background: transparent;
+  padding: 0;
   border: none;
   box-sizing: border-box;
 }
 input[type="text"][disabled] {
-  background: #555;
   color: #bbb;
 }
 ::placeholder {

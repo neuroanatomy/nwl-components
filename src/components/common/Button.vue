@@ -13,7 +13,7 @@ const props = defineProps({
 </script>
 <style scoped>
 button {
-    background: #333;
+    background: transparent;
     color: white;
     border: 1px solid #555;
     border-radius: 3px;

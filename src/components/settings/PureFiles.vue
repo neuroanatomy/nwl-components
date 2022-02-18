@@ -6,7 +6,6 @@
         <tr>
           <th>URL</th>
           <th>Name</th>
-          <th>Batch</th>
         </tr>
       </thead>
       <tbody>
@@ -128,7 +127,7 @@ h2 {
 th:last-child,
 td:last-child {
   text-align: right;
-  padding: 5px;
+  padding: 2px;
 }
 .actions {
   text-align: right;
