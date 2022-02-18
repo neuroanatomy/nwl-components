@@ -1,30 +1,46 @@
 <template>
-    <button :class="{ small }" v-bind="props">
-        <slot />
-    </button>
+  <button :title="title" :disabled="disabled" :class="classes">
+    <slot />
+  </button>
 </template>
 <script setup>
 const props = defineProps({
-    class: String,
-    title: String,
-    disabled: Boolean,
-    small: Boolean
-})
+  className: String,
+  title: String,
+  disabled: Boolean,
+  small: Boolean,
+});
+
+const classes = { small: props.small === true };
+if (props.className != null) {
+  classes[props.className] = true;
+}
 </script>
 <style scoped>
 button {
-    background: transparent;
-    color: white;
-    border: 1px solid #555;
-    border-radius: 3px;
-    margin-right: 5px;
-    cursor: pointer;
-    padding: 10px;
-    box-sizing: border-box;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    vertical-align: middle;
+  background: transparent;
+  color: white;
+  border: 1px solid #fff;
+  border-radius: 3px;
+  margin-right: 5px;
+  cursor: pointer;
+  padding: 10px;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+}
+
+.push-button {
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  color: #ddd;
+  text-align: center;
+  -webkit-appearance: none;
+  cursor: pointer;
+  padding: 5px 0;
+  font-weight: bold;
 }
 
 .small {
@@ -37,8 +53,7 @@ button:hover {
 }
 
 button:disabled {
-  background: #555;
-  color: #aaa;
+  opacity: 0.4;
   cursor: default;
 }
 button :deep(img) {

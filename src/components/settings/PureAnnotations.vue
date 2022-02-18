@@ -151,13 +151,9 @@ const handleDisplayChange = (annotation, display) => {
 </script>
 <style scoped>
 h2 {
-  margin: 0 0 10px;
-  font-size: 16px;
+  font-size: 14px;
+  padding-bottom: 4px;
 }
-.wrapper {
-  padding: 10px;
-}
-
 th:last-child, td:last-child {
   text-align: right;
   padding: 5px;

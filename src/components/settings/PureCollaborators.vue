@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <h2>Collaborators</h2>
+    <h2>Access</h2>
     <Table id="access">
       <thead>
         <tr>
@@ -8,7 +8,7 @@
           <th>Name</th>
           <th>Collaborators</th>
           <th>Annotations</th>
-          <th>Data Files</th>
+          <th>Files</th>
         </tr>
       </thead>
       <tbody>
@@ -71,7 +71,7 @@
       <Button :small="true"
         @click="$emit('removeCollaborators', [selected])"
         title="Remove selected collaborators"
-        :disabled="selected == null"
+        :disabled="selected == null || collaborators[selected].userID === 'anyone'"
       >
         -
       </Button>
@@ -153,16 +153,8 @@ const handleUserSelect = (userInfo, idx) => {
 </script>
 <style scoped>
 h2 {
-  margin: 0 0 10px;
-  font-size: 16px;
-}
-.wrapper {
-  padding: 10px;
-}
-
-th:last-child, td:last-child {
-  text-align: right;
-  padding: 5px;
+  font-size: 14px;
+  padding-bottom: 4px;
 }
 
 .actions {

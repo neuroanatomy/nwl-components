@@ -178,10 +178,10 @@ onUnmounted(() => {
 <style scoped>
 .autocomplete-results {
   position: absolute;
-  top: 50px;
+  top: 30px;
   z-index: 10;
   background: #222;
-  width: calc(100% - 20px);
+  width: auto;
   box-sizing: border-box;
   margin: 0;
   padding: 0;

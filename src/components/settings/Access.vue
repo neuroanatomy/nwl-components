@@ -44,14 +44,9 @@ defineEmits(["updateAccess"]);
 
 <style scoped>
 .access {
-  padding-top: 5px;
   text-decoration: none;
   border: none;
-}
-@media (min-width: 800px) {
-  .access {
-    min-width: 100px;
-  }
+  display: flex;
 }
 .access button:hover {
   background: #666;

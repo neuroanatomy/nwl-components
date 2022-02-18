@@ -16,6 +16,8 @@ table {
   padding: 10px;
   display: table;
   margin-bottom: 20px;
+  margin-left: 10px;
+  table-layout: fixed;
 }
 
 table :deep(.selected) {
@@ -24,17 +26,14 @@ table :deep(.selected) {
 
 table :deep(td),
 table :deep(th) {
-  padding: 2px 10px;
+  padding: 2px 0;
   vertical-align: middle;
 }
 table :deep(th) {
   font-weight: 700;
 }
-table :deep(thead) {
+table :deep(thead), table :deep(tbody) {
   border-bottom: 1px solid #fff;
-}
-table :deep(tbody tr) {
-  border-bottom: 1px solid #555;
 }
 table :deep(tbody tr:hover) {
   background: #444;

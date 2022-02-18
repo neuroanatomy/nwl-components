@@ -18,10 +18,11 @@ const handleInput = (event) => {
 </script>
 <style scoped>
 textarea {
+  background: transparent;
   color: white;
-  width: 100%;
-  background: #555;
-  padding: 10px;
+  font-family: inherit;
+  font-size: 12px;
+  padding: 0;
   border: none;
   box-sizing: border-box;
 }

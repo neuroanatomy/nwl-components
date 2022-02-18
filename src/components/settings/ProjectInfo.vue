@@ -33,11 +33,10 @@
         <span id="numFiles">{{ project.files.list.length }}</span> Data Files
       </p>
 
-      <!-- Save or Cancel -->
-      <div>
-        <Button @click="$emit('saveProject')">Save Changes</Button>
-        <Button @click="$emit('deleteProject')">Delete Project</Button>
-        <Button @click="() => {}">Go to Project</Button>
+      <div class="actions">
+        <Button className="push-button" @click="$emit('saveProject')">Save Changes</Button>
+        <Button className="push-button" @click="$emit('deleteProject')">Delete Project</Button>
+        <Button className="push-button" @click="() => {}">Go to Project</Button>
         <p id="saveFeedback"></p>
       </div>
     </div>
@@ -69,15 +68,30 @@ onMounted(() => {
 
 <style scoped>
 h1 {
-  font-size: 16px;
+  font-size: 1rem;
   margin: 0 0 20px;
 }
 a {
   color: white;
 }
 aside {
-  margin-right: 20px;
-  max-width: 250px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+}
+
+:deep(input), :deep(textarea) {
+    text-align: center;
+    font-family: inherit;
+    font-size: 14px;
+    color: white;
+    padding: 3px 0 0;
+}
+:deep(::placeholder) {
+    color: rgba(255,255,255,0.4);
+}
+p {
+    margin: 0 0 5px;
 }
 
 :deep(button) {
@@ -85,39 +99,46 @@ aside {
   margin-bottom: 10px;
 }
 .image {
-  padding: 20px;
-  background: #333;
-  margin-bottom: 20px;
+    width: 200px;
+    height: 200px;
+    background: #333;
+    margin: 0 auto 20px;
 }
 
-@media (max-width: 1000px) {
-  aside {
-    display: flex;
-    align-items: flex-start;
-    max-width: none;
-  }
-  .image {
-    margin-right: 20px;
-  }
-  .description {
-    flex: 1;
-    margin-bottom: 20px;
-  }
 
-  :deep(button) {
-    width: auto;
-    margin-right: 10px;
-  }
-
-  .description {
-    width: 100%;
-  }
+.actions {
+    margin-top: 15px;
 }
 
-@media (max-width: 600px) {
-  aside {
-    flex-flow: column;
-    width: 100%;
-  }
+.description {
+    margin: 0 auto;
 }
+
+@media (min-width: 738px) {
+    .description {
+        width: calc(100% - 500px);
+    }
+
+    aside {
+      flex-direction: row;
+    }
+
+    .image {
+        margin: 0 0 20px;
+    }
+}
+
+@media (min-width: 1023px) {
+    aside {
+        margin-right: 20px;
+        max-width: 200px;
+        flex-direction: column;
+    }
+
+    .description {
+        flex: 1;
+        width: 100%;
+    }
+}
+
 </style>

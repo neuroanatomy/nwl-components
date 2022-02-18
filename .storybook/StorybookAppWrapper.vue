@@ -4,6 +4,11 @@
   </div>
 </template>
 
+<style>
+* {
+  box-sizing: border-box;
+}
+</style>
 <style scoped>
 .app {
   background: #222;

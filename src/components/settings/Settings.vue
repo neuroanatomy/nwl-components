@@ -30,20 +30,46 @@ fetchProject(props.projectID);
 
 const handleProjectSave = () => {
   alert(JSON.stringify(project.value));
-}
-
-
+};
 </script>
 <style scoped>
 .settings {
-  display: flex;
+  display: block;
   margin: 0 auto;
-  max-width: 1200px;
+  max-width: 700px;
 }
 
-@media (max-width: 1000px) {
+.content {
+  margin: 0 auto;
+  max-width: 420px;
+}
+
+@media (min-width: 639px) {
+  .content {
+    max-width: 600px;
+  }
+}
+
+@media not all and (min-width: 739px) {
+  .content {
+    max-width: 600px;
+  }
+}
+
+@media (min-width: 739px) {
+  .content {
+    max-width: 600px;
+    margin: 0;
+  }
+}
+
+@media (min-width: 1023px) {
+  .content {
+    width: calc(100% - 260px);
+  }
   .settings {
-    display: block;
+    display: flex;
+    max-width: 984px;
   }
 }
 

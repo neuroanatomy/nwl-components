@@ -105,11 +105,8 @@ const handleSourceChange = (file, source) => {
 </script>
 <style scoped>
 h2 {
-  margin: 0 0 10px;
-  font-size: 16px;
-}
-.wrapper {
-  padding: 10px;
+  font-size: 14px;
+  padding-bottom: 4px;
 }
 .actions {
   text-align: right;

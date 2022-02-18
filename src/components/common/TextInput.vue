@@ -22,7 +22,7 @@ input[type="text"] {
   color: white;
   width: 100%;
   background: transparent;
-  padding: 0;
+  padding: 5px 0;
   border: none;
   box-sizing: border-box;
 }
