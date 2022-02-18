@@ -1,26 +1,45 @@
 <template>
-    <div
-        class="access"
-        :data-level="
-        ['none', 'view', 'edit', 'add', 'remove'].indexOf(
-            collaborator.access[type]
-        )
-        "
-    >
-        <Button :small="true" @click="$emit('updateAccess', collaborator, type, 1)" class="view" :title="`view ${type}`"></button>
-        <Button :small="true" @click="$emit('updateAccess', collaborator, type, 2)" class="edit" :title="`edit ${type}`"></button>
-        <Button :small="true" @click="$emit('updateAccess', collaborator, type, 3)" class="add" :title="`add ${type}`"></button>
-        <Button :small="true" @click="$emit('updateAccess', collaborator, type, 4)" class="remove" :title="`remove ${type}`"></button>
-    </div>
+  <div
+    class="access"
+    :data-level="
+      ['none', 'view', 'edit', 'add', 'remove'].indexOf(
+        collaborator.access[type]
+      )
+    "
+  >
+    <button
+      :small="true"
+      @click="$emit('updateAccess', collaborator, type, 1)"
+      class="view"
+      :title="`view ${type}`"
+    ></button>
+    <button
+      :small="true"
+      @click="$emit('updateAccess', collaborator, type, 2)"
+      class="edit"
+      :title="`edit ${type}`"
+    ></button>
+    <button
+      :small="true"
+      @click="$emit('updateAccess', collaborator, type, 3)"
+      class="add"
+      :title="`add ${type}`"
+    ></button>
+    <button
+      :small="true"
+      @click="$emit('updateAccess', collaborator, type, 4)"
+      class="remove"
+      :title="`remove ${type}`"
+    ></button>
+  </div>
 </template>
 
 <script setup>
-//FIXME use AccessLevel and AccessType
 defineProps({
   collaborator: Object,
-  type: String
+  type: String,
 });
-defineEmits(['updateAccess']);
+defineEmits(["updateAccess"]);
 </script>
 
 <style scoped>
@@ -28,7 +47,11 @@ defineEmits(['updateAccess']);
   padding-top: 5px;
   text-decoration: none;
   border: none;
-  min-width:100px;
+}
+@media (min-width: 800px) {
+  .access {
+    min-width: 100px;
+  }
 }
 .access button:hover {
   background: #666;

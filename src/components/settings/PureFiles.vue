@@ -51,7 +51,8 @@
       <Button :small="true" @click="$emit('addFile')" title="Add file">
         +
       </Button>
-      <Button :small="true"
+      <Button
+        :small="true"
         @click="$emit('removeFiles', [...selected])"
         title="Remove selected files"
         :disabled="selected.size === 0"
@@ -63,7 +64,7 @@
 </template>
 
 <script setup>
-import { reactive } from "vue";
+import { reactive, onMounted } from "vue";
 import TextInput from "@/components/common/TextInput.vue";
 import Button from "@/components/common/Button.vue";
 import Table from "@/components/common/Table.vue";
@@ -83,6 +84,13 @@ const emit = defineEmits([
   "downloadCSV"
 ]);
 
+const emitFileUpdate = (idx, properties) => {
+  emit("updateFile", idx, {
+    ...props.files[idx],
+    ...properties,
+  });
+};
+
 const selected = reactive(new Set());
 const toggleSelected = (idx) => {
   selected.has(idx) ? selected.delete(idx) : selected.add(idx);
@@ -95,12 +103,6 @@ const handleRowClick = (event, idx) => {
   toggleSelected(idx);
 };
 
-const emitFileUpdate = (idx, properties) => {
-  emit("updateFile", idx, {
-    ...props.files[idx],
-    ...properties,
-  });
-};
 
 const handleNameChange = (file, name) => {
   const idx = props.files.indexOf(file);
@@ -123,7 +125,8 @@ h2 {
   padding: 10px;
 }
 
-th:last-child, td:last-child {
+th:last-child,
+td:last-child {
   text-align: right;
   padding: 5px;
 }

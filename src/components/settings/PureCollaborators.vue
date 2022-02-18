@@ -88,13 +88,14 @@
 </template>
 
 <script setup>
-import { reactive } from "vue";
-import TextInput from "@/components/common/TextInput.vue";
-import Button from "@/components/common/Button.vue";
-import Table from "@/components/common/Table.vue";
-import Access from "@/components/settings/Access.vue";
-import Autocomplete from "@/components/common/Autocomplete.vue";
-import { debounce } from "lodash";
+import { reactive } from 'vue';
+import TextInput from '@/components/common/TextInput.vue';
+import Button from '@/components/common/Button.vue';
+import Table from '@/components/common/Table.vue';
+import Access from '@/components/settings/Access.vue';
+import Autocomplete from '@/components/common/Autocomplete.vue';
+import { debounce } from 'lodash';
+import AccessLevel from '@/domain/AccessLevel';
 
 const props = defineProps({
   collaborators: {
@@ -137,9 +138,7 @@ const emitCollaboratorUpdate = (idx, properties) => {
 const handleAccessChange = (collaborator, accessType, level) => {
   const idx = props.collaborators.indexOf(collaborator);
   if (idx < 0) return;
-  const existingAccessLevel = ["none", "view", "edit", "add", "remove"].indexOf(
-    props.collaborators[idx].access[accessType]
-  ); // FIXME
+  const existingAccessLevel = new AccessLevel(props.collaborators[idx].access[accessType]).toInt();
 
   let requestedLevel = level;
   if (existingAccessLevel === requestedLevel) {
@@ -149,7 +148,7 @@ const handleAccessChange = (collaborator, accessType, level) => {
   emitCollaboratorUpdate(idx, {
     access: {
       ...props.collaborators[idx].access,
-      [accessType]: ["none", "view", "edit", "add", "remove"][requestedLevel], // FIXME
+      [accessType]: AccessLevel.fromInt(requestedLevel).toString(),
     },
   });
 };

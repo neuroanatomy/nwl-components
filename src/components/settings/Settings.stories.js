@@ -9,7 +9,7 @@ const Template = (args) => ({
   setup() {
     return {}
   },
-  template: // FIXME projectID should be provided by settings
+  template:
     `<Settings projectID="testproject" />`,
 });
 

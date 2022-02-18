@@ -8,7 +8,7 @@
 
     <div class="description">
       <a :href="`/project/${project.shortname}`">
-        <h1>{{ projectShortname }}</h1>
+        <h1>{{ project.shortname }}</h1>
       </a>
       <TextInput v-model="project.url" placeholder="Enter a project website" />
       <p>
@@ -35,9 +35,9 @@
 
       <!-- Save or Cancel -->
       <div>
-        <Button @click="$emit('saveChanges')">Save Changes</Button>
+        <Button @click="$emit('saveProject')">Save Changes</Button>
         <Button @click="$emit('deleteProject')">Delete Project</Button>
-        <Button @click="() => {}">Go to Project</button>
+        <Button @click="() => {}">Go to Project</Button>
         <p id="saveFeedback"></p>
       </div>
     </div>
@@ -68,31 +68,56 @@ onMounted(() => {
 </script>
 
 <style scoped>
+h1 {
+  font-size: 16px;
+  margin: 0 0 20px;
+}
 a {
   color: white;
 }
 aside {
   margin-right: 20px;
+  max-width: 250px;
 }
 
 :deep(button) {
-    width: 100%;
-    margin-bottom: 10px;
+  width: 100%;
+  margin-bottom: 10px;
+}
+.image {
+  padding: 20px;
+  background: #333;
+  margin-bottom: 20px;
 }
 
 @media (max-width: 1000px) {
   aside {
     display: flex;
     align-items: flex-start;
+    max-width: none;
+  }
+  .image {
+    margin-right: 20px;
   }
   .description {
-      flex: 1;
+    flex: 1;
+    margin-bottom: 20px;
   }
 
-:deep(button) {
+  :deep(button) {
     width: auto;
     margin-right: 10px;
+  }
+
+  .description {
+    width: 100%;
+  }
 }
 
+@media (max-width: 600px) {
+  aside {
+    flex-flow: column;
+    width: 100%;
+  }
 }
 </style>

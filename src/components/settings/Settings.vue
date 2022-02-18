@@ -1,3 +1,15 @@
+<template>
+  <template v-if="project != null">
+    <div class="settings">
+      <ProjectInfo :project="project" @save-project="handleProjectSave" />
+      <div class="content">
+        <Collaborators />
+        <Annotations />
+        <Files />
+      </div>
+    </div>
+  </template>
+</template>
 <script setup>
 import ProjectInfo from "@/components/settings/ProjectInfo.vue";
 import Collaborators from "@/components/settings/Collaborators.vue";
@@ -15,20 +27,13 @@ const props = defineProps({
 const { project, loading, fetchProject } = useProject();
 
 fetchProject(props.projectID);
-</script>
-<template>
-  <template v-if="project != null">
-    <div class="settings">
-      <ProjectInfo :project="project" />
-      <div class="content">
-        <Collaborators />
-        <Annotations />
-        <Files />
-      </div>
-    </div>
-  </template>
-</template>
 
+const handleProjectSave = () => {
+  alert(JSON.stringify(project.value));
+}
+
+
+</script>
 <style scoped>
 .settings {
   display: flex;
