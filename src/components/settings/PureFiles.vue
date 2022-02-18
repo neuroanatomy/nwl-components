@@ -12,6 +12,7 @@
         <tr
           v-for="(file, idx) in files"
           :key="file.source"
+          :class="{selected: selected === idx}"
           @click="handleRowClick($event, idx)"
         >
           <td>
@@ -30,13 +31,6 @@
               @keyup.enter="handleNameChange(file, $event.target.value)"
             />
           </td>
-          <td>
-            <input
-              type="checkbox"
-              :checked="selected.has(idx)"
-              @click="toggleSelected(idx)"
-            />
-          </td>
         </tr>
       </tbody>
     </Table>
@@ -52,9 +46,9 @@
       </Button>
       <Button
         :small="true"
-        @click="$emit('removeFiles', [...selected])"
+        @click="$emit('removeFiles', [selected])"
         title="Remove selected files"
-        :disabled="selected.size === 0"
+        :disabled="selected == null"
       >
         -
       </Button>
@@ -63,7 +57,7 @@
 </template>
 
 <script setup>
-import { reactive, onMounted } from "vue";
+import { ref } from "vue";
 import TextInput from "@/components/common/TextInput.vue";
 import Button from "@/components/common/Button.vue";
 import Table from "@/components/common/Table.vue";
@@ -90,16 +84,10 @@ const emitFileUpdate = (idx, properties) => {
   });
 };
 
-const selected = reactive(new Set());
-const toggleSelected = (idx) => {
-  selected.has(idx) ? selected.delete(idx) : selected.add(idx);
-};
-
+const selected = ref(null);
 const handleRowClick = (event, idx) => {
-  if (["BUTTON", "INPUT", "LI"].includes(event.target.tagName)) {
-    return;
-  }
-  toggleSelected(idx);
+  console.log('idx', idx);
+  selected.value = idx;
 };
 
 
@@ -122,12 +110,6 @@ h2 {
 }
 .wrapper {
   padding: 10px;
-}
-
-th:last-child,
-td:last-child {
-  text-align: right;
-  padding: 2px;
 }
 .actions {
   text-align: right;

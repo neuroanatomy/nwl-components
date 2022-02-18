@@ -9,13 +9,13 @@
           <th>Collaborators</th>
           <th>Annotations</th>
           <th>Data Files</th>
-          <th>Batch</th>
         </tr>
       </thead>
       <tbody>
         <tr
           v-for="(collaborator, idx) in collaborators"
           :key="collaborator.userID"
+          :class="{selected: selected === idx}"
           @click="handleRowClick($event, idx)"
         >
           <td style="position: relative">
@@ -61,14 +61,6 @@
               @update-access="handleAccessChange"
             />
           </td>
-          <td>
-            <input
-              v-if="collaborator.userID !== 'anyone'"
-              type="checkbox"
-              :checked="selected.has(idx)"
-              @click="toggleSelected(idx)"
-            />
-          </td>
         </tr>
       </tbody>
     </Table>
@@ -77,9 +69,9 @@
         +
       </Button>
       <Button :small="true"
-        @click="$emit('removeCollaborators', [...selected])"
+        @click="$emit('removeCollaborators', [selected])"
         title="Remove selected collaborators"
-        :disabled="selected.size === 0"
+        :disabled="selected == null"
       >
         -
       </Button>
@@ -88,7 +80,7 @@
 </template>
 
 <script setup>
-import { reactive } from 'vue';
+import { ref } from 'vue';
 import TextInput from '@/components/common/TextInput.vue';
 import Button from '@/components/common/Button.vue';
 import Table from '@/components/common/Table.vue';
@@ -116,16 +108,9 @@ const handleUserSearch = debounce((search) => {
   emit("searchUsers", search);
 }, 300);
 
-const selected = reactive(new Set());
-const toggleSelected = (idx) => {
-  selected.has(idx) ? selected.delete(idx) : selected.add(idx);
-};
-
+const selected = ref(null);
 const handleRowClick = (event, idx) => {
-  if (["BUTTON", "INPUT", "LI"].includes(event.target.tagName)) {
-    return;
-  }
-  toggleSelected(idx);
+  selected.value = idx;
 };
 
 const emitCollaboratorUpdate = (idx, properties) => {

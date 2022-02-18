@@ -18,6 +18,10 @@ table {
   margin-bottom: 20px;
 }
 
+table :deep(.selected) {
+  background: #444;
+}
+
 table :deep(td),
 table :deep(th) {
   padding: 2px 10px;

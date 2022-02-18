@@ -8,13 +8,13 @@
           <th>Type</th>
           <th>Value</th>
           <th>Display</th>
-          <th>Batch</th>
         </tr>
       </thead>
       <tbody>
         <tr
           v-for="(annotation, idx) in annotations"
           :key="idx"
+          :class="{selected: selected === idx}"
           @click="handleRowClick($event, idx)"
         >
           <td>
@@ -59,13 +59,6 @@
           <td>
             <input type="checkbox" v-model="annotation.display" @change="handleDisplayChange(annotation, $event.target.checked)" />
           </td>
-          <td>
-            <input
-              type="checkbox"
-              :checked="selected.has(idx)"
-              @click="toggleSelected(idx)"
-            />
-          </td>
         </tr>
       </tbody>
     </Table>
@@ -74,9 +67,9 @@
         +
       </Button>
       <Button :small="true"
-        @click="$emit('removeAnnotations', [...selected])"
+        @click="$emit('removeAnnotations', [selected])"
         title="Remove selected annotations"
-        :disabled="selected.size === 0"
+        :disabled="selected == null"
       >
         -
       </Button>
@@ -84,7 +77,7 @@
   </div>
 </template>
 <script setup>
-import { inject, reactive } from "vue";
+import { inject, ref, reactive } from "vue";
 import Select from "@/components/common/Select.vue";
 import TextInput from "@/components/common/TextInput.vue";
 import Button from "@/components/common/Button.vue";
@@ -116,16 +109,9 @@ const fetchLabelSets = async () => {
 
 fetchLabelSets();
 
-const selected = reactive(new Set());
-const toggleSelected = (idx) => {
-  selected.has(idx) ? selected.delete(idx) : selected.add(idx);
-};
-
+const selected = ref(null);
 const handleRowClick = (event, idx) => {
-  if (["BUTTON", "INPUT", "SELECT"].includes(event.target.tagName)) {
-    return;
-  }
-  toggleSelected(idx);
+  selected.value = idx;
 };
 
 const emitAnnotationUpdate = (idx, properties) => {
