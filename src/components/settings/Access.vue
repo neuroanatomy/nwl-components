@@ -7,10 +7,10 @@
         )
         "
     >
-        <button @click="$emit('updateAccess', collaborator, type, 1)" class="view" :title="`view ${type}`"></button>
-        <button @click="$emit('updateAccess', collaborator, type, 2)" class="edit" :title="`edit ${type}`"></button>
-        <button @click="$emit('updateAccess', collaborator, type, 3)" class="add" :title="`add ${type}`"></button>
-        <button @click="$emit('updateAccess', collaborator, type, 4)" class="remove" :title="`remove ${type}`"></button>
+        <Button :small="true" @click="$emit('updateAccess', collaborator, type, 1)" class="view" :title="`view ${type}`"></button>
+        <Button :small="true" @click="$emit('updateAccess', collaborator, type, 2)" class="edit" :title="`edit ${type}`"></button>
+        <Button :small="true" @click="$emit('updateAccess', collaborator, type, 3)" class="add" :title="`add ${type}`"></button>
+        <Button :small="true" @click="$emit('updateAccess', collaborator, type, 4)" class="remove" :title="`remove ${type}`"></button>
     </div>
 </template>
 
@@ -28,6 +28,7 @@ defineEmits(['updateAccess']);
   padding-top: 5px;
   text-decoration: none;
   border: none;
+  min-width:100px;
 }
 .access button:hover {
   background: #666;

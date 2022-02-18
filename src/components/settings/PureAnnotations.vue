@@ -4,11 +4,11 @@
     <Table id="annotations">
       <thead>
         <tr>
-          <th></th>
           <th>Name</th>
           <th>Type</th>
           <th>Value</th>
           <th>Display</th>
+          <th>Batch</th>
         </tr>
       </thead>
       <tbody>
@@ -17,13 +17,6 @@
           :key="idx"
           @click="handleRowClick($event, idx)"
         >
-          <td>
-            <input
-              type="checkbox"
-              :checked="selected.has(idx)"
-              @click="toggleSelected(idx)"
-            />
-          </td>
           <td>
             <TextInput
               v-model="annotation.name"
@@ -66,14 +59,21 @@
           <td>
             <input type="checkbox" v-model="annotation.display" @change="handleDisplayChange(annotation, $event.target.checked)" />
           </td>
+          <td>
+            <input
+              type="checkbox"
+              :checked="selected.has(idx)"
+              @click="toggleSelected(idx)"
+            />
+          </td>
         </tr>
       </tbody>
     </Table>
     <div class="actions">
-      <Button @click="$emit('addAnnotation')" title="Add annotation">
+      <Button :small="true" @click="$emit('addAnnotation')" title="Add annotation">
         +
       </Button>
-      <Button
+      <Button :small="true"
         @click="$emit('removeAnnotations', [...selected])"
         title="Remove selected annotations"
         :disabled="selected.size === 0"
@@ -85,10 +85,10 @@
 </template>
 <script setup>
 import { inject, reactive } from "vue";
-import Select from "./Select.vue";
-import TextInput from "./TextInput.vue";
-import Button from "./Button.vue";
-import Table from "./Table.vue";
+import Select from "@/components/common/Select.vue";
+import TextInput from "@/components/common/TextInput.vue";
+import Button from "@/components/common/Button.vue";
+import Table from "@/components/common/Table.vue";
 
 const baseURL = inject("baseURL");
 
@@ -172,8 +172,8 @@ h2 {
   padding: 10px;
 }
 
-td:first-child {
-  text-align: center;
+th:last-child, td:last-child {
+  text-align: right;
   padding: 5px;
 }
 .actions {

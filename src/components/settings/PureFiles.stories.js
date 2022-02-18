@@ -1,4 +1,4 @@
-import PureFiles from "./PureFiles.vue";
+import PureFiles from "@/components/settings/PureFiles.vue";
 import { action } from "@storybook/addon-actions";
 import { reactive } from "vue";
 

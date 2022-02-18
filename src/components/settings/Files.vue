@@ -1,5 +1,5 @@
 <script setup>
-import PureFiles from './PureFiles.vue';
+import PureFiles from '@/components/settings/PureFiles.vue';
 import useProject from '@/store/project';
 
 const {

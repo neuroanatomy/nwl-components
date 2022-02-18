@@ -4,12 +4,12 @@
     <Table id="access">
       <thead>
         <tr>
-          <th></th>
           <th>User Name</th>
           <th>Name</th>
           <th>Collaborators</th>
           <th>Annotations</th>
           <th>Data Files</th>
+          <th>Batch</th>
         </tr>
       </thead>
       <tbody>
@@ -18,14 +18,6 @@
           :key="collaborator.userID"
           @click="handleRowClick($event, idx)"
         >
-          <td>
-            <input
-              v-if="collaborator.userID !== 'anyone'"
-              type="checkbox"
-              :checked="selected.has(idx)"
-              @click="toggleSelected(idx)"
-            />
-          </td>
           <td style="position: relative">
             <Autocomplete
               @input="handleUserSearch"
@@ -69,14 +61,22 @@
               @update-access="handleAccessChange"
             />
           </td>
+          <td>
+            <input
+              v-if="collaborator.userID !== 'anyone'"
+              type="checkbox"
+              :checked="selected.has(idx)"
+              @click="toggleSelected(idx)"
+            />
+          </td>
         </tr>
       </tbody>
     </Table>
     <div class="actions">
-      <Button @click="$emit('addCollaborator')" title="Add collaborator">
+      <Button :small="true" @click="$emit('addCollaborator')" title="Add collaborator">
         +
       </Button>
-      <Button
+      <Button :small="true"
         @click="$emit('removeCollaborators', [...selected])"
         title="Remove selected collaborators"
         :disabled="selected.size === 0"
@@ -89,11 +89,11 @@
 
 <script setup>
 import { reactive } from "vue";
-import TextInput from "./TextInput.vue";
-import Button from "./Button.vue";
-import Table from "./Table.vue";
-import Access from "./Access.vue";
-import Autocomplete from "./Autocomplete.vue";
+import TextInput from "@/components/common/TextInput.vue";
+import Button from "@/components/common/Button.vue";
+import Table from "@/components/common/Table.vue";
+import Access from "@/components/settings/Access.vue";
+import Autocomplete from "@/components/common/Autocomplete.vue";
 import { debounce } from "lodash";
 
 const props = defineProps({
@@ -176,10 +176,11 @@ h2 {
   padding: 10px;
 }
 
-td:first-child {
-  text-align: center;
+th:last-child, td:last-child {
+  text-align: right;
   padding: 5px;
 }
+
 .actions {
   text-align: right;
   margin-top: 20px;

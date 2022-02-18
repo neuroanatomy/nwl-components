@@ -1,4 +1,4 @@
-import Settings from "./Settings.vue";
+import Settings from "@/components/settings/Settings.vue";
 
 export default {
   title: "Settings/Main",

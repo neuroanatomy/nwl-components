@@ -1,4 +1,4 @@
-import PureAnnotations from "./PureAnnotations.vue";
+import PureAnnotations from "@/components/settings/PureAnnotations.vue";
 import { action } from "@storybook/addon-actions";
 import { reactive } from "vue";
 import faker from "@faker-js/faker";
@@ -25,7 +25,7 @@ Default.args = {
     {
       "type": "volume",
       "name": "A volume annotation",
-      "values": "Some value",
+      "values": "axolotl_labels.json",
       "display": "true"
     },
     {

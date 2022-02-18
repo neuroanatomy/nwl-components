@@ -4,9 +4,9 @@
     <Table id="access">
       <thead>
         <tr>
-          <th></th>
           <th>URL</th>
           <th>Name</th>
+          <th>Batch</th>
         </tr>
       </thead>
       <tbody>
@@ -15,13 +15,6 @@
           :key="file.source"
           @click="handleRowClick($event, idx)"
         >
-          <td>
-            <input
-              type="checkbox"
-              :checked="selected.has(idx)"
-              @click="toggleSelected(idx)"
-            />
-          </td>
           <td>
             <TextInput
               v-model="file.source"
@@ -38,14 +31,27 @@
               @keyup.enter="handleNameChange(file, $event.target.value)"
             />
           </td>
+          <td>
+            <input
+              type="checkbox"
+              :checked="selected.has(idx)"
+              @click="toggleSelected(idx)"
+            />
+          </td>
         </tr>
       </tbody>
     </Table>
     <div class="actions">
-      <Button @click="$emit('addFile')" title="Add file">
+      <Button :small="true" @click="$emit('uploadCSV')" title="Upload CSV">
+        <img src="@/assets/upload.svg" alt="Upload CSV" />
+      </Button>
+      <Button :small="true" @click="$emit('downloadCSV')" title="Download CSV">
+        <img src="@/assets/download.svg" alt="Download CSV" />
+      </Button>
+      <Button :small="true" @click="$emit('addFile')" title="Add file">
         +
       </Button>
-      <Button
+      <Button :small="true"
         @click="$emit('removeFiles', [...selected])"
         title="Remove selected files"
         :disabled="selected.size === 0"
@@ -58,9 +64,9 @@
 
 <script setup>
 import { reactive } from "vue";
-import TextInput from "./TextInput.vue";
-import Button from "./Button.vue";
-import Table from "./Table.vue";
+import TextInput from "@/components/common/TextInput.vue";
+import Button from "@/components/common/Button.vue";
+import Table from "@/components/common/Table.vue";
 
 const props = defineProps({
   files: {
@@ -73,7 +79,8 @@ const emit = defineEmits([
   "addFile",
   "removeFiles",
   "updateFile",
-  "searchUsers",
+  "uploadCSV",
+  "downloadCSV"
 ]);
 
 const selected = reactive(new Set());
@@ -116,8 +123,8 @@ h2 {
   padding: 10px;
 }
 
-td:first-child {
-  text-align: center;
+th:last-child, td:last-child {
+  text-align: right;
   padding: 5px;
 }
 .actions {

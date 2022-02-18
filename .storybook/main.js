@@ -13,7 +13,7 @@ module.exports = {
   webpackFinal: async (config) => {
     config.resolve.alias = {
       ...config.resolve.alias,
-      "@":  "../",
+      "@":  path.join(__dirname, "../src/"),
     };
     return config;
   },

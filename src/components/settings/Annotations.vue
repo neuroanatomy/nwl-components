@@ -1,5 +1,5 @@
 <script setup>
-import PureAnnotations from './PureAnnotations.vue';
+import PureAnnotations from '@/components/settings/PureAnnotations.vue';
 import useProject from '@/store/project';
 
 const {

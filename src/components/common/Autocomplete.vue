@@ -1,7 +1,7 @@
 <script setup>
 // Adapted from https://www.digitalocean.com/community/tutorials/vuejs-vue-a11y-autocomplete
 import { watch, reactive, ref, onMounted, onUnmounted } from "vue";
-import { v4 as uuidv4 } from "uuid";
+import { nanoid } from "nanoid";
 import TextInput from './TextInput';
 
 const props = defineProps({
@@ -119,7 +119,7 @@ const handleClickOutside = (evt) => {
   }
 };
 
-const uid = uuidv4();
+const uid = nanoid();
 
 onMounted(() => {
   document.addEventListener("click", handleClickOutside);

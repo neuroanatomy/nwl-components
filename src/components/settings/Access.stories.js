@@ -1,4 +1,4 @@
-import Access from "./Access.vue";
+import Access from "@/components/settings/Access.vue";
 import { action } from "@storybook/addon-actions";
 
 export default {

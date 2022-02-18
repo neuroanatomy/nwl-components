@@ -1,5 +1,5 @@
 <script setup>
-import PureCollaborators from './PureCollaborators.vue';
+import PureCollaborators from '@/components/settings/PureCollaborators.vue';
 import useProject from '@/store/project';
 import useUserSearch from '@/store/userSearch';
 

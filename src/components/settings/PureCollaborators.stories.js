@@ -1,4 +1,4 @@
-import PureCollaborators from "./PureCollaborators.vue";
+import PureCollaborators from "@/components/settings/PureCollaborators.vue";
 import { action } from "@storybook/addon-actions";
 import { reactive } from "vue";
 import faker from "@faker-js/faker";

@@ -1,2 +1,2 @@
-export { default as Collaborators } from './Collaborators.vue';
-export { default as Access } from './Access.vue';
+export { default as Collaborators } from '@/components/settings/Collaborators.vue';
+export { default as Access } from '@/components/settings/Access.vue';
