@@ -13,7 +13,6 @@ import ProjectInfo from "@/components/settings/ProjectInfo.vue";
 import Collaborators from "@/components/settings/Collaborators.vue";
 import Annotations from "@/components/settings/Annotations.vue";
 import Files from "@/components/settings/Files.vue";
-import useProject from "@/store/project";
 
 </script>
 <style scoped>
@@ -39,7 +38,7 @@ import useProject from "@/store/project";
 
 @media (min-width: 739px) {
   .content {
-    max-width: 600px;
+    max-width: 700px;
     margin: 0;
   }
 }

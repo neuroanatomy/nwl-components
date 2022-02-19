@@ -18,8 +18,9 @@ const siteName = inject('siteName');
 <style scoped>
 header {
   display: flex;
+  flex-flow: row wrap;
   align-items: flex-start;
-  height: 64px;
+  min-height: 64px;
 }
 .logo {
   display: inline-block;
