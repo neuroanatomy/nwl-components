@@ -18,15 +18,11 @@ import Files from "@/components/settings/Files.vue";
 import useProject from "@/store/project";
 
 const props = defineProps({
-  projectID: {
-    type: String,
+  project: {
+    type: Object,
     required: true,
   },
 });
-
-const { project, loading, fetchProject } = useProject();
-
-fetchProject(props.projectID);
 
 const handleProjectSave = () => {
   alert(JSON.stringify(project.value));
@@ -41,16 +37,13 @@ const handleProjectSave = () => {
 
 .content {
   margin: 0 auto;
-  max-width: 420px;
+  max-width: 420px; 
+  background: #333;
+  padding: 20px;
+
 }
 
 @media (min-width: 639px) {
-  .content {
-    max-width: 600px;
-  }
-}
-
-@media not all and (min-width: 739px) {
   .content {
     max-width: 600px;
   }
@@ -65,16 +58,11 @@ const handleProjectSave = () => {
 
 @media (min-width: 1023px) {
   .content {
-    width: calc(100% - 260px);
+    max-width: 684px;
   }
   .settings {
     display: flex;
     max-width: 984px;
   }
-}
-
-.content {
-  background: #333;
-  padding: 20px;
 }
 </style>

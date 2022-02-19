@@ -1,0 +1,52 @@
+<template>
+  <Header>
+    <span
+      contenteditable="true"
+      @input="content = $event.currentTarget.textContent"
+      placeholder="Enter a project name"
+      :class="{title: true, empty: !content || content.trim().length === 0}"
+      >{{ content }}</span
+    >
+  </Header>
+  <main>
+    <Settings :project="project" />
+  </main>
+  <Footer />
+</template>
+<script setup>
+import Header from "@/components/layout/Header.vue";
+import Footer from "@/components/layout/Footer.vue";
+import Settings from "@/components/settings/Settings.vue";
+import useProject from "@/store/project";
+import { ref }  from 'vue';
+const props = defineProps({
+  projectID: {
+    type: String,
+    required: true,
+  },
+});
+
+const { project, fetchProject } = useProject();
+const content = ref(project.name);
+
+fetchProject(props.projectID);
+</script>
+<style scoped>
+.title {
+  color: white;
+  display: inline-block;
+  width: auto;
+  text-align: left;
+  font-family: Roboto, sans-serif;
+  font-size: 36px;
+  font-weight: 100;
+  vertical-align: middle;
+  background: none;
+  margin-top: 14px;
+  border: none;
+}
+.title.empty:before {
+  content: attr(placeholder);
+  color: rgba(255, 255, 255, 0.4);
+}
+</style>

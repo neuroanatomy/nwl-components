@@ -8,13 +8,25 @@
 * {
   box-sizing: border-box;
 }
-</style>
-<style scoped>
+
 .app {
   background: #222;
   color: white;
   font-family: "Lucida Grande", "Lucida Sans Unicode", Helvetica, Arial, Verdana,
     sans-serif;
   font-size: 14px;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
+
+.app > main {
+  flex: 1;
+  padding: 20px;
+}
+
+.app > footer {
+  margin-top: auto;
+}
+
 </style>

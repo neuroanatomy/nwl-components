@@ -6,7 +6,15 @@ addDecorator(() => {
   return {
     components: {StorybookAppWrapper},
     template: '<StorybookAppWrapper><story/></StorybookAppWrapper>',
-    provide: { baseURL: 'https://brainbox.pasteur.fr' }
+    provide: {
+      siteName: 'BrainBox',
+      baseURL: 'https://brainbox.pasteur.fr',
+      logoURL: 'https://brainbox.pasteur.fr/img/brainbox-logo-small_noFont.svg',
+      githubURL: 'https://github.com/neuroanatomy/BrainBox',
+      issuesURL: 'https://github.com/neuroanatomy/BrainBox/issues/new',
+      searchURL: 'https://openneurolab.github.io/metasearch',
+      docURL: 'https://github.com/neuroanatomy/BrainBox',
+    }
   }
 });
 
