@@ -34,9 +34,15 @@
       </p>
 
       <div class="actions">
-        <Button className="push-button" @click="$emit('saveProject')">Save Changes</Button>
-        <Button className="push-button" @click="$emit('deleteProject')">Delete Project</Button>
-        <Button className="push-button" @click="() => {}">Go to Project</Button>
+        <Button className="push-button" @click="handleProjectSave"
+          >Save Changes</Button
+        >
+        <Button className="push-button" @click="handleProjectDeletion"
+          >Delete Project</Button
+        >
+        <Button className="push-button" @click="goToProject"
+          >Go to Project</Button
+        >
         <p id="saveFeedback"></p>
       </div>
     </div>
@@ -50,18 +56,35 @@ import md5 from "md5";
 import TextInput from "@/components/common/TextInput.vue";
 import TextArea from "@/components/common/TextArea.vue";
 import Button from "@/components/common/Button.vue";
+import useProject from "@/store/project.js";
 
-const props = defineProps({
-  project: {
-    type: Object,
-    required: true,
-  },
-});
+const { project } = useProject();
+
+const handleProjectSave = () => {
+  alert(JSON.stringify(project.value));
+};
+
+const handleProjectDeletion = () => {
+  const res = confirm(
+    "Are you sure you want to delete project " +
+      project.shortname +
+      "? " +
+      "This operation cannot be undone."
+  );
+  if (res !== true) {
+    return;
+  }
+  // TODO
+};
+
+const goToProject = () => {
+  window.location.assign(`/project/${project.value.shortname}`);
+};
 
 onMounted(() => {
   updateIcon(
     document.getElementById("jdenticon"),
-    md5(props.project.shortname)
+    md5(project.value.shortname)
   );
 });
 </script>
@@ -80,18 +103,19 @@ aside {
   flex-direction: column;
 }
 
-:deep(input), :deep(textarea) {
-    text-align: center;
-    font-family: inherit;
-    font-size: 14px;
-    color: white;
-    padding: 3px 0 0;
+:deep(input),
+:deep(textarea) {
+  text-align: center;
+  font-family: inherit;
+  font-size: 14px;
+  color: white;
+  padding: 3px 0 0;
 }
 :deep(::placeholder) {
-    color: rgba(255,255,255,0.4);
+  color: rgba(255, 255, 255, 0.4);
 }
 p {
-    margin: 0 0 5px;
+  margin: 0 0 5px;
 }
 
 :deep(button) {
@@ -99,46 +123,44 @@ p {
   margin-bottom: 10px;
 }
 .image {
-    width: 200px;
-    height: 200px;
-    background: #333;
-    margin: 0 auto 20px;
+  width: 200px;
+  height: 200px;
+  background: #333;
+  margin: 0 auto 20px;
 }
 
-
 .actions {
-    margin-top: 15px;
+  margin-top: 15px;
 }
 
 .description {
-    margin: 0 auto;
+  margin: 0 auto;
 }
 
 @media (min-width: 738px) {
-    .description {
-        width: calc(100% - 500px);
-    }
+  .description {
+    width: calc(100% - 500px);
+  }
 
-    aside {
-      flex-direction: row;
-    }
+  aside {
+    flex-direction: row;
+  }
 
-    .image {
-        margin: 0 0 20px;
-    }
+  .image {
+    margin: 0 0 20px;
+  }
 }
 
 @media (min-width: 1023px) {
-    aside {
-        margin-right: 20px;
-        max-width: 200px;
-        flex-direction: column;
-    }
+  aside {
+    margin-right: 20px;
+    max-width: 200px;
+    flex-direction: column;
+  }
 
-    .description {
-        flex: 1;
-        width: 100%;
-    }
+  .description {
+    flex: 1;
+    width: 100%;
+  }
 }
-
 </style>

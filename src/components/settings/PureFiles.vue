@@ -12,16 +12,16 @@
         <tr
           v-for="(file, idx) in files"
           :key="file.source"
-          :class="{selected: selected === idx}"
+          :class="{ selected: selected === idx }"
           @click="handleRowClick($event, idx)"
         >
           <td>
-            <TextInput
-              v-model="file.source"
+            <span
+              contenteditable="true"
               placeholder="File URL"
-              @blur="handleSourceChange(file, $event.target.value)"
-              @keyup.enter="handleSourceChange(file, $event.target.value)"
-            />
+              @blur="handleSourceChange(file, $event.currentTarget.textContent)"
+              @keyup.enter="handleSourceChange(file, $event.currentTarget.textContent)"
+              >{{ file.source }}</span>
           </td>
           <td>
             <TextInput
@@ -35,10 +35,10 @@
       </tbody>
     </Table>
     <div class="actions">
-      <Button :small="true" @click="$emit('uploadCSV')" title="Upload CSV">
-        <img src="@/assets/upload.svg" alt="Upload CSV" />
+      <Button :small="true" @click="$emit('importCsv')" title="Upload CSV">
+        <img src="@/assets/upload.svg" alt="Import CSV" />
       </Button>
-      <Button :small="true" @click="$emit('downloadCSV')" title="Download CSV">
+      <Button :small="true" @click="$emit('downloadCsv')" title="Download CSV">
         <img src="@/assets/download.svg" alt="Download CSV" />
       </Button>
       <Button :small="true" @click="$emit('addFile')" title="Add file">
@@ -73,8 +73,8 @@ const emit = defineEmits([
   "addFile",
   "removeFiles",
   "updateFile",
-  "uploadCSV",
-  "downloadCSV"
+  "importCsv",
+  "downloadCsv",
 ]);
 
 const emitFileUpdate = (idx, properties) => {
@@ -86,10 +86,8 @@ const emitFileUpdate = (idx, properties) => {
 
 const selected = ref(null);
 const handleRowClick = (event, idx) => {
-  console.log('idx', idx);
   selected.value = idx;
 };
-
 
 const handleNameChange = (file, name) => {
   const idx = props.files.indexOf(file);

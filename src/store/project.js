@@ -1,38 +1,30 @@
 import { inject, reactive, toRefs } from "vue";
-import { get } from "lodash";
+import ProjectService from "@/services/project";
 
 const state = reactive({
   project: null,
   loading: true,
 });
 
-const processProject = (project) => {
-  if (get(project, "files.list") != null) {
-    return {
-      ...project,
-      files: {
-        ...project.files,
-        list: project.files.list.map((file) => {
-          if (typeof file === "string") {
-            const splitAt = file.lastIndexOf('/');
-            return { source: file, name: splitAt > 0 ? file.substring(splitAt+1) : ""};
-          }
-          return file;
-        }),
-      },
-    };
-  }
-  return project;
-};
-
 export default function useProject() {
-  const baseURL = inject("baseURL");
+  const service = new ProjectService(inject("baseURL"));
+
   const fetchProject = async (id) => {
     state.loading = true;
-    state.project = processProject(
-      await (await fetch(`${baseURL}/project/json/${id}`)).json()
-    );
+    state.project = await service.fetch(id);
     state.loading = false;
+  };
+
+  const saveProject = async () => {
+    await service.save(project);
+  };
+
+  const updateProject = (data) => {
+    if (!state.project) return;
+    state.project = {
+      ...state.project,
+      ...data,
+    };
   };
 
   const addCollaborator = () => {
@@ -119,6 +111,8 @@ export default function useProject() {
   return {
     ...toRefs(state),
     fetchProject,
+    saveProject,
+    updateProject,
     addCollaborator,
     updateCollaborator,
     removeCollaborators,

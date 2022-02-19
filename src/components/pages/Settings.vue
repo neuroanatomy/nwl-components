@@ -2,14 +2,14 @@
   <Header>
     <span
       contenteditable="true"
-      @input="content = $event.currentTarget.textContent"
+      @input="onTitleInput"
       placeholder="Enter a project name"
       :class="{title: true, empty: !content || content.trim().length === 0}"
       >{{ content }}</span
     >
   </Header>
   <main>
-    <Settings :project="project" />
+    <Settings v-if="project != null" />
   </main>
   <Footer />
 </template>
@@ -26,8 +26,13 @@ const props = defineProps({
   },
 });
 
-const { project, fetchProject } = useProject();
+const { project, fetchProject, updateProject } = useProject();
 const content = ref(project.name);
+
+const onTitleInput = (event) => {
+    content.value = event.currentTarget.textContent;
+    updateProject({ name: content.value })
+};
 
 fetchProject(props.projectID);
 </script>

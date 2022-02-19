@@ -1,14 +1,12 @@
 <template>
-  <template v-if="project != null">
-    <div class="settings">
-      <ProjectInfo :project="project" @save-project="handleProjectSave" />
-      <div class="content">
-        <Collaborators />
-        <Annotations />
-        <Files />
-      </div>
+  <div class="settings">
+    <ProjectInfo />
+    <div class="content">
+      <Collaborators />
+      <Annotations />
+      <Files />
     </div>
-  </template>
+  </div>
 </template>
 <script setup>
 import ProjectInfo from "@/components/settings/ProjectInfo.vue";
@@ -17,16 +15,6 @@ import Annotations from "@/components/settings/Annotations.vue";
 import Files from "@/components/settings/Files.vue";
 import useProject from "@/store/project";
 
-const props = defineProps({
-  project: {
-    type: Object,
-    required: true,
-  },
-});
-
-const handleProjectSave = () => {
-  alert(JSON.stringify(project.value));
-};
 </script>
 <style scoped>
 .settings {
