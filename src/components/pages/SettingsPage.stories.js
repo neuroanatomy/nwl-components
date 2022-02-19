@@ -6,7 +6,7 @@ export default {
 };
 
 const Template = (args) => ({
-  components: { Settings },
+  components: { SettingsPage },
   setup() {
     return {
       ...args,

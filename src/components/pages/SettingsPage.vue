@@ -17,14 +17,17 @@
 import Header from "@/components/layout/Header.vue";
 import Footer from "@/components/layout/Footer.vue";
 import Settings from "@/components/settings/Settings.vue";
+
 import useProject from "@/store/project";
-import { ref }  from 'vue';
+import { ref, inject }  from 'vue';
 const props = defineProps({
   projectID: {
     type: String,
     required: true,
   },
 });
+
+console.log(inject('config'));
 
 const { project, fetchProject, updateProject } = useProject();
 const content = ref(project.name);

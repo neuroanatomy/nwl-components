@@ -2,7 +2,6 @@
   <nav id="menu">
     <a href="/project/new">
       <img
-        id="addProject"
         class="button"
         title="add project"
         alt="add project"
@@ -14,7 +13,6 @@
       v-if="displaySettings && project != null"
     >
       <img
-        id="settings"
         class="button"
         title="settings"
         alt="settings"
@@ -23,7 +21,6 @@
     </a>
     <a :href="searchURL" target="_blank">
       <img
-        id="search"
         class="button"
         title="search"
         alt="search"
@@ -31,7 +28,6 @@
     /></a>
     <a :href="docURL">
       <img
-        id="doc"
         class="button"
         title="documentation"
         alt="documentation"
@@ -40,7 +36,6 @@
     </a>
     <a :href="issuesURL" target="_blank">
       <img
-        id="bug"
         class="button"
         title="report a bug"
         alt="report a bug"
@@ -48,7 +43,6 @@
     /></a>
     <a :href="githubURL" target="_blank">
       <img
-        id="github"
         class="button"
         title="join our github project"
         alt="join our github project"
@@ -68,16 +62,11 @@
 import { inject } from "vue";
 import useProject from "@/store/project";
 
-const baseURL = inject("baseURL");
-const logoURL = inject("logoURL");
-const githubURL = inject("githubURL");
-const issuesURL = inject("issuesURL");
-const searchURL = inject("searchURL");
-const docURL = inject("docURL");
+const { githubURL, issuesURL, searchURL, docURL } = inject("config");
 const user = inject("user");
+
 const displaySettings = inject("displaySettings");
 const { project } = useProject();
-
 </script>
 <style scoped>
 nav {

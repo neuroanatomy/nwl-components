@@ -8,11 +8,10 @@
   </header>
 </template>
 <script setup>
-import { inject } from 'vue';
-import Nav from '@/components/layout/Nav.vue';
+import { inject } from "vue";
+import Nav from "@/components/layout/Nav.vue";
 
-const logoURL = inject('logoURL');
-const siteName = inject('siteName');
+const { logoURL, siteName } = inject("config");
 
 </script>
 <style scoped>

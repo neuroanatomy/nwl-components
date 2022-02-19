@@ -1,7 +1,9 @@
 {
   "name": "nwl-components",
   "version": "0.0.1",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "main": "./dist/nwl-components.umd.js",
   "module": "./dist/nwl-components.es.js",
   "exports": {
@@ -21,10 +23,13 @@
     "jdenticon": "^3.1.1",
     "lodash": "^4.17.21",
     "md5": "^2.3.0",
-    "nanoid": "^3.3.1",
+    "nanoid": "^3.3.1"
+  },
+  "peerDependencies": {
     "vue": "^3.2.25"
   },
   "devDependencies": {
+    "vue": "^3.2.25",
     "@babel/core": "^7.17.4",
     "@faker-js/faker": "^6.0.0-alpha.6",
     "@storybook/addon-actions": "^6.4.19",

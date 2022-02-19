@@ -14,7 +14,7 @@
         <tr
           v-for="(annotation, idx) in annotations"
           :key="idx"
-          :class="{selected: selected === idx}"
+          :class="{ selected: selected === idx }"
           @click="handleRowClick($event, idx)"
         >
           <td>
@@ -57,16 +57,25 @@
             </Select>
           </td>
           <td>
-            <input type="checkbox" v-model="annotation.display" @change="handleDisplayChange(annotation, $event.target.checked)" />
+            <input
+              type="checkbox"
+              v-model="annotation.display"
+              @change="handleDisplayChange(annotation, $event.target.checked)"
+            />
           </td>
         </tr>
       </tbody>
     </Table>
     <div class="actions">
-      <Button :small="true" @click="$emit('addAnnotation')" title="Add annotation">
+      <Button
+        :small="true"
+        @click="$emit('addAnnotation')"
+        title="Add annotation"
+      >
         +
       </Button>
-      <Button :small="true"
+      <Button
+        :small="true"
         @click="$emit('removeAnnotations', [selected])"
         title="Remove selected annotations"
         :disabled="selected == null"
@@ -83,7 +92,7 @@ import TextInput from "@/components/common/TextInput.vue";
 import Button from "@/components/common/Button.vue";
 import Table from "@/components/common/Table.vue";
 
-const baseURL = inject("baseURL");
+const { baseURL } = inject("config");
 
 const props = defineProps({
   annotations: {
@@ -131,8 +140,8 @@ const handleTypeChange = (annotation, type) => {
   const idx = props.annotations.indexOf(annotation);
   if (idx < 0) return;
   const payload = { type };
-  if (type === 'text') {
-    payload.values = '';
+  if (type === "text") {
+    payload.values = "";
   }
   emitAnnotationUpdate(idx, payload);
 };
@@ -154,7 +163,8 @@ h2 {
   font-size: 14px;
   padding-bottom: 4px;
 }
-th:last-child, td:last-child {
+th:last-child,
+td:last-child {
   text-align: right;
   padding: 5px;
 }

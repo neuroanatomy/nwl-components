@@ -7,7 +7,8 @@ const state = reactive({
 });
 
 export default function useProject() {
-  const service = new ProjectService(inject("baseURL"));
+  const { baseURL } = inject("config");
+  const service = new ProjectService(baseURL);
 
   const fetchProject = async (id) => {
     state.loading = true;
