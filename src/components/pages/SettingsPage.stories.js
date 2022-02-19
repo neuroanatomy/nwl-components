@@ -1,8 +1,8 @@
-import Settings from "@/components/pages/Settings.vue";
+import SettingsPage from "@/components/pages/SettingsPage.vue";
 
 export default {
   title: "Pages/Settings",
-  component: Settings,
+  component: SettingsPage,
 };
 
 const Template = (args) => ({
@@ -12,7 +12,7 @@ const Template = (args) => ({
       ...args,
     };
   },
-  template: `<Settings projectID="testproject" />`,
+  template: `<SettingsPage projectID="testproject" />`,
 });
 
 export const Default = Template.bind({});

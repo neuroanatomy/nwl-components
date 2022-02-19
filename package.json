@@ -1,7 +1,15 @@
 {
   "name": "nwl-components",
-  "private": true,
-  "version": "0.0.0",
+  "version": "0.0.1",
+  "files": ["dist"],
+  "main": "./dist/nwl-components.umd.js",
+  "module": "./dist/nwl-components.es.js",
+  "exports": {
+    ".": {
+      "import": "./dist/nwl-components.es.js",
+      "require": "./dist/nwl-components.umd.js"
+    }
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",

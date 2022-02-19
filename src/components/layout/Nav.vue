@@ -9,8 +9,10 @@
         src="@/assets/plus.svg"
       />
     </a>
-    <!-- FIXME -->
-    <a href="/project/settings" v-if="displaySettings">
+    <a
+      :href="`/project/${project.shortname}/settings`"
+      v-if="displaySettings && project != null"
+    >
       <img
         id="settings"
         class="button"
@@ -53,15 +55,18 @@
         style="width: 15px; height: 15px"
         src="@/assets/github.svg"
     /></a>
-    <div class="login">
+    <div class="login" v-if="user != null">
       <span>
-        <a href="/user/dhovart">dhovart</a> (<a href="/logout">Log Out</a>)
+        <a :href="user.brainboxURL">{{ user.nickname }}</a> (<a href="/logout"
+          >Log Out</a
+        >)
       </span>
     </div>
   </nav>
 </template>
 <script setup>
 import { inject } from "vue";
+import useProject from "@/store/project";
 
 const baseURL = inject("baseURL");
 const logoURL = inject("logoURL");
@@ -69,8 +74,10 @@ const githubURL = inject("githubURL");
 const issuesURL = inject("issuesURL");
 const searchURL = inject("searchURL");
 const docURL = inject("docURL");
+const user = inject("user");
+const displaySettings = inject("displaySettings");
+const { project } = useProject();
 
-const displaySettings = true; // FIXME
 </script>
 <style scoped>
 nav {

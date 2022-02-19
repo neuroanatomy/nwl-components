@@ -1,0 +1,10 @@
+export { default as ImportFilesDialog } from "@/components/settings/ImportFilesDialog.vue";
+export { default as Settings } from "@/components/settings/Settings.vue";
+export { default as PureFiles } from "@/components/settings/PureFiles.vue";
+export { default as PureCollaborators } from "@/components/settings/PureCollaborators.vue";
+export { default as PureAnnotations } from "@/components/settings/PureAnnotations.vue";
+export { default as ProjectInfo } from "@/components/settings/ProjectInfo.vue";
+export { default as Files } from "@/components/settings/Files.vue";
+export { default as Collaborators } from "@/components/settings/Collaborators.vue";
+export { default as Annotations } from "@/components/settings/Annotations.vue";
+export { default as Access } from "@/components/settings/Access.vue";

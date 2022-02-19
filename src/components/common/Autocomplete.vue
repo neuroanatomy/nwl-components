@@ -2,7 +2,7 @@
 // Adapted from https://www.digitalocean.com/community/tutorials/vuejs-vue-a11y-autocomplete
 import { watch, reactive, ref, onMounted, onUnmounted } from "vue";
 import { nanoid } from "nanoid";
-import TextInput from './TextInput';
+import TextInput from './TextInput.vue';
 
 const props = defineProps({
   items: {

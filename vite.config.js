@@ -13,8 +13,8 @@ export default defineConfig({
   build: {
     lib: {
       entry: path.resolve(__dirname, 'src/components/index.js'),
-      name: 'NWL',
-      fileName: (format) => `nwl.${format}.js`,
+      name: 'nwl-components',
+      fileName: (format) => `nwl-components.${format}.js`,
     },
     rollupOptions: {
       external: ['vue'],
