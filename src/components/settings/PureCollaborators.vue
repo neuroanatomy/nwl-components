@@ -69,7 +69,7 @@
         +
       </Button>
       <Button :small="true"
-        @click="$emit('removeCollaborators', [selected])"
+        @click="$emit('removeCollaborators', [selected]); selected = null;"
         title="Remove selected collaborators"
         :disabled="selected == null || collaborators[selected].userID === 'anyone'"
       >
