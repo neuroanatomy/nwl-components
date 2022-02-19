@@ -1,11 +1,10 @@
 import { addDecorator } from "@storybook/vue3";
-import { defineComponent } from "vue";
-import StorybookAppWrapper from "./StorybookAppWrapper.vue";
+import Wrapper from "@/components/layout/Wrapper.vue";
 
 addDecorator(() => {
   return {
-    components: { StorybookAppWrapper },
-    template: "<StorybookAppWrapper><story/></StorybookAppWrapper>",
+    components: { Wrapper },
+    template: "<Wrapper><story/></Wrapper>",
     provide: {
       config: {
         siteName: "BrainBox",
