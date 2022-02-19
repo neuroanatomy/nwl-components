@@ -9,6 +9,10 @@
   box-sizing: border-box;
 }
 
+body {
+  margin: 0;
+}
+
 .app {
   background: #222;
   color: white;

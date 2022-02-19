@@ -20,6 +20,7 @@ header {
   flex-flow: row wrap;
   align-items: flex-start;
   min-height: 64px;
+  padding: 3px;
 }
 .logo {
   display: inline-block;
