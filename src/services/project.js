@@ -7,7 +7,7 @@ export default class ProjectService {
     this.baseURL = baseURL;
   }
 
-  #transformProjectFiles(project) {
+  transformProjectFiles(project) {
     if (get(project, "files.list") != null) {
       return {
         ...project,
@@ -30,7 +30,7 @@ export default class ProjectService {
   }
 
   async fetch(id) {
-    return this.#transformProjectFiles(
+    return this.transformProjectFiles(
       await (await fetch(`${this.baseURL}/project/json/${id}`)).json()
     );
   }

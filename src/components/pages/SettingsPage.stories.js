@@ -48,6 +48,30 @@ const Template = (args) => ({
         },
         annotations: {
           list: [
+            {
+              type: "volume",
+              name: "foo",
+              values: "cerebrum.json",
+              display: true,
+            },
+            {
+              type: "volume",
+              name: "blah",
+              values: "nimhmacaque.json",
+              display: false,
+            },
+            {
+              type: "volume",
+              name: "truc",
+              values: "axolotl_labels.json",
+              display: true,
+            },
+            {
+              type: "text",
+              name: "comment",
+              values: "",
+              display: true,
+            },
           ],
         },
         modified: "2022-02-20T19:18:15.829Z",

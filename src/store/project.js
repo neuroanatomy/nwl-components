@@ -11,7 +11,7 @@ export default function useProject() {
   const service = new ProjectService(baseURL);
 
   const setProject = (project) => {
-    state.project = project;
+    state.project = service.transformProjectFiles(project);
   };
 
   const fetchProject = async (id) => {
