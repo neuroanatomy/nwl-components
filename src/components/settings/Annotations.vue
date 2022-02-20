@@ -9,6 +9,13 @@ const {
     removeAnnotations,
 } = useProject();
 
+if (project.value && project.value.annotations && project.value.annotations.list) {
+  if(project.value.annotations.list.length === 0) {
+    console.log('foo');
+    addAnnotation();
+  }
+}
+
 </script>
 <template>
   <PureAnnotations

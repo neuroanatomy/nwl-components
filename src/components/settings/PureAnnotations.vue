@@ -31,7 +31,7 @@
               @change="handleTypeChange(annotation, $event.target.value)"
             >
               <option
-                v-for="opt in annotationType"
+                v-for="opt in annotationTypes"
                 :key="`${annotation.name}${opt}`"
                 :value="opt"
                 :selected="opt === annotation.type"
@@ -42,7 +42,7 @@
           </td>
           <td>
             <Select
-              v-if="annotation.type === 'volume'"
+              v-if="annotation.type !== 'text'"
               v-model="annotation.values"
               @change="handleValueChange(annotation, $event.target.value)"
             >
@@ -92,7 +92,7 @@ import Button from "@/components/common/Button.vue";
 import Checkbox from "@/components/common/Checkbox.vue";
 import Table from "@/components/common/Table.vue";
 
-const { baseURL, fetchLabelSets } = inject("config");
+const { baseURL, fetchLabelSets, annotationTypes } = inject("config");
 
 const props = defineProps({
   annotations: {
@@ -107,7 +107,6 @@ const emit = defineEmits([
   "updateAnnotation",
 ]);
 
-const annotationType = ["volume", "text"];
 const labelSets = reactive([]);
 
 const updateLabelSets = async () => {

@@ -18,7 +18,8 @@ addDecorator(() => {
         userSearchURL: 'https://brainbox.pasteur.fr/api/userNameQuery?q=',
         fetchLabelSets: async () => {
           return (await (await fetch(`https://brainbox.pasteur.fr/api/getLabelsets`)).json())
-        }
+        },
+        annotationTypes: ['text', 'volume'],
       },
       user: {
         username: "dhovart",

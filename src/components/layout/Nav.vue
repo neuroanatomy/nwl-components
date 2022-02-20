@@ -49,12 +49,13 @@
         style="width: 15px; height: 15px"
         src="@/assets/github.svg"
     /></a>
-    <div class="login" v-if="user != null">
-      <span>
+    <div class="login">
+      <span v-if="user != null">
         <a :href="`/user/${user.username}`">{{ user.username }}</a> (<a href="/logout"
           >Log Out</a
         >)
       </span>
+      <a v-else href='/auth/github'>Log in with GitHub</a>
     </div>
   </nav>
 </template>
