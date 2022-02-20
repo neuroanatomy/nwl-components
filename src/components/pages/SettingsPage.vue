@@ -22,16 +22,20 @@ import Footer from "@/components/layout/Footer.vue";
 import Settings from "@/components/settings/Settings.vue";
 
 import useProject from "@/store/project";
-import { ref } from "vue";
+import { ref, watch } from "vue";
 const props = defineProps({
   project: {
     type: Object,
     required: true,
   },
+  files: Object
 });
 
 const { project, setProject, updateProject } = useProject();
+
 setProject(props.project);
+// update store on prop change
+watch(props.files, (files) => updateProject({ files: { list: files } }));
 
 const content = ref(project.name);
 
