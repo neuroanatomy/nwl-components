@@ -57,10 +57,9 @@
             </Select>
           </td>
           <td>
-            <input
-              type="checkbox"
+            <Checkbox
               v-model="annotation.display"
-              @change="handleDisplayChange(annotation, $event.target.checked)"
+              @change="handleDisplayChange(annotation, $event)"
             />
           </td>
         </tr>
@@ -90,6 +89,7 @@ import { inject, ref, reactive } from "vue";
 import Select from "@/components/common/Select.vue";
 import TextInput from "@/components/common/TextInput.vue";
 import Button from "@/components/common/Button.vue";
+import Checkbox from "@/components/common/Checkbox.vue";
 import Table from "@/components/common/Table.vue";
 
 const { baseURL, fetchLabelSets } = inject("config");
@@ -151,6 +151,7 @@ const handleValueChange = (annotation, values) => {
 };
 
 const handleDisplayChange = (annotation, display) => {
+  console.log('dsfsdfsdf', display);
   const idx = props.annotations.indexOf(annotation);
   if (idx < 0) return;
   emitAnnotationUpdate(idx, { display });
@@ -160,11 +161,6 @@ const handleDisplayChange = (annotation, display) => {
 h2 {
   font-size: 14px;
   padding-bottom: 4px;
-}
-th:last-child,
-td:last-child {
-  text-align: right;
-  padding: 5px;
 }
 .actions {
   text-align: right;

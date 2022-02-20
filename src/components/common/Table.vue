@@ -17,7 +17,6 @@ table {
   display: table;
   margin-bottom: 20px;
   margin-left: 10px;
-  table-layout: fixed;
 }
 
 table :deep(.selected) {
