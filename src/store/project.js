@@ -10,6 +10,10 @@ export default function useProject() {
   const { baseURL } = inject("config");
   const service = new ProjectService(baseURL);
 
+  const setProject = (project) => {
+    state.project = project;
+  };
+
   const fetchProject = async (id) => {
     state.loading = true;
     state.project = await service.fetch(id);
@@ -115,6 +119,7 @@ export default function useProject() {
 
   return {
     ...toRefs(state),
+    setProject,
     fetchProject,
     saveProject,
     deleteProject,

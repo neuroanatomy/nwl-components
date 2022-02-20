@@ -24,13 +24,15 @@ import Settings from "@/components/settings/Settings.vue";
 import useProject from "@/store/project";
 import { ref } from "vue";
 const props = defineProps({
-  projectID: {
-    type: String,
+  project: {
+    type: Object,
     required: true,
   },
 });
 
-const { project, fetchProject, updateProject } = useProject();
+const { project, setProject, updateProject } = useProject();
+setProject(props.project);
+
 const content = ref(project.name);
 
 const onTitleInput = (event) => {
@@ -38,5 +40,5 @@ const onTitleInput = (event) => {
   updateProject({ name: content.value });
 };
 
-fetchProject(props.projectID);
+
 </script>
