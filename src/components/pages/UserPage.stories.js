@@ -1,4 +1,6 @@
 import UserPage from "@/components/pages/UserPage.vue";
+import Tabs from "@/components/common/Tabs/Tabs.vue";
+import Tab from "@/components/common/Tabs/Tab.vue";
 
 export default {
   title: "Pages/User",
@@ -6,13 +8,25 @@ export default {
 };
 
 const Template = (args) => ({
-  components: { UserPage },
+  components: { UserPage, Tabs, Tab },
   setup() {
     return {
       ...args,
     };
   },
-  template: `<UserPage :user="user" />`,
+  template: `
+  <UserPage :user="user">
+    <template v-slot:content>
+        <Tabs>
+            <Tab title="Projects">
+                Some projects list
+            </Tab>
+            <Tab title="Some other tab">
+                Some other list
+            </Tab>
+        </Tabs>
+    </template>
+  </UserPage>`,
 });
 
 export const Default = Template.bind({});

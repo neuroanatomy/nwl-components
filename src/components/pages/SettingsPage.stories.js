@@ -12,7 +12,7 @@ const Template = (args) => ({
       ...args,
     };
   },
-  template: `<SettingsPage projectID="testproject" />`,
+  template: `<SettingsPage projectID="test" />`,
 });
 
 export const Default = Template.bind({});

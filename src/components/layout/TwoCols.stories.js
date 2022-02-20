@@ -18,7 +18,9 @@ const Template = (args) => ({
     <main>
       <TwoCols>
         <template v-slot:side>Side info</template>
-        <template v-slot:content>Content (as seen on the settings and user pages)</template>
+        <template v-slot:content>
+          Content (as seen on the settings and user pages).
+          Wraps the responsive two columns logic.</template>
       </TwoCols>
     </main>
   </Wrapper>

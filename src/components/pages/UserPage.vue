@@ -41,18 +41,3 @@ const props = defineProps({
   },
 });
 </script>
-<style scoped>
-.title {
-  color: white;
-  display: inline-block;
-  width: auto;
-  text-align: left;
-  font-family: Roboto, sans-serif;
-  font-size: 36px;
-  font-weight: 100;
-  vertical-align: middle;
-  background: none;
-  margin-top: 14px;
-  border: none;
-}
-</style>

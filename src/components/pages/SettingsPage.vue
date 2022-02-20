@@ -40,22 +40,3 @@ const onTitleInput = (event) => {
 
 fetchProject(props.projectID);
 </script>
-<style scoped>
-.title {
-  color: white;
-  display: inline-block;
-  width: auto;
-  text-align: left;
-  font-family: Roboto, sans-serif;
-  font-size: 36px;
-  font-weight: 100;
-  vertical-align: middle;
-  background: none;
-  margin-top: 14px;
-  border: none;
-}
-.title.empty:before {
-  content: attr(placeholder);
-  color: rgba(255, 255, 255, 0.4);
-}
-</style>

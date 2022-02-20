@@ -71,6 +71,7 @@ const { project } = useProject();
 <style scoped>
 nav {
   margin-left: auto;
+  margin-right: 10px;
 }
 .button {
   width: 0.9rem;

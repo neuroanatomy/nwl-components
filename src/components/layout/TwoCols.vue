@@ -26,8 +26,6 @@
 .content {
   margin: 0 auto;
   max-width: 420px;
-  background: #333;
-  padding: 20px;
   flex: 1;
   width: 100%;
 }

@@ -4,9 +4,11 @@
       <ProjectInfo />
     </template>
     <template v-slot:content>
-      <Collaborators />
-      <Annotations />
-      <Files />
+      <div class="content">
+        <Collaborators />
+        <Annotations />
+        <Files />
+      </div>
     </template>
   </TwoCols>
 </template>
@@ -18,4 +20,8 @@ import Annotations from "@/components/settings/Annotations.vue";
 import Files from "@/components/settings/Files.vue";
 </script>
 <style scoped>
+.content {
+  background: #333;
+  padding: 20px;
+}
 </style>
