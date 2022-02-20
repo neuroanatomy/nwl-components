@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper">
     <h2>Files</h2>
-    <Table id="access">
+    <Table id="files">
       <thead>
         <tr>
           <th>URL</th>
@@ -109,5 +109,9 @@ h2 {
 .actions {
   text-align: right;
   margin-top: 20px;
+}
+
+#files {
+  table-layout: fixed;
 }
 </style>
