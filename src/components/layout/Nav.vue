@@ -51,7 +51,7 @@
     /></a>
     <div class="login" v-if="user != null">
       <span>
-        <a :href="user.brainboxURL">{{ user.nickname }}</a> (<a href="/logout"
+        <a :href="`/user/${user.username}`">{{ user.username }}</a> (<a href="/logout"
           >Log Out</a
         >)
       </span>

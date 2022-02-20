@@ -35,7 +35,25 @@ export default class ProjectService {
     );
   }
 
-  async save(data) {}
+  async save(data) {
+    const res = await fetch(`${this.baseURL}/project/json/${data.shortname}`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        data,
+      }),
+    });
+    return await res.json();
+  }
 
-  async delete(id) {}
-};
+  async delete(id) {
+    const res = await fetch(`${this.baseURL}/project/json/${id}`, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+    });
+    return await res.json();
+  }
+}

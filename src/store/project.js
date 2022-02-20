@@ -16,8 +16,12 @@ export default function useProject() {
     state.loading = false;
   };
 
-  const saveProject = async () => {
-    await service.save(project);
+  const saveProject = async (project) => {
+    return await service.save(project);
+  };
+
+  const deleteProject = async (id) => {
+    return await service.delete(id);
   };
 
   const updateProject = (data) => {
@@ -113,6 +117,7 @@ export default function useProject() {
     ...toRefs(state),
     fetchProject,
     saveProject,
+    deleteProject,
     updateProject,
     addCollaborator,
     updateCollaborator,

@@ -40,13 +40,13 @@
       <Button className="push-button" @click="goToProject"
         >Go to Project</Button
       >
-      <p id="saveFeedback"></p>
+      <p id="saveFeedback">{{feedback}}</p>
     </div>
   </div>
 </template>
 
 <script setup>
-import { onMounted } from "vue";
+import { onMounted, ref } from "vue";
 import { update as updateIcon } from "jdenticon";
 import md5 from "md5";
 import TextInput from "@/components/common/TextInput.vue";
@@ -54,23 +54,37 @@ import TextArea from "@/components/common/TextArea.vue";
 import Button from "@/components/common/Button.vue";
 import useProject from "@/store/project.js";
 
-const { project } = useProject();
+const { project, saveProject, deleteProject } = useProject();
+const feedback = ref('');
 
-const handleProjectSave = () => {
-  alert(JSON.stringify(project.value));
+const handleProjectSave = async () => {
+  const res = await saveProject(project.value);
+  if (res.success) {
+    feedback.value = res.message;
+  } else if (res.error) {
+    feedback.value = res.error;
+  }
 };
 
-const handleProjectDeletion = () => {
-  const res = confirm(
+const handleProjectDeletion = async () => {
+  const confirmation = confirm(
     "Are you sure you want to delete project " +
-      project.shortname +
+      project.value.shortname +
       "? " +
       "This operation cannot be undone."
   );
-  if (res !== true) {
+  if (!confirmation) {
     return;
   }
-  // TODO
+  const res = await deleteProject(project.value.shortname);
+  if (res.success) {
+    feedback.value = "Successfully deleted";
+    setTimeout(function() {
+      window.location.assign("/");
+    }, 2000);
+  } else {
+    feedback.value = "Unable to delete project";
+  }
 };
 
 const goToProject = () => {
