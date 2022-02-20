@@ -1,11 +1,12 @@
-import { reactive } from "vue";
+import { reactive, inject } from "vue";
 
 const usersFound = reactive([]);
 
 export default function useUserSearch() {
+    const {userSearchURL} = inject('config');
     const fetchUsers = async (q) => {
         usersFound.splice(0, usersFound.length);
-        const users = await (await fetch(`https://brainbox.pasteur.fr/api/userNameQuery?q=${q}`)).json();
+        const users = await (await fetch(`${userSearchURL}${q}`)).json();
         usersFound.push(...users);
     }
 

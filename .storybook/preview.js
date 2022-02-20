@@ -15,11 +15,15 @@ addDecorator(() => {
         issuesURL: "https://github.com/neuroanatomy/BrainBox/issues/new",
         searchURL: "https://openneurolab.github.io/metasearch",
         docURL: "https://github.com/neuroanatomy/BrainBox",
+        userSearchURL: 'https://brainbox.pasteur.fr/api/userNameQuery?q=',
+        fetchLabelSets: async () => {
+          return (await (await fetch(`https://brainbox.pasteur.fr/api/getLabelsets`)).json())
+        }
       },
       user: {
         username: "dhovart",
       },
-  },
+    },
   };
 });
 

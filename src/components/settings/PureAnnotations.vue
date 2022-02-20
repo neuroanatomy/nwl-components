@@ -92,7 +92,7 @@ import TextInput from "@/components/common/TextInput.vue";
 import Button from "@/components/common/Button.vue";
 import Table from "@/components/common/Table.vue";
 
-const { baseURL } = inject("config");
+const { baseURL, fetchLabelSets } = inject("config");
 
 const props = defineProps({
   annotations: {
@@ -110,13 +110,11 @@ const emit = defineEmits([
 const annotationType = ["volume", "text"];
 const labelSets = reactive([]);
 
-const fetchLabelSets = async () => {
-  labelSets.push(
-    ...(await (await fetch(`${baseURL}/api/getLabelsets`)).json())
-  );
+const updateLabelSets = async () => {
+  labelSets.push(...await fetchLabelSets());
 };
 
-fetchLabelSets();
+updateLabelSets();
 
 const selected = ref(null);
 const handleRowClick = (event, idx) => {
