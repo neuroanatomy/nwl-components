@@ -150,7 +150,6 @@ const handleValueChange = (annotation, values) => {
 };
 
 const handleDisplayChange = (annotation, display) => {
-  console.log('dsfsdfsdf', display);
   const idx = props.annotations.indexOf(annotation);
   if (idx < 0) return;
   emitAnnotationUpdate(idx, { display });
