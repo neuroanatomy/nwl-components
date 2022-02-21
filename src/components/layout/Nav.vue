@@ -50,7 +50,7 @@
         src="@/assets/github.svg"
     /></a>
     <div class="login">
-      <span v-if="user != null">
+      <span v-if="user != null && user.username !== 'anyone'">
         <a :href="`/user/${user.username}`">{{ user.username }}</a> (<a href="/logout"
           >Log Out</a
         >)
