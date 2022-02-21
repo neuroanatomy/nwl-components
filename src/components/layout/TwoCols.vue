@@ -9,7 +9,7 @@
   </div>
 </template>
 
-<style>
+<style scoped>
 .container {
   display: block;
   margin: 0 auto;
