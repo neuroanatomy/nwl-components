@@ -1,12 +1,16 @@
 {
   "name": "nwl-components",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "files": [
     "dist"
   ],
   "main": "./dist/nwl-components.umd.js",
   "module": "./dist/nwl-components.es.js",
   "exports": {
+    "./dist/style.css": {
+      "import": "./dist/style.css",
+      "require": "./dist/style.css"
+    },
     ".": {
       "import": "./dist/nwl-components.es.js",
       "require": "./dist/nwl-components.umd.js"
