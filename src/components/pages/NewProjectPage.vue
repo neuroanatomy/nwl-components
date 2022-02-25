@@ -1,7 +1,7 @@
 <template>
   <Wrapper>
     <Header>
-      <span class="title">BrainBox</span>
+      <span class="title">{{siteName}}</span>
     </Header>
     <main>
       <div class="container">
@@ -54,12 +54,13 @@ import Wrapper from "@/components/layout/Wrapper.vue";
 import Header from "@/components/layout/Header.vue";
 import Footer from "@/components/layout/Footer.vue";
 import Button from "@/components/common/Button.vue";
-import { ref } from "vue";
+import { ref, inject } from "vue";
 const props = defineProps({
   onKeyDown: Function,
   validInput: Boolean,
   existingProject: Boolean,
 });
+const { siteName } = inject('config');
 const createProject = (value) => {
   location.pathname = `/project/${value}/settings`;
 };

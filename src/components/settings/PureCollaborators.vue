@@ -25,9 +25,9 @@
               :items="props.usersFound"
               :is-async="true"
               :extra-select-args="[props.collaborators.indexOf(collaborator)]"
-              :default-value="collaborator.userID"
-              :disabled="collaborator.userID === 'anyone'"
-              :extract-result-text="(result) => result.nickname"
+              :default-value="collaborator[usernameField]"
+              :disabled="collaborator[usernameField] === 'anyone'"
+              :extract-result-text="(result) => result[usernameField]"
               aria-label="Search by username"
             />
           </td>
@@ -35,7 +35,7 @@
             <TextInput
               v-model="collaborator.name"
               placeholder="User Name"
-              :disabled="collaborator.username === 'anyone'"
+              :disabled="collaborator[usernameField] === 'anyone'"
               @blur="handleNameChange(collaborator, $event.target.value)"
               @keyup.enter="handleNameChange(collaborator, $event.target.value)"
             />
@@ -80,13 +80,13 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, inject } from 'vue';
 import TextInput from '@/components/common/TextInput.vue';
 import Button from '@/components/common/Button.vue';
 import Table from '@/components/common/Table.vue';
 import Access from '@/components/settings/Access.vue';
 import Autocomplete from '@/components/common/Autocomplete.vue';
-import { debounce } from 'lodash';
+import { debounce } from 'lodash-es';
 import AccessLevel from '@/domain/AccessLevel';
 
 const props = defineProps({
@@ -97,12 +97,16 @@ const props = defineProps({
   usersFound: Array,
 });
 
+console.log('props.collaborators', props.collaborators);
+
 const emit = defineEmits([
   "addCollaborator",
   "removeCollaborators",
   "updateCollaborator",
   "searchUsers",
 ]);
+
+const { usernameField } = inject('config');
 
 const handleUserSearch = debounce((search) => {
   emit("searchUsers", search);
@@ -146,7 +150,7 @@ const handleNameChange = (collaborator, name) => {
 
 const handleUserSelect = (userInfo, idx) => {
   emitCollaboratorUpdate(idx, {
-    userID: userInfo.nickname,
+    userID: userInfo[usernameField],
     name: userInfo.name,
   });
 };

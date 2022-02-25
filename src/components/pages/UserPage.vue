@@ -1,7 +1,7 @@
 <template>
   <Wrapper>
     <Header>
-      <span class="title">{{ user.nickname }}</span>
+      <span class="title">{{ user[usernameField] }}</span>
     </Header>
     <main>
       <TwoCols>
@@ -33,7 +33,9 @@ import Footer from "@/components/layout/Footer.vue";
 import TwoCols from "@/components/layout/TwoCols.vue";
 import Settings from "@/components/settings/Settings.vue";
 
-import { ref } from "vue";
+import { ref, inject } from "vue";
+
+const { usernameField } = inject('config');
 const props = defineProps({
   user: {
     type: Object,

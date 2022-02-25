@@ -20,6 +20,7 @@ addDecorator(() => {
           return (await (await fetch(`https://brainbox.pasteur.fr/api/getLabelsets`)).json())
         },
         annotationTypes: ['text', 'volume'],
+        usernameField: 'username',
       },
       user: {
         username: "dhovart",

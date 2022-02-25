@@ -37,7 +37,7 @@ setProject(props.project);
 // update store on prop change
 watch(props.files, (files) => updateProject({ files: { list: files } }));
 
-const content = ref(project.name);
+const content = ref(project.value.name);
 
 const onTitleInput = (event) => {
   content.value = event.currentTarget.textContent;
