@@ -7,7 +7,7 @@ const state = reactive({
 });
 
 export default function useProject() {
-  const { baseURL } = inject("config");
+  const { baseURL, usernameField } = inject("config");
   const service = new ProjectService(baseURL);
 
   const setProject = (project) => {
@@ -39,7 +39,7 @@ export default function useProject() {
   const addCollaborator = () => {
     if (!state.project) return;
     state.project.collaborators.list.push({
-      username: "",
+      [usernameField]: "",
       name: "",
       access: { collaborators: "none", annotations: "none", files: "none" },
     });

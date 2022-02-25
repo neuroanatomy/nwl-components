@@ -12,7 +12,7 @@
 
           <div id="userDescription">
             <h1>{{ user.name }}</h1>
-            <h2>{{ user.nickname }}</h2>
+            <h2>{{ user[usernameField] }}</h2>
             <p>Joined {{ new Date(user.joined).toDateString() }}</p>
             <slot name="side" />
           </div>
