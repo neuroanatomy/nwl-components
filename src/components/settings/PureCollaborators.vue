@@ -15,7 +15,7 @@
         <tr
           v-for="(collaborator, idx) in collaborators"
           :key="collaborator.userID"
-          :class="{selected: selected === idx}"
+          :class="{ selected: selected === idx }"
           @click="handleRowClick($event, idx)"
         >
           <td style="position: relative">
@@ -65,13 +65,25 @@
       </tbody>
     </Table>
     <div class="actions">
-      <Button :small="true" @click="$emit('addCollaborator')" title="Add collaborator">
+      <Button
+        :small="true"
+        @click="$emit('addCollaborator')"
+        title="Add collaborator"
+      >
         +
       </Button>
-      <Button :small="true"
-        @click="$emit('removeCollaborators', [selected]); selected = null;"
+      <Button
+        :small="true"
+        @click="
+          $emit('removeCollaborators', [selected]);
+          selected = null;
+        "
         title="Remove selected collaborators"
-        :disabled="selected == null || collaborators[selected].userID === 'anyone'"
+        :disabled="
+          selected == null ||
+          collaborators[selected][username] == 'anyone' ||
+          collaborators[selected].userID === 'anyone'
+        "
       >
         -
       </Button>
@@ -80,14 +92,14 @@
 </template>
 
 <script setup>
-import { ref, inject } from 'vue';
-import TextInput from '@/components/common/TextInput.vue';
-import Button from '@/components/common/Button.vue';
-import Table from '@/components/common/Table.vue';
-import Access from '@/components/settings/Access.vue';
-import Autocomplete from '@/components/common/Autocomplete.vue';
-import { debounce } from 'lodash-es';
-import AccessLevel from '@/domain/AccessLevel';
+import { ref, inject } from "vue";
+import TextInput from "@/components/common/TextInput.vue";
+import Button from "@/components/common/Button.vue";
+import Table from "@/components/common/Table.vue";
+import Access from "@/components/settings/Access.vue";
+import Autocomplete from "@/components/common/Autocomplete.vue";
+import { debounce } from "lodash-es";
+import AccessLevel from "@/domain/AccessLevel";
 
 const props = defineProps({
   collaborators: {
@@ -97,8 +109,6 @@ const props = defineProps({
   usersFound: Array,
 });
 
-console.log('props.collaborators', props.collaborators);
-
 const emit = defineEmits([
   "addCollaborator",
   "removeCollaborators",
@@ -106,7 +116,7 @@ const emit = defineEmits([
   "searchUsers",
 ]);
 
-const { usernameField } = inject('config');
+const { usernameField } = inject("config");
 
 const handleUserSearch = debounce((search) => {
   emit("searchUsers", search);
@@ -127,7 +137,9 @@ const emitCollaboratorUpdate = (idx, properties) => {
 const handleAccessChange = (collaborator, accessType, level) => {
   const idx = props.collaborators.indexOf(collaborator);
   if (idx < 0) return;
-  const existingAccessLevel = new AccessLevel(props.collaborators[idx].access[accessType]).toInt();
+  const existingAccessLevel = new AccessLevel(
+    props.collaborators[idx].access[accessType]
+  ).toInt();
 
   let requestedLevel = level;
   if (existingAccessLevel === requestedLevel) {
@@ -150,7 +162,7 @@ const handleNameChange = (collaborator, name) => {
 
 const handleUserSelect = (userInfo, idx) => {
   emitCollaboratorUpdate(idx, {
-    userID: userInfo[usernameField],
+    [usernameField]: userInfo[usernameField],
     name: userInfo.name,
   });
 };
