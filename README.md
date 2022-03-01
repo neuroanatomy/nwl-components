@@ -24,7 +24,7 @@ See below how we use composables to define access to the store methods and prope
 
 ## Store
 
-In the projects, the store is comprised of the modules in `src/store`.
+In the project, the store is comprised of the modules in `src/store`.
 
 Said modules are [composables](https://vuejs.org/guide/reusability/composables.html) that consist of a main function, usually prefixed with `use`, designed to expose stateful logic to other components.
 
