@@ -6,7 +6,7 @@ They are similar in style and behaviour to existing projects.
 ## Single File Components
 
 This project makes use of Vue SFCs: _Single File Components_, that have the `.vue` extension.
-They encapsulate the template, logic, and styling of a component in a single filen, which makes sense for a library of components. Read more about SFC in the [Vue documentation](https://vuejs.org/guide/scaling-up/sfc.html).
+They encapsulate the template, logic, and styling of a component in a single file, which makes sense for a library of components. Read more about SFC in the [Vue documentation](https://vuejs.org/guide/scaling-up/sfc.html).
 
 ## Scoped styles
 
