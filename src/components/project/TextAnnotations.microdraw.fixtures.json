@@ -1,0 +1,246 @@
+[
+  {
+      "source": "https://microdraw.pasteur.fr/manatee_cell/manatee_cell.json",
+      "name": "Manatee cell stain"
+  },
+  {
+      "source": "https://microdraw.pasteur.fr/manatee_fiber/manatee_fiber.json",
+      "name": "Manatee fiber stain"
+  },
+  {
+      "source": "https://microdraw.pasteur.fr/rhesusmonkey_cell/rhesusmonkey_cell.json",
+      "name": "Rhesus monkey"
+  },
+  {
+      "source": "https://microdraw.pasteur.fr/mandrill_cell/mandrill_cell.json",
+      "name": "Mandrill cell stained"
+  },
+  {
+      "source": "https://microdraw.pasteur.fr/mandrill_fiber/mandrill_fiber.json",
+      "name": "Mandrill myelin stained"
+  },
+  {
+      "source": "https://microdraw.pasteur.fr//giantanteater_cell/giantanteater_cell.json",
+      "name": "Giant anteater"
+  },
+  {
+      "source": "https://microdraw.pasteur.fr/deer_cor_cell/deer_cor_cell.json",
+      "name": "White-tailed deer"
+  },
+  {
+      "source": "https://microdraw.pasteur.fr/tenrecEcaudatus_cor_cell/tenrecEcaudatus_cor_cell.json",
+      "name": "Tail-less Tenrec"
+  },
+  {
+      "source": "https://microdraw.pasteur.fr/goat_cor_cell/goat_cor_cell.json",
+      "name": "Goat"
+  },
+  {
+      "source": "https://microdraw.pasteur.fr/mouselemur_sag_cell/mouselemur_sag_cell.json",
+      "name": "Mouselemur cell stained"
+  },
+  {
+      "source": "https://microdraw.pasteur.fr/mouselemur_sag_fiber/mouselemur_sag_fiber.json",
+      "name": "Mouselemur fiber stained"
+  },
+  {
+      "source": "https://microdraw.pasteur.fr/llama_cor_cell/llama_cor_cell.json",
+      "name": "Llama"
+  },
+  {
+      "source": "https://microdraw.pasteur.fr//mongooselemur_cor_cell/mongooselemur_cor_cell.json",
+      "name": "Mongoose lemur"
+  },
+  {
+      "source": "https://microdraw.pasteur.fr/chimp_cor_cell/chimp_cor_cell.json",
+      "name": "Chimpanzee"
+  },
+  {
+      "source": "https://microdraw.pasteur.fr/human_cor_cell/human_cor_cell.json",
+      "name": "Human cell stained coronal"
+  },
+  {
+      "source": "https://microdraw.pasteur.fr/human_cor_fiber/human_cor_fiber.json",
+      "name": "Human fiber stained coronal"
+  },
+  {
+      "source": "https://microdraw.pasteur.fr/human_axi_cell/human_axi_cell.json",
+      "name": "Human cell stained axial"
+  },
+  {
+      "source": "https://microdraw.pasteur.fr/human_axi_fiber/human_axi_fiber.json",
+      "name": "Human fiber stained axial"
+  },
+  {
+      "source": "https://microdraw.pasteur.fr/human_sag_cell/human_sag_cell.json",
+      "name": "Human cell stained sagittal "
+  },
+  {
+      "source": "https://microdraw.pasteur.fr/human_sag_fiber/human_sag_fiber.json",
+      "name": "Human fiber stained sagittal "
+  },
+  {
+      "source": "https://microdraw.pasteur.fr//owlmonkey_cor_cell/owlmonkey_cor_cell.json",
+      "name": "Night Monkey cell stained coronal "
+  },
+  {
+      "source": "https://microdraw.pasteur.fr//owlmonkey_cor_fiber/owlmonkey_cor_fiber.json",
+      "name": "Night Monkey fiber stained coronal "
+  },
+  {
+      "source": "https://microdraw.pasteur.fr/squirrelmonkey_cor_cell/squirrelmonkey_cor_cell.json",
+      "name": "Squirrel Monkey"
+  },
+  {
+      "source": "https://microdraw.pasteur.fr/pig_cor_cell/pig_cor_cell.json",
+      "name": "Pig"
+  },
+  {
+      "source": "https://microdraw.pasteur.fr/zebu_cor_cell/zebu_cor_cell.json",
+      "name": "Zebu cell stained"
+  },
+  {
+      "source": "https://microdraw.pasteur.fr/zebu_cor_fiber/zebu_cor_fiber.json",
+      "name": "Zebu fiber stained"
+  },
+  {
+      "source": "https://microdraw.pasteur.fr/cat_cor_cell/cat_cor_cell.json",
+      "name": "Cat"
+  },
+  {
+      "source": "https://microdraw.pasteur.fr/lion_cor_cell/lion_cor_cell.json",
+      "name": "Lion"
+  },
+  {
+      "source": "https://microdraw.pasteur.fr/polarbear_cor_cell/polarbear_cor_cell.json",
+      "name": "Polar bear"
+  },
+  {
+      "source": "https://microdraw.pasteur.fr/spottedhyena_cor_cell/spottedhyena_cor_cell.json",
+      "name": "Spotted hyena cell stained"
+  },
+  {
+      "source": "https://microdraw.pasteur.fr/spottedhyena_cor_fiber/spottedhyena_cor_fiber.json",
+      "name": "Spotted hyena fiber stained "
+  },
+  {
+      "source": "https://microdraw.pasteur.fr/weasel_cor_cell/weasel_cor_cell.json",
+      "name": "Weasel"
+  },
+  {
+      "source": "https://microdraw.pasteur.fr/yellowmongoose_cor_cell/yellowmongoose_cor_cell.json",
+      "name": "Yellow mongoose"
+  },
+  {
+      "source": "https://microdraw.pasteur.fr/dolphin_cor_cell/dolphin_cor_cell.json",
+      "name": "Bottlenose dolphin"
+  },
+  {
+      "source": "https://microdraw.pasteur.fr/flyingfox_cor_cell/flyingfox_cor_cell.json",
+      "name": "Indian flying fox"
+  },
+  {
+      "source": "https://microdraw.pasteur.fr/9bandarmadillo_cor_cell/9bandarmadillo_cor_cell.json",
+      "name": "Nine-banded armadillo"
+  },
+  {
+      "source": "https://microdraw.pasteur.fr/flyinglemur_cor_cell/flyinglemur_cor_cell.json",
+      "name": "Philippine flying lemur"
+  },
+  {
+      "source": "https://microdraw.pasteur.fr/rockhyrax_cor_cell/rockhyrax_cor_cell.json",
+      "name": "Rock hyrax"
+  },
+  {
+      "source": "https://microdraw.pasteur.fr/zebra_cor_cell/zebra_cor_cell.json",
+      "name": "Zebra"
+  },
+  {
+      "source": "https://microdraw.pasteur.fr/calsealion_cor_cell/calsealion_cor_cell.json",
+      "name": "California sealion"
+  },
+  {
+      "source": "https://microdraw.pasteur.fr/harborseal_cor_cell/harborseal_cor_cell.json",
+      "name": "Harbor seal"
+  },
+  {
+      "source": "https://microdraw.pasteur.fr/beaver_cor_cell/beaver_cor_cell.json",
+      "name": "American beaver"
+  },
+  {
+      "source": "https://microdraw.pasteur.fr/guineapig_cor_cell/guineapig_cor_cell.json",
+      "name": "Guineapig"
+  },
+  {
+      "source": "https://microdraw.pasteur.fr/americanmole_cor_cell/americanmole_cor_cell.json",
+      "name": "Eastern mole"
+  },
+  {
+      "source": "https://microdraw.pasteur.fr/commonshrew_cor_cell/commonshrew_cor_cell.json",
+      "name": "Common shrew cell staining"
+  },
+  {
+      "source": "https://microdraw.pasteur.fr/commonshrew_cor_fiber/commonshrew_cor_fiber.json",
+      "name": "Common shrew fiber staining"
+  },
+  {
+      "source": "https://microdraw.pasteur.fr/peccary_cor_cell/peccary_cor_cell.json",
+      "name": "Collared peccary"
+  },
+  {
+      "source": "https://bigbrain-ftp.loris.ca/bigbrain-ftp/BigBrainRelease.2015/MicroDraw/MicroDraw_Coronal.json",
+      "name": "Human 20um"
+  },
+  {
+      "source": "https://microdraw.pasteur.fr/rm316-nissl.json",
+      "name": "Rhesus macaque rm316 Nissl"
+  },
+  {
+      "source": "https://microdraw.pasteur.fr/sheep_cor_cell/sheep_cor_cell.json",
+      "name": "Sheep"
+  },
+  {
+      "source": "https://microdraw.pasteur.fr/potto_cor_cell/potto_cor_cell.json",
+      "name": "Potto"
+  },
+  {
+      "source": "https://microdraw.pasteur.fr/howler_cor_cell/howler_cor_cell.json",
+      "name": "Mantled howler"
+  },
+  {
+      "source": "https://microdraw.pasteur.fr/pigmacaque_cor_cell/pigmacaque_cor_cell.json",
+      "name": "Pig-tailed macaque"
+  },
+  {
+      "source": "https://microdraw.pasteur.fr/langur_cor_cell/langur_cor_cell.json",
+      "name": "Northern Plains Gray langur"
+  },
+  {
+      "source": "https://microdraw.pasteur.fr/rabbit_cor_cell/rabbit_cor_cell.json",
+      "name": "European rabbit"
+  },
+  {
+      "source": "https://microdraw.pasteur.fr/treeshrew_cor_cell/treeshrew_cor_cell.json",
+      "name": "Treeshrew"
+  },
+  {
+      "source": "https://microdraw.pasteur.fr/twotoesloth_cor_cell/twotoesloth_cor_cell.json",
+      "name": "Two-toed sloth"
+  },
+  {
+      "source": "https://microdraw.pasteur.fr/collaredanteater_cor_cell/collaredanteater_cor_cell.json",
+      "name": "Collared anteater"
+  },
+  {
+      "source": "https://microdraw.pasteur.fr/elephantshrew_cor_cell/elephantshrew_cor_cell.json",
+      "name": "Elephant shrew"
+  },
+  {
+      "source": "https://microdraw.pasteur.fr/graykangaroo_cor_cell/graykangaroo_cor_cell.json",
+      "name": "Gray kangaroo"
+  },
+  {
+      "source": "https://microdraw.pasteur.fr/mountbeaver_cor_cell/mountbeaver_cor_cell.json",
+      "name": "Mountain beaver"
+  }
+]
