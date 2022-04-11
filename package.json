@@ -24,10 +24,12 @@
     "build-storybook": "build-storybook"
   },
   "dependencies": {
+    "dompurify": "^2.3.6",
     "jdenticon": "^3.1.1",
     "lodash-es": "^4.17.21",
     "md5": "^2.3.0",
-    "nanoid": "^3.3.1"
+    "nanoid": "^3.3.1",
+    "splitpanes": "^3.1.0"
   },
   "peerDependencies": {
     "vue": "^3.2.25"
