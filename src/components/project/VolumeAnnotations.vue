@@ -8,21 +8,16 @@
     <tbody>
       <tr
         :class="{ selected: index === selectedIndex }"
-        @click="emit('selectFile', file); selectedIndex = index"
-        v-for="(file, index) in files"
-        :key="`file_${index}`"
+        @click="emit('selectAnnotation', atlas); selectedIndex = index"
+        v-for="(atlas, index) in annotations"
+        :key="`annotation_${index}`"
       >
-        <template
+        <td
           v-for="[key, selector] in keys"
           :key="`${key}_${index}`"
         >
-          <AnnotationCell
-            :value="get(file, selector)"
-            :selector="selector"
-            :index="index"
-            :link-prefix="linkPrefix"
-            @value-change="emit('valueChange', ...$event)" />
-        </template>
+          {{get(atlas, selector)}}
+        </td>
       </tr>
     </tbody>
   </Table>
@@ -30,36 +25,35 @@
 <script setup>
 import { ref, watch } from 'vue';
 import { get } from 'lodash-es';
-import AnnotationCell from '@/components/project/AnnotationCell.vue';
 
 const props = defineProps({
-  files: {
-    type: Object,
+  projectName: {
+    type: String,
+    required: true,
+  },
+  annotations: {
+    type: Array,
     required: true,
   },
   extractKeys: {
     type: Function,
-    required: true,
-  },
-  linkPrefix: {
-    type: String,
-    default: '',
+    required: false,
   },
 });
 
-const emit = defineEmits(['valueChange', 'selectFile']);
-const keys = ref(props.extractKeys(props.files));
+const emit = defineEmits(['selectAnnotation']);
+const keys = ref(props.extractKeys(props.annotations));
+const selectedIndex = ref(0);
 
 watch(props, () => {
-  keys.value = props.extractKeys(props.files);
+  keys.value = props.extractKeys(props.annotations);
+  selectedIndex.value = 0;
 });
-const selectedIndex = ref(0);
 
 </script>
 <style scoped>
 table {
-  border-collapse: collapse;
-  width: 100%;
+  border-collapse: collapse;  
 }
 th {
   text-align: left;

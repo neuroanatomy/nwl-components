@@ -6,7 +6,7 @@
             <div v-show="toggled" class="palette">
                 <div class="header" @mousedown="handleMouseDown">
                     <button class="toggle" @click="toggled = false"><img src="@/assets/times-circle.svg" alt="hide tools" /></button>
-                    <span class="title">Slice 0</span>
+                    <span class="title">{{title}}</span>
                     <button class="left" @mousedown.stop="placeLeft"><img src="@/assets/caret-square-o-left.svg" alt="place tools left" /></button>
                     <button class="right" @mousedown.stop="placeRight"><img src="@/assets/caret-square-o-right.svg" alt="place tools right" /></button>
                 </div>
@@ -24,6 +24,8 @@ const position = ref({top: 5, left: 5, right: 'auto'});
 const relativeCoords = ref({ left: 0, top: 0 });
 const toggled = ref(true);
 
+const props = defineProps({ title: String  });
+
 const handleMouseDown = (event) => {
     const headerRect = event.target.getBoundingClientRect();
     relativeCoords.value = {
@@ -33,22 +35,6 @@ const handleMouseDown = (event) => {
     drag.value = true;
 }
 
-onMounted(() => {
-    document.addEventListener('mousemove', handleMove);
-});
-
-onUnmounted(() => {
-    document.removeEventListener('mousemove', handleMove);
-});
-
-
-const handleMove = (event) => {
-    if (!drag.value) return;
-    position.value = { left: `${event.clientX - relativeCoords.value.left}px`, top: `${event.clientY - relativeCoords.value.top}px` };
-};
-
-const margin = 5;
-
 const placeLeft = () => {
     drag.value = false;
     const areaRect = document.querySelector('.area').getBoundingClientRect();
@@ -57,17 +43,29 @@ const placeLeft = () => {
 
 const placeRight = () => {
     drag.value = false;
-    position.value = { left: 'auto', top: `${margin}px`, right: `${margin}px`};
+    const areaRect = document.querySelector('.area').getBoundingClientRect();
+    position.value = { left: 'auto', top: `${areaRect.top + margin}px`, right: `${margin}px`};
 };
+
+onMounted(() => {
+    document.addEventListener('mousemove', handleMove);
+    placeLeft();
+});
+
+onUnmounted(() => {
+    document.removeEventListener('mousemove', handleMove);
+});
+
+const handleMove = (event) => {
+    if (!drag.value) return;
+    position.value = { left: `${event.clientX - relativeCoords.value.left}px`, top: `${event.clientY - relativeCoords.value.top}px` };
+};
+
+const margin = 5;
+
 
 </script>
 <style scoped>
-.area {
-    background: #000;
-    height: 100vh;
-    width: 100%;
-}
-
 .show-tools {
     width: 32px;
     height: 32px;
@@ -85,7 +83,7 @@ const placeRight = () => {
 
 .tools {
     position: absolute;
-    z-index: 10;
+    z-index: 11;
 }
 
 .tools .palette {
@@ -94,8 +92,13 @@ const placeRight = () => {
     box-shadow: 2px 2px 5px grey;
 }
 
-.tools .palette .content :deep(button), .tools .palette .content :deep(.group) {
+.tools .palette .content :deep(button),
+.tools .palette .content :deep(.group) {
     flex: 1;
+}
+
+.tools .palette .content :deep(button) {
+    padding: 5px 6px;
 }
 
 .tools .content {
