@@ -25,7 +25,7 @@
               :items="props.usersFound"
               :is-async="true"
               :extra-select-args="[props.collaborators.indexOf(collaborator)]"
-              :default-value="collaborator[usernameField]"
+              :default-value="collaborator[usernameField] || collaborator[userID]"
               :disabled="collaborator[usernameField] === 'anyone'"
               :extract-result-text="(result) => result[usernameField]"
               aria-label="Search by username"
@@ -163,6 +163,7 @@ const handleNameChange = (collaborator, name) => {
 const handleUserSelect = (userInfo, idx) => {
   emitCollaboratorUpdate(idx, {
     [usernameField]: userInfo[usernameField],
+    userID: userInfo[usernameField],
     name: userInfo.name,
   });
 };
