@@ -25,7 +25,7 @@
               :items="props.usersFound"
               :is-async="true"
               :extra-select-args="[props.collaborators.indexOf(collaborator)]"
-              :default-value="collaborator[usernameField] || collaborator[userID]"
+              :default-value="collaborator[usernameField] || collaborator.userID"
               :disabled="collaborator[usernameField] === 'anyone'"
               :extract-result-text="(result) => result[usernameField]"
               aria-label="Search by username"
