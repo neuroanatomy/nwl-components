@@ -1,0 +1,58 @@
+<template>
+    <div class="chat">
+        <div class="notifications">
+            {{ notification }}
+        </div>
+        <ul class="messages" ref="messagesRef">
+            <li v-for="(msg, index) in receivedMessages" :key="index">
+                <span v-html="msg"></span>
+            </li>
+        </ul>
+        <input type="text" @keyup.enter="handleEnter" />
+    </div>
+</template>
+<script setup>
+import { ref, watch } from 'vue';
+
+const props = defineProps({
+    notification: String,
+    receivedMessages: Array,
+});
+
+const emit = defineEmits(['sendMessage']);
+
+const messagesRef = ref(null);
+
+watch(props.receivedMessages, () => {
+    // scroll to bottom
+    setTimeout(() => { messagesRef.value.scrollTop = messagesRef.value.scrollHeight }, 100);
+});
+
+const handleEnter = (event) => {
+    emit('sendMessage', event.target.value);
+    event.target.value = '';
+};
+</script>
+<style scoped>
+.chat {
+    width: 100%;
+}
+
+.messages {
+    border: thin solid #777;
+    background: #000;
+    opacity: 0.5;
+    border-radius: 3px;
+    margin: 1px;
+    user-select: text;
+    overflow: auto;
+    height: 40px;
+    padding: 3px;
+    list-style: none;
+}
+
+input {
+    width: 100%;
+    color: black;
+}
+</style>

@@ -1,5 +1,6 @@
 import RangeSlider from "@/components/project/RangeSlider.vue";
 import { action } from "@storybook/addon-actions";
+import { ref } from 'vue';
 
 export default {
   title: "Project/RangeSlider",
@@ -11,6 +12,7 @@ const Template = (args) => ({
   setup() {
     return {
       ...args,
+      value: ref(0),
       change: action('input'),
     };
   },

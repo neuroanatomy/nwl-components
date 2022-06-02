@@ -1,24 +1,45 @@
 <template>
   <div class="wrapper">
-    <Button small @click="emit('input', Math.max(0, value--))">-</Button>
-    <input type="range" min="0" :max="max" step="1" v-model="value" @change="emit('input', parseInt($event.target.value))" />
-    <Button small @click="emit('input', Math.min(max, value++))">+</Button>
+    <Button small @click="handleMinusClick">-</Button>
+    <input type="range" min="0" :max="max" :value="innerValue" step="1" @input="handleInput" />
+    <Button small @click="handlePlusClick">+</Button>
   </div>
 </template>
 <script setup>
-import Button from '@/components/common/Button';
+import Button from '@/components/common/Button.vue';
+import { ref, watch } from 'vue';
+
 const props = defineProps({
   max: {
     type: Number,
     required: true,
   },
-  value: {
+  modelValue: {
     type: Number,
     default: 0,
   }
 });
 
+const innerValue = ref(props.value);
 const emit = defineEmits(['input']);
+watch(innerValue, (value) => emit('input', value));
+watch(props.modelValue, (value) => {
+  innerValue.value = value;
+});
+
+const handleInput = ($event) => {
+  innerValue.value = parseInt($event.target.value);
+} 
+
+const handlePlusClick = () => {
+  const value = (innerValue.value || props.modelValue) + 1;
+  innerValue.value = Math.min(value, props.max);
+}
+
+const handleMinusClick = () => {
+  const value = (innerValue.value || props.modelValue) - 1;
+  innerValue.value = Math.max(value, 0);
+}
 </script>
 <style scoped>
 .wrapper {
