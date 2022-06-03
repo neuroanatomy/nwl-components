@@ -20,11 +20,11 @@ const props = defineProps({
   }
 });
 
-const innerValue = ref(props.value);
+const innerValue = ref(props.modelValue);
 const emit = defineEmits(['input']);
 watch(innerValue, (value) => emit('input', value));
-watch(props.modelValue, (value) => {
-  innerValue.value = value;
+watch(props, () => {
+  innerValue.value = props.modelValue;
 });
 
 const handleInput = ($event) => {
