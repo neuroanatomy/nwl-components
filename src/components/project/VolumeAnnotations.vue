@@ -1,5 +1,5 @@
 <template>
-  <Table id="annotations">
+  <Table id="volAnnotations">
     <thead>
       <tr>
         <th v-for="[key] in keys" :key="key">{{ key }}</th>
@@ -27,10 +27,6 @@ import { ref, watch } from 'vue';
 import { get } from 'lodash-es';
 
 const props = defineProps({
-  projectName: {
-    type: String,
-    required: true,
-  },
   annotations: {
     type: Array,
     required: true,

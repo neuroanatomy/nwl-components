@@ -12,10 +12,7 @@ import { ref, computed, watch } from 'vue';
 import DOMPurify from 'dompurify';
 
 const props = defineProps({
-    value: {
-        type: String,
-        required: true,
-    },
+    value: String,
     index: {
         type: Number,
         required: true,
