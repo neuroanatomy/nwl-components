@@ -1,8 +1,8 @@
 <template>
-  <div class="wrapper">
-    <Button small @click="handleMinusClick">-</Button>
+  <div class="range-slider">
+    <Button small @click="handleMinusClick" v-if="displayButtons">-</Button>
     <input type="range" min="0" :max="max" :value="innerValue" step="1" @input="handleInput" />
-    <Button small @click="handlePlusClick">+</Button>
+    <Button small @click="handlePlusClick" v-if="displayButtons">+</Button>
   </div>
 </template>
 <script setup>
@@ -17,6 +17,10 @@ const props = defineProps({
   modelValue: {
     type: Number,
     default: 0,
+  },
+  displayButtons: {
+    type: Boolean,
+    default: true,
   }
 });
 
@@ -42,7 +46,7 @@ const handleMinusClick = () => {
 }
 </script>
 <style scoped>
-.wrapper {
+.range-slider {
   display: flex;
   align-items: center;
   justify-content: center;

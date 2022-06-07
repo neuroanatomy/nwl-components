@@ -1,6 +1,8 @@
 <template>
     <div class="area" @mouseup="drag = false" @mousleave="drag = false">
-        <slot name="content" />
+        <div class="content-wrapper">
+            <slot name="content" />
+        </div>
         <div class="tools" :style="{...position}">
             <button v-show="!toggled" class="show-tools"  @click="toggled = true"><img src="@/assets/bars.svg" alt="show tools" /></button>
             <div v-show="toggled" class="palette">
@@ -129,5 +131,11 @@ const margin = 5;
 .title {
     margin-left: 5px;
     margin-right: auto;
+}
+
+.content-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
 }
 </style>

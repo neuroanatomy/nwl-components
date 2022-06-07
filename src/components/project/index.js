@@ -7,3 +7,4 @@ export { default as TextAnnotations } from "@/components/project/TextAnnotations
 export { default as VolumeAnnotations } from "@/components/project/VolumeAnnotations.vue";
 export { default as OntologySelector } from "@/components/project/OntologySelector.vue";
 export { default as Chat } from "@/components/project/Chat.vue";
+export { default as AdjustSettings } from "@/components/project/AdjustSettings.vue";
