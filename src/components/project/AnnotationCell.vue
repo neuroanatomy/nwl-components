@@ -1,9 +1,11 @@
 <template>
     <td
-        :contenteditable="editable"
-        @input="emit('valueChange', [$event.currentTarget.textContent, index, selector]);"
-        v-html="formattedValue"
         ref="root"
+        v-once
+        :contenteditable="editable"
+        v-html="formattedValue"
+        :value="formattedValue"
+        @input="emit('valueChange', [$event.currentTarget.textContent, index, selector]);"
     >
     </td>
 </template>
@@ -12,16 +14,13 @@ import { ref, computed, watch } from 'vue';
 import DOMPurify from 'dompurify';
 
 const props = defineProps({
-    value: {
-        type: String,
-        required: true,
-    },
+    value: String,
     index: {
         type: Number,
         required: true,
     },
     selector: {
-        type: String,
+        type: [String, Array],
         required: true,
     },
     linkPrefix: String,
@@ -42,28 +41,11 @@ const formattedValue = computed(() => {
 
 const root = ref(null);
 
-function placeCaretAtEnd(el) {
-    el.focus();
-    if (typeof window.getSelection != "undefined"
-            && typeof document.createRange != "undefined") {
-        var range = document.createRange();
-        range.selectNodeContents(el);
-        range.collapseToEnd();
-        var sel = window.getSelection();
-        sel.removeAllRanges();
-        sel.addRange(range);
-    } else if (typeof document.body.createTextRange != "undefined") {
-        var textRange = document.body.createTextRange();
-        textRange.moveToElementText(el);
-        textRange.collapseToEnd();
-        textRange.select();
-    };
-}
-
 watch(formattedValue, () => {
     if (document.activeElement === root.value) {
-        placeCaretAtEnd(root.value);
+        return;
     }
+    root.value.innerHTML = formattedValue.value;
 });
 
 

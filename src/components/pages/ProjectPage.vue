@@ -23,7 +23,9 @@
                 <img src="@/assets/caret-square-o-right.svg" alt="" />
               </button>
             </div>
-            <slot name="left" />
+            <div class="leftContent">
+              <slot name="left" />
+            </div>
           </pane>
           <pane class="right" size="rightSize">
             <slot name="right" />
@@ -127,6 +129,8 @@ main {
 .vertical .left {
   width: 40%;
   padding: 0 5px;
+  overflow-y: auto;
+  height: calc(100vh - 82px);
 }
 
 .vertical .right {
