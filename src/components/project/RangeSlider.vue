@@ -7,7 +7,7 @@
 </template>
 <script setup>
 import Button from '@/components/common/Button.vue';
-import { ref, watch } from 'vue';
+import { ref, watch, computed } from 'vue';
 
 const props = defineProps({
   max: {
@@ -24,12 +24,11 @@ const props = defineProps({
   }
 });
 
-const innerValue = ref(props.modelValue);
-const emit = defineEmits(['input']);
-watch(innerValue, (value) => emit('input', value));
-watch(props, () => {
-  innerValue.value = props.modelValue;
+const innerValue = computed({ 
+  get: () => props.modelValue, 
+  set: (value) => emit('update:modelValue', value) 
 });
+const emit = defineEmits(['update:modelValue']);
 
 const handleInput = ($event) => {
   innerValue.value = parseInt($event.target.value);

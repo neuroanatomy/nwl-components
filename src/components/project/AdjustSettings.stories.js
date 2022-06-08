@@ -7,8 +7,6 @@ export default {
   component: AdjustSettings,
 };
 
-console.log('AdjustSettings component', AdjustSettings);
-
 const Template = (args) => ({
   components: { AdjustSettings },
   setup() {

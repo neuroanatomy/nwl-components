@@ -17,7 +17,7 @@ const Template = (args) => ({
     };
   },
   template: `
-    <RangeSlider max="100" v-model="value" @input="change" />
+    <RangeSlider max="100" v-model="value" @update:modelValue="change" />
   `,
 });
 
