@@ -6,7 +6,7 @@
       <RangeSlider
         :max="100"
         v-model="alpha"
-        @input="emit('changeAlpha', $event)"
+        @update:modelValue="emit('changeAlpha', $event)"
         :display-buttons="false"
       />
     </div>
@@ -17,7 +17,7 @@
       <RangeSlider
         :max="100"
         v-model="brightness"
-        @input="emit('changeBrightness', $event)"
+        @update:modelValue="emit('changeBrightness', $event)"
         :display-buttons="false"
       />
     </div>
@@ -28,19 +28,25 @@
       <RangeSlider
         :max="100"
         v-model="contrast"
-        @input="emit('changeContrast', $event)"
+        @update:modelValue="emit('changeContrast', $event)"
         :display-buttons="false"
       />
     </div>
   </div>
 </template>
 <script setup>
+import { ref } from 'vue';
 import RangeSlider from "@/components/project/RangeSlider.vue";
 const props = defineProps({
   alpha: Number,
   brightness: Number,
   contrast: Number,
 });
+
+const alpha = ref(props.alpha);
+const brightness = ref(props.brightness);
+const contrast = ref(props.contrast);
+
 const emit = defineEmits(["changeAlpha", "changeBrightness", "changeContrast"]);
 </script>
 <style scoped>
