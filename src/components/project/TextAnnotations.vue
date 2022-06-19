@@ -31,6 +31,7 @@
 import { ref, watch } from 'vue';
 import { get } from 'lodash-es';
 import AnnotationCell from '@/components/project/AnnotationCell.vue';
+import Table from '@/components/common/Table.vue';
 
 const props = defineProps({
   files: {
@@ -60,6 +61,7 @@ const selectedIndex = ref(0);
 table {
   border-collapse: collapse;
   width: 100%;
+  margin-bottom: 20px;
 }
 th {
   text-align: left;

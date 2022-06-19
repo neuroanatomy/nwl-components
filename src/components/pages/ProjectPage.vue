@@ -1,7 +1,7 @@
 <template>
   <Wrapper>
     <Header v-if="!fullscreen">
-      <span class="title">Project name</span>
+      <span class="title">{{ project.title }}</span>
     </Header>
     <main>
       <div :class="['editor', { fullscreen }]">

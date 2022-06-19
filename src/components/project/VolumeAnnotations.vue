@@ -25,6 +25,7 @@
 <script setup>
 import { ref, watch } from 'vue';
 import { get } from 'lodash-es';
+import Table from '@/components/common/Table.vue';
 
 const props = defineProps({
   annotations: {
@@ -49,7 +50,8 @@ watch(props, () => {
 </script>
 <style scoped>
 table {
-  border-collapse: collapse;  
+  border-collapse: collapse;
+  width: 100%;
 }
 th {
   text-align: left;
