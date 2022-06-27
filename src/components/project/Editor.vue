@@ -3,7 +3,7 @@
         <div class="content-wrapper">
             <slot name="content" />
         </div>
-        <div class="tools" :style="{...position}">
+        <div ref="tools" class="tools" :style="{...position}">
             <button v-show="!toggled" class="show-tools"  @click="toggled = true"><img src="@/assets/bars.svg" alt="show tools" /></button>
             <div v-show="toggled" class="palette">
                 <div class="header" @mousedown="handleMouseDown">
@@ -25,6 +25,7 @@ const drag = ref(false);
 const position = ref({top: 5, left: 5, right: 'auto'});
 const relativeCoords = ref({ left: 0, top: 0 });
 const toggled = ref(true);
+const toolsRect = ref({});
 
 const props = defineProps({ title: String  });
 
@@ -39,19 +40,18 @@ const handleMouseDown = (event) => {
 
 const placeLeft = () => {
     drag.value = false;
-    const areaRect = document.querySelector('.area').getBoundingClientRect();
-    position.value = { left: `${areaRect.left + margin}px`, top: `${areaRect.top + margin}px`, right: 'auto'};
+    position.value = { left: `${margin}px`, top: `${margin}px`, right: 'auto'};
 };
 
 const placeRight = () => {
     drag.value = false;
-    const areaRect = document.querySelector('.area').getBoundingClientRect();
-    position.value = { left: 'auto', top: `${areaRect.top + margin}px`, right: `${margin}px`};
+    position.value = { left: 'auto', top: `${margin}px`, right: `${margin}px`};
 };
 
 onMounted(() => {
     document.addEventListener('mousemove', handleMove);
     placeLeft();
+    toolsRect.value = document.querySelector('.area .tools').getBoundingClientRect();
 });
 
 onUnmounted(() => {
@@ -60,7 +60,10 @@ onUnmounted(() => {
 
 const handleMove = (event) => {
     if (!drag.value) return;
-    position.value = { left: `${event.clientX - relativeCoords.value.left}px`, top: `${event.clientY - relativeCoords.value.top}px` };
+    const areaRect = document.querySelector('.area').getBoundingClientRect();
+    const posX = Math.max(0, Math.min(areaRect.width - toolsRect.value.width, event.clientX - areaRect.left - relativeCoords.value.left));
+    const posY = Math.max(0, Math.min(areaRect.height - toolsRect.value.height, event.clientY - areaRect.top - relativeCoords.value.top));
+    position.value = { left: `${posX}px`, top: `${posY}px` };
 };
 
 const margin = 5;
@@ -68,6 +71,10 @@ const margin = 5;
 
 </script>
 <style scoped>
+
+.area {
+    position:
+}
 .show-tools {
     width: 32px;
     height: 32px;

@@ -95,14 +95,6 @@ Default.args = {
     let keys = new Map();
     keys.set("Name", "name");
     keys.set("File", "source");
-    props.files.forEach((file) => {
-      let annotations = get(file, ["mri", "annotations", props.projectName]);
-      if (annotations == null) return;
-      forEach(annotations, (_value, key) => {
-        keys.set(key, ["mri", "annotations", props.projectName, key, "data"]);
-      });
-    });
-    return keys;
   },
   files: brainboxFiles,
   sliceChange: action('slice changed'),
