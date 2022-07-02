@@ -1,8 +1,13 @@
 <template>
-  <div class="group">
+  <div :class="{group: true, 'full-width': fullWidth}">
     <slot />
   </div>
 </template>
+<script setup>
+const props = defineProps({
+  fullWidth: { type: Boolean, default: false }
+})
+</script>
 <style scoped>
 .group {
   display: flex;
@@ -12,8 +17,8 @@
   border-radius: 3px;
 }
 
-.group + :deep(*) {
-  margin-left: 5px;
+.full-width {
+  flex-basis: 100%;
 }
 
 .group :deep(button) {

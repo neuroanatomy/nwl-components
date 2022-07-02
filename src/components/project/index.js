@@ -3,6 +3,7 @@ export { default as ButtonsGroup } from "@/components/project/ButtonsGroup.vue";
 export { default as Editor } from "@/components/project/Editor.vue";
 export { default as RangeSlider } from "@/components/project/RangeSlider.vue";
 export { default as Row } from "@/components/project/Row.vue";
+export { default as Col } from "@/components/project/Col.vue";
 export { default as TextAnnotations } from "@/components/project/TextAnnotations.vue";
 export { default as VolumeAnnotations } from "@/components/project/VolumeAnnotations.vue";
 export { default as OntologySelector } from "@/components/project/OntologySelector.vue";

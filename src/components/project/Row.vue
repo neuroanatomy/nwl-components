@@ -13,7 +13,7 @@ const classes = { centered: props.centered === true };
 <style scoped>
 .row {
     display: flex;
-    margin-bottom:5px;
+    flex-flow: wrap;
 }
 
 .row :last-child {

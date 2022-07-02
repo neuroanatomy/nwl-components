@@ -36,6 +36,7 @@ const handleEnter = (event) => {
 <style scoped>
 .chat {
     width: 100%;
+    height: 100%;
 }
 
 .messages {
@@ -46,7 +47,8 @@ const handleEnter = (event) => {
     margin: 1px;
     user-select: text;
     overflow: auto;
-    height: 40px;
+    min-height: 40px;
+    height: calc(100% - 50px);
     padding: 3px;
     list-style: none;
 }

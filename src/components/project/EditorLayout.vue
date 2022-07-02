@@ -36,7 +36,7 @@ const rightSize = ref(60);
 <style scoped>
 .editor {
   display: flex;
-  width: 100vw;
+  width: 100%;
   overflow: hidden;
 }
 .left-header {
