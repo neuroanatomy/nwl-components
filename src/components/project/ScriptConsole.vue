@@ -31,7 +31,7 @@ onMounted(async () => {
     border-radius: 3px;
     width: 100%;
     position: relative;
-    height: 100px;
+    height: 100%;
 }
 #logScript .codeflask__flatten {
     white-space: pre-wrap;

@@ -5,6 +5,7 @@
         :contenteditable="editable"
         v-html="formattedValue"
         :value="formattedValue"
+        class="noEmpty"
         @input="emit('valueChange', [$event.currentTarget.textContent, index, selector]);"
     >
     </td>
@@ -50,3 +51,9 @@ watch(formattedValue, () => {
 
 
 </script>
+<style scoped>
+.noEmpty:empty:before {
+  content: "Empty";
+  color: rgba(255, 255, 255, 0.4);
+}
+</style>
