@@ -37,6 +37,8 @@ const handleEnter = (event) => {
 .chat {
     width: 100%;
     height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 .messages {
@@ -48,9 +50,9 @@ const handleEnter = (event) => {
     user-select: text;
     overflow: auto;
     min-height: 40px;
-    height: calc(100% - 50px);
     padding: 3px;
     list-style: none;
+    flex: 1;
 }
 
 input {

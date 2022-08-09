@@ -10,7 +10,7 @@ import Chat from "@/components/project/Chat.vue";
 import { get, forEach } from "lodash-es";
 import { action } from "@storybook/addon-actions";
 import brainboxFiles from "@/components/project/TextAnnotations.brainbox.fixtures.json";
-import { inject } from "vue";
+import { ref, inject } from "vue";
 
 export default {
   title: "Project/Brainbox Editor",
@@ -23,6 +23,7 @@ const Template = (args) => ({
     const ret = {
       ...args,
       alpha: require('@/assets/alpha.svg'),
+      isChatDisplayed: ref(true),
       transformFiles: (files) => files.map((file) => ({
           ...file,
           source: `${baseURL}/mri?url=${file.source}`
@@ -43,7 +44,7 @@ const Template = (args) => ({
           :files="files" />
         </template>
         <template v-slot:right>
-          <Editor>
+          <Editor :dense="!isChatDisplayed">
             <template v-slot:tools>
             <Row centered>
             <RangeSlider
@@ -73,7 +74,7 @@ const Template = (args) => ({
               >
             </ButtonsGroup>
 
-            <Button @click="toggleFullscreen()" title="Full screen">
+            <Button @click="isChatDisplayed = !isChatDisplayed" title="Full screen">
             <img class="icon" alt="Full screen" :src="alpha" />
           </Button>
           <Button @click="render3D()" title="3D render">
@@ -233,11 +234,11 @@ const Template = (args) => ({
           </ButtonsGroup>
         </Row>
 
-          <Row>
+          <Row style="flex: 1; min-height:60px; margin: 0 0 30px" v-if="isChatDisplayed">
             <div class="text" style="width: 100%;">
               <Chat
                 :receivedMessages="receivedMessages"
-                :notification="notification"
+                notification="notification"
                 @send-message="sendChatMessage"
               />
             </div>
