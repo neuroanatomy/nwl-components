@@ -14,11 +14,11 @@
       </button>
       <VueResizable
         v-show="toggled"
-        :active="['rb', 'b', 'r']"
+        :active="dense ? ['r'] : ['rb', 'b', 'r']"
         :min-width="275"
-        :min-height="dense ? 220 : 320"
+        :min-height="dense ? 'auto' : 320"
         :width="275"
-        :height="dense ? 220 : 320"
+        :height="dense ? 'auto' : 320"
         @resize:end="onResizeEnd"
       >
         <div class="palette">
