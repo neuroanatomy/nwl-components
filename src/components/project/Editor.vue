@@ -16,9 +16,9 @@
         v-show="toggled"
         :active="['rb', 'b', 'r']"
         :min-width="275"
-        :min-height="dense ? 220 : 300"
+        :min-height="dense ? 220 : 320"
         :width="275"
-        :height="dense ? 220 : 300"
+        :height="dense ? 220 : 320"
         @resize:end="onResizeEnd"
       >
         <div class="palette">
