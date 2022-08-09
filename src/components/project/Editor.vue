@@ -12,13 +12,14 @@
       <button v-show="!toggled" class="show-tools" @click="toggled = true">
         <img src="@/assets/bars.svg" alt="show tools" />
       </button>
-      <VueResizable
+      <VueResizable ref="resizableComponent"
         v-show="toggled"
         :active="dense ? ['r'] : ['rb', 'b', 'r']"
         :min-width="275"
-        :min-height="dense ? 'auto' : 320"
+        :min-height="dense ? 0 : 320"
         :width="275"
-        :height="dense ? 'auto' : 320"
+        :height="dense ? denseHeight : 320"
+        @resize:move="onResizeMove"
         @resize:end="onResizeEnd"
       >
         <div class="palette">
@@ -49,7 +50,7 @@
   </div>
 </template>
 <script setup>
-import { ref, onMounted, onUnmounted } from "vue";
+import { ref, watch, onMounted, onUnmounted } from "vue";
 import VueResizable from "vue-resizable";
 
 const drag = ref(false);
@@ -58,8 +59,17 @@ const relativeCoords = ref({ left: 0, top: 0 });
 const toggled = ref(true);
 const toolsRect = ref({});
 const area = ref(null);
+const resizableComponent = ref(null);
+const denseHeight = ref(220);
 
 const props = defineProps({ title: String, dense: Boolean });
+
+watch(props, () => {
+  if(props.dense) {
+    const resizable = area.value.querySelector('.resizable-component');
+    resizable.style.height = 'auto';
+  }
+});
 
 const handleMouseDown = (event) => {
   const headerRect = event.target.getBoundingClientRect();
@@ -93,6 +103,15 @@ const onResizeEnd = () => {
     const resizable = area.value.querySelector('.resizable-component');
     const paletteRect = area.value.querySelector('.palette').getBoundingClientRect();
     resizable.style.height = paletteRect.height + 'px';
+}
+
+const onResizeMove = () => {
+    const resizable = area.value.querySelector('.resizable-component');
+    if(resizable.getBoundingClientRect().width <= 518) {
+      denseHeight.value = 220;
+    } else {
+      denseHeight.value = 160;
+    }
 }
 
 onMounted(() => {
@@ -168,10 +187,10 @@ const margin = 5;
 }
 
 .tools .palette .content :deep(button) {
-  padding: 3px 6px;
+  padding: 1px 6px;
 }
 .tools .palette .content :deep(.group button) {
-  padding: 3px 6px;
+  padding: 1px 6px;
   margin: 0;
 }
 
