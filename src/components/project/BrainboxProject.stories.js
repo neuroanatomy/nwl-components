@@ -44,7 +44,7 @@ const Template = (args) => ({
           :files="files" />
         </template>
         <template v-slot:right>
-          <Editor :dense="!isChatDisplayed">
+          <Editor :class="{ reduced: !isChatDisplayed }">
             <template v-slot:tools>
             <Row centered>
             <RangeSlider

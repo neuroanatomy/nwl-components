@@ -1,9 +1,9 @@
 <template>
   <div
     class="area"
-    @mouseup="drag = false"
+    @mouseup="handleMouseLeaveOrUp"
+    @mouseleave="handleMouseLeaveOrUp"
     ref="area"
-    @mousleave="drag = false"
   >
     <div class="content-wrapper">
       <slot name="content" />
@@ -12,16 +12,15 @@
       <button v-show="!toggled" class="show-tools" @click="toggled = true">
         <img src="@/assets/bars.svg" alt="show tools" />
       </button>
-      <VueResizable ref="resizableComponent"
+      <div class="resizable"
+        :class="{ 'resizable--two-cols': hasTwoCols }"
         v-show="toggled"
-        :active="dense ? ['r'] : ['rb', 'b', 'r']"
-        :min-width="275"
-        :min-height="dense ? 0 : 320"
-        :width="275"
-        :height="dense ? denseHeight : 320"
-        @resize:move="onResizeMove"
-        @resize:end="onResizeEnd"
+        :style="{width: toolsWidth, height: toolsHeight}"
       >
+        <div
+          class="resizable-handle"
+          @mousedown="handleResizableMouseDown"
+        />
         <div class="palette">
           <div class="header" @mousedown="handleMouseDown">
             <button class="toggle" @click="hideTools()">
@@ -45,31 +44,25 @@
             <slot name="tools" />
           </div>
         </div>
-      </VueResizable>
+      </div>
     </div>
   </div>
 </template>
 <script setup>
-import { ref, watch, onMounted, onUnmounted } from "vue";
-import VueResizable from "vue-resizable";
+import { ref, onMounted, onUnmounted } from "vue";
 
 const drag = ref(false);
+const dragResizableHandle = ref(false);
 const position = ref({ top: 5, left: 5, right: "auto" });
 const relativeCoords = ref({ left: 0, top: 0 });
 const toggled = ref(true);
+const toolsWidth = ref("275px");
+const toolsHeight = ref("auto");
 const toolsRect = ref({});
 const area = ref(null);
-const resizableComponent = ref(null);
-const denseHeight = ref(220);
+const hasTwoCols = ref(false);
 
-const props = defineProps({ title: String, dense: Boolean });
-
-watch(props, () => {
-  if(props.dense) {
-    const resizable = area.value.querySelector('.resizable-component');
-    resizable.style.height = 'auto';
-  }
-});
+const props = defineProps({ title: String, height: Number  });
 
 const handleMouseDown = (event) => {
   const headerRect = event.target.getBoundingClientRect();
@@ -79,6 +72,17 @@ const handleMouseDown = (event) => {
   };
   drag.value = true;
 };
+
+const handleMouseLeaveOrUp = () => {
+  drag.value = false;
+  dragResizableHandle.value = false;
+}
+
+const handleResizableMouseDown = (event) => {
+  dragResizableHandle.value = true;
+  toolsRect.value = area.value.querySelector(".tools").getBoundingClientRect();
+  event.preventDefault()
+}
 
 const placeLeft = () => {
   drag.value = false;
@@ -99,21 +103,6 @@ const hideTools = () => {
     : placeLeft();
 };
 
-const onResizeEnd = () => {
-    const resizable = area.value.querySelector('.resizable-component');
-    const paletteRect = area.value.querySelector('.palette').getBoundingClientRect();
-    resizable.style.height = paletteRect.height + 'px';
-}
-
-const onResizeMove = () => {
-    const resizable = area.value.querySelector('.resizable-component');
-    if(resizable.getBoundingClientRect().width <= 518) {
-      denseHeight.value = 220;
-    } else {
-      denseHeight.value = 160;
-    }
-}
-
 onMounted(() => {
   document.addEventListener("mousemove", handleMove);
   placeLeft();
@@ -125,29 +114,39 @@ onUnmounted(() => {
 });
 
 const handleMove = (event) => {
-  if (!drag.value) return;
-  const areaRect = area.value.getBoundingClientRect();
-  const posX = Math.max(
-    0,
-    Math.min(
-      areaRect.width - toolsRect.value.width,
-      event.clientX - areaRect.left - relativeCoords.value.left
-    )
-  );
-  const posY = Math.max(
-    0,
-    Math.min(
-      areaRect.height - toolsRect.value.height,
-      event.clientY - areaRect.top - relativeCoords.value.top
-    )
-  );
-  position.value = { left: `${posX}px`, top: `${posY}px` };
+  if (drag.value) {
+    const areaRect = area.value.getBoundingClientRect();
+    const posX = Math.max(
+      0,
+      Math.min(
+        areaRect.width - toolsRect.value.width,
+        event.clientX - areaRect.left - relativeCoords.value.left
+      )
+    );
+    const posY = Math.max(
+      0,
+      Math.min(
+        areaRect.height - toolsRect.value.height,
+        event.clientY - areaRect.top - relativeCoords.value.top
+      )
+    );
+    position.value = { left: `${posX}px`, top: `${posY}px` };
+  }
+
+  if (dragResizableHandle.value) {
+    const initialRight = toolsRect.value.left + toolsRect.value.width;
+    const initialBottom = toolsRect.value.top + toolsRect.value.height;
+    const offsetRight = event.clientX - initialRight;
+    const offsetBottom = event.clientY - initialBottom;
+    toolsWidth.value = parseInt(toolsRect.value.width + offsetRight) + "px";
+    toolsHeight.value = parseInt(toolsRect.value.height + offsetBottom) + "px";
+
+    hasTwoCols.value = toolsRect.value.width + offsetRight > 520;
+  }
 };
 
 const margin = 5;
 </script>
-<style>
-</style>
 <style scoped>
 .area {
   position: relative;
@@ -231,5 +230,42 @@ const margin = 5;
   position: relative;
   width: 100%;
   height: 100%;
+}
+
+.resizable {
+    position: relative;
+    min-width: 275px;
+    min-height: 275px;
+}
+
+.reduced .resizable {
+  min-height: 190px;
+  height: auto !important;
+}
+
+.resizable--two-cols {
+  min-height: 230px;
+}
+
+.reduced .resizable--two-cols {
+  min-height: 145px;
+}
+
+.reduced .resizable-handle {
+  display: none;
+}
+
+.resizable-handle {
+    display: block;
+    right: 0;
+    bottom: 0;
+    position: absolute;
+    z-index: 100;
+    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAHCAYAAADEUlfTAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAACC2lUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iWE1QIENvcmUgNS40LjAiPgogICA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPgogICAgICA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIgogICAgICAgICAgICB4bWxuczp0aWZmPSJodHRwOi8vbnMuYWRvYmUuY29tL3RpZmYvMS4wLyI+CiAgICAgICAgIDx0aWZmOlJlc29sdXRpb25Vbml0PjI8L3RpZmY6UmVzb2x1dGlvblVuaXQ+CiAgICAgICAgIDx0aWZmOkNvbXByZXNzaW9uPjE8L3RpZmY6Q29tcHJlc3Npb24+CiAgICAgICAgIDx0aWZmOk9yaWVudGF0aW9uPjE8L3RpZmY6T3JpZW50YXRpb24+CiAgICAgICAgIDx0aWZmOlBob3RvbWV0cmljSW50ZXJwcmV0YXRpb24+MjwvdGlmZjpQaG90b21ldHJpY0ludGVycHJldGF0aW9uPgogICAgICA8L3JkZjpEZXNjcmlwdGlvbj4KICAgPC9yZGY6UkRGPgo8L3g6eG1wbWV0YT4KD0UqkwAAACJJREFUCB1jYMABPn/+/B+rFA0l4EbDGVAXwPlwBroEkA8ARSMmcY29DXYAAAAASUVORK5CYII=");
+    background-position: bottom right;
+    background-repeat: no-repeat;
+    opacity: 0.6;
+    width: 15px;
+    height: 15px;
 }
 </style>
