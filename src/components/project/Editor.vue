@@ -15,7 +15,7 @@
       <div class="resizable"
         :class="{ 'resizable--two-cols': hasTwoCols }"
         v-show="toggled"
-        :style="{width: toolsWidth, height: toolsHeight}"
+        :style="{width: toolsWidth, height: toolsHeight, minHeight: toolsMinHeight}"
       >
         <div
           class="resizable-handle"
@@ -51,18 +51,19 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from "vue";
 
+const props = defineProps({ title: String, height: Number, toolsMinHeight: String });
+
 const drag = ref(false);
 const dragResizableHandle = ref(false);
 const position = ref({ top: 5, left: 5, right: "auto" });
 const relativeCoords = ref({ left: 0, top: 0 });
 const toggled = ref(true);
 const toolsWidth = ref("275px");
-const toolsHeight = ref("auto");
+const toolsHeight = ref(props.toolsMinHeight);
 const toolsRect = ref({});
 const area = ref(null);
 const hasTwoCols = ref(false);
 
-const props = defineProps({ title: String, height: Number  });
 
 const handleMouseDown = (event) => {
   const headerRect = event.target.getBoundingClientRect();
@@ -76,6 +77,7 @@ const handleMouseDown = (event) => {
 const handleMouseLeaveOrUp = () => {
   drag.value = false;
   dragResizableHandle.value = false;
+  toolsRect.value = area.value.querySelector(".tools").getBoundingClientRect();
 }
 
 const handleResizableMouseDown = (event) => {
@@ -235,7 +237,6 @@ const margin = 5;
 .resizable {
     position: relative;
     min-width: 275px;
-    min-height: 275px;
 }
 
 .reduced .resizable {
@@ -267,5 +268,6 @@ const margin = 5;
     opacity: 0.6;
     width: 15px;
     height: 15px;
+    cursor: nwse-resize;
 }
 </style>

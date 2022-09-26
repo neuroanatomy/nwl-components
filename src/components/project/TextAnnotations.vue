@@ -46,6 +46,10 @@ const props = defineProps({
     type: String,
     default: '',
   },
+  selected: {
+    type: Number,
+    default: 0
+  }
 });
 
 const emit = defineEmits(['valueChange', 'selectFile']);
@@ -54,7 +58,7 @@ const keys = ref(props.extractKeys(props.files));
 watch(props, () => {
   keys.value = props.extractKeys(props.files);
 });
-const selectedIndex = ref(0);
+const selectedIndex = ref(props.selected);
 
 </script>
 <style scoped>

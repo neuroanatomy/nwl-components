@@ -39,6 +39,7 @@ const handleEnter = (event) => {
     height: 100%;
     display: flex;
     flex-direction: column;
+    height: calc(100% - 22px);
 }
 
 .messages {
@@ -58,5 +59,6 @@ const handleEnter = (event) => {
 input {
     width: 100%;
     color: black;
+    height: 22px;
 }
 </style>
