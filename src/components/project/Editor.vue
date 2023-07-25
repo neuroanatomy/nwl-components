@@ -22,7 +22,7 @@
           @mousedown="handleResizableMouseDown"
         />
         <div class="palette">
-          <div class="header" @mousedown="handleMouseDown">
+          <div class="header" @mousedown="handleMouseDown" @touchstart="handleTouchStart" @touch-end="handleMouseLeaveOrUp">
             <button class="toggle" @click="hideTools()">
               <img src="@/assets/times-circle.svg" alt="hide tools" />
             </button>
@@ -74,6 +74,12 @@ const handleMouseDown = (event) => {
   drag.value = true;
 };
 
+const handleTouchStart = (event) => {
+  if (event.touches.length !== 1) return;
+  handleMouseDown(event.touches[0]);
+  event.preventDefault();
+};
+
 const handleMouseLeaveOrUp = () => {
   drag.value = false;
   dragResizableHandle.value = false;
@@ -107,13 +113,24 @@ const hideTools = () => {
 
 onMounted(() => {
   document.addEventListener("mousemove", handleMove);
+  document.addEventListener("touchmove", handleTouchMove, { passive: false });
   placeLeft();
   toolsRect.value = area.value.querySelector(".tools").getBoundingClientRect();
 });
 
 onUnmounted(() => {
+  document.removeEventListener("touchmove", handleTouchMove);
   document.removeEventListener("mousemove", handleMove);
 });
+
+const handleTouchMove = (event) => {
+  if (event.touches) {
+    if (event.touches.length !== 1) return;
+    handleMove(event.touches[0]);
+    event.preventDefault();
+    event.stopPropagation();
+  }
+}
 
 const handleMove = (event) => {
   if (drag.value) {
