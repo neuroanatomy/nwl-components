@@ -30,6 +30,19 @@
       <span id="numFiles">{{ project.files.list.length }}</span> Data Files
     </p>
 
+    <dialog ref="embedDialog" class="embedDialog">
+      <form>
+        <label>
+          Embed code:
+          <textarea v-text="embedCode" ref="embedCodeTextarea" />
+        </label>
+        <div>
+          <Button className="push-button" value="cancel" formmethod="dialog">Cancel</Button>
+          <Button className="push-button" @click.prevent="copyEmbedCode" value="default">Copy</Button>
+        </div>
+      </form>
+    </dialog>
+
     <div class="actions">
       <Button className="push-button" @click="handleProjectSave"
         >Save Changes</Button
@@ -40,13 +53,16 @@
       <Button className="push-button" @click="goToProject"
         >Go to Project</Button
       >
+      <Button className="push-button" @click="embedProject"
+        >Embed Project</Button
+      >
       <p id="saveFeedback">{{feedback}}</p>
     </div>
   </div>
 </template>
 
 <script setup>
-import { onMounted, ref } from "vue";
+import { onMounted, ref, inject, computed } from "vue";
 import { update as updateIcon } from "jdenticon";
 import md5 from "md5";
 import TextInput from "@/components/common/TextInput.vue";
@@ -55,6 +71,7 @@ import Button from "@/components/common/Button.vue";
 import useProject from "@/store/project.js";
 
 const { project, saveProject, deleteProject } = useProject();
+const { baseURL } = inject('config');
 const feedback = ref('');
 
 const handleProjectSave = async () => {
@@ -90,6 +107,16 @@ const handleProjectDeletion = async () => {
 const goToProject = () => {
   window.location.assign(`/project/${project.value.shortname}`);
 };
+
+const embedDialog = ref(null);
+const embedCodeTextarea = ref(null);
+
+const embedCode = computed(() => `<iframe src="${baseURL}/project/${project.value ? project.value.shortname : null}/embed" allowfullscreen width="600" height="600" frameBorder="0" />`);
+const embedProject = () => { embedDialog.value.showModal(); };
+const copyEmbedCode = () => {
+  navigator.clipboard.writeText(embedCode.value);
+  embedDialog.value.close();
+}
 
 onMounted(() => {
   updateIcon(
@@ -157,5 +184,24 @@ p {
     flex: 1;
     width: 100%;
   }
+}
+
+.embedDialog {
+  background: #222;
+  border: 1px solid #333;
+  width: 300px;
+  height: 300px;
+  padding: 20px;
+}
+
+.embedDialog form, .embedDialog label {
+  display: flex;
+  flex-direction: column;
+}
+
+.embedDialog textarea {
+  margin: 10px 0;
+  background: #000;
+  height: 150px;
 }
 </style>
