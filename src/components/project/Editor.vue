@@ -128,7 +128,6 @@ const handleTouchMove = (event) => {
     if (event.touches.length !== 1) return;
     handleMove(event.touches[0]);
     event.preventDefault();
-    event.stopPropagation();
   }
 }
 
