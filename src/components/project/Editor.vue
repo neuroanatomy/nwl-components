@@ -22,18 +22,18 @@
           @mousedown="handleResizableMouseDown"
         />
         <div class="palette">
-          <div class="header" @mousedown="handleMouseDown" @touchstart="handleTouchStart" @touch-end="handleMouseLeaveOrUp">
-            <button class="toggle" @click="hideTools()">
+          <div class="header" @mousedown="handleMouseDown" @touchstart="handleTouchStart" @touchend="handleTouchEnd">
+            <button class="toggle" @click="hideTools" @touchstart.stop="hideTools">
               <img src="@/assets/times-circle.svg" alt="hide tools" />
             </button>
             <span class="title">{{ title }}</span>
-            <button class="left" @mousedown.stop="placeLeft">
+            <button class="left" @mousedown.stop="placeLeft" @touchstart.stop="placeLeft">
               <img
                 src="@/assets/caret-square-o-left.svg"
                 alt="place tools left"
               />
             </button>
-            <button class="right" @mousedown.stop="placeRight">
+            <button class="right" @mousedown.stop="placeRight" @touchstart.stop="placeRight">
               <img
                 src="@/assets/caret-square-o-right.svg"
                 alt="place tools right"
@@ -80,6 +80,11 @@ const handleTouchStart = (event) => {
   event.preventDefault();
 };
 
+const handleTouchEnd = () => {
+  drag.value = false;
+};
+
+
 const handleMouseLeaveOrUp = () => {
   drag.value = false;
   dragResizableHandle.value = false;
@@ -102,7 +107,7 @@ const placeRight = () => {
   position.value = { left: "auto", top: `${margin}px`, right: `${margin}px` };
 };
 
-const hideTools = () => {
+const hideTools = (event) => {
   toggled.value = false;
   const areaRect = area.value.getBoundingClientRect();
   if (position.value.left === "auto") return;
