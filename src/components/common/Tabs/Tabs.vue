@@ -1,14 +1,17 @@
 <template>
   <div class="tabs">
     <ul>
-      <li
-        v-for="(tab, index) in children"
-        :key="tab.props.title"
-        @click="selectTab(index)"
-        :class='{"selected": (index == selectedIndex)}'
-      >
-        {{ tab.props.title }}
-      </li>
+      <template v-for="(tab, index) in children">
+        <template v-if="tab && tab.props">
+          <li
+            :key="tab.props.title"
+            @click="selectTab(index)"
+            :class='{"selected": (index == selectedIndex)}'
+          >
+            {{ tab.props.title }}
+          </li>
+        </template>
+      </template>
     </ul>
     <template v-if="false"><slot /></template>
     <CurrentTab :key="selectedIndex" />
