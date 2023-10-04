@@ -20,7 +20,7 @@ if (props.className != null) {
 button {
   background: transparent;
   color: white;
-  border: 1px solid #fff;
+  border: 1px solid #777;
   border-radius: 3px;
   margin-right: 5px;
   cursor: pointer;

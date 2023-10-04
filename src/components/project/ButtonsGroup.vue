@@ -12,8 +12,8 @@ const props = defineProps({
 .group {
   display: flex;
   align-items: center;
-  border-left: 1px solid #fff;
-  border-right: 1px solid #fff;
+  border-left: 1px solid #777;
+  border-right: 1px solid #777;
   border-radius: 3px;
 }
 
