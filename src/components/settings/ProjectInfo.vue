@@ -56,7 +56,7 @@
       <Button className="push-button" @click="embedProject"
         >Embed Project</Button
       >
-      <p id="saveFeedback">{{feedback}}</p>
+      <p id="saveFeedback" :class="{ disappear: !feedbackVisible}">{{feedback}}</p>
     </div>
   </div>
 </template>
@@ -72,15 +72,19 @@ import useProject from "@/store/project.js";
 
 const { project, saveProject, deleteProject } = useProject();
 const { baseURL } = inject('config');
+const feedbackVisible = ref(false);
 const feedback = ref('');
 
 const handleProjectSave = async () => {
+  feedbackVisible.value = true;
   const res = await saveProject(project.value);
   if (res.success) {
     feedback.value = res.message;
   } else if (res.error) {
     feedback.value = res.error;
   }
+  setTimeout(() => feedbackVisible.value = false, 5000);
+  setTimeout(() => feedback.value = '', 5500);
 };
 
 const handleProjectDeletion = async () => {
@@ -203,5 +207,13 @@ p {
   margin: 10px 0;
   background: #000;
   height: 150px;
+}
+
+#saveFeedback {
+  transition: opacity 500ms;
+  opacity: 1;
+}
+#saveFeedback.disappear {
+  opacity: 0;
 }
 </style>
