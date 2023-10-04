@@ -30,6 +30,7 @@ button {
   align-items: center;
   justify-content: center;
   vertical-align: middle;
+  outline: none;
 }
 
 .push-button {
