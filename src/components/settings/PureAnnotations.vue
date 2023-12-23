@@ -34,7 +34,6 @@
                 v-for="opt in annotationTypes"
                 :key="`${annotation.name}${opt}`"
                 :value="opt"
-                :selected="opt === annotation.type"
               >
                 {{ opt }}
               </option>
@@ -50,7 +49,6 @@
                 v-for="opt in labelSets"
                 :value="opt.source"
                 :key="`${annotation.name}${opt.source}`"
-                :selected="opt.source === annotation.values"
               >
                 {{ opt.name }}
               </option>
@@ -139,6 +137,8 @@ const handleTypeChange = (annotation, type) => {
   const payload = { type };
   if (type === "text") {
     payload.values = "";
+  } else if (labelSets.every(label => label.source !== props.annotations[idx].values)) {
+    payload.values = labelSets[0].source;
   }
   emitAnnotationUpdate(idx, payload);
 };
