@@ -30,7 +30,7 @@ const props = defineProps({
   },
   extraSelectArgs: {
     type: Array,
-    default: [],
+    default: () => [],
   },
   extractResultText: {
     type: Function,

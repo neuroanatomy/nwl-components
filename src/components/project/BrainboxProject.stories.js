@@ -11,6 +11,7 @@ import { get, forEach } from "lodash-es";
 import { action } from "@storybook/addon-actions";
 import brainboxProject from "@/components/project/TextAnnotations.brainbox.fixtures.json";
 import { ref, inject } from "vue";
+import alpha from '@/assets/alpha.svg';
 
 export default {
   title: "Project/Brainbox Editor",
@@ -22,7 +23,7 @@ const Template = (args) => ({
     const {baseURL} = inject('config');
     const ret = {
       ...args,
-      alpha: require('@/assets/alpha.svg'),
+      alpha,
       isChatDisplayed: ref(true),
       transformFiles: (files) => files.map((file) => ({
           ...file,

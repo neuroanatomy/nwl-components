@@ -5,7 +5,7 @@ import microdrawFiles from "@/components/project/TextAnnotations.microdraw.fixtu
 import { action } from "@storybook/addon-actions";
 
 export default {
-  title: "Project/TextAnnotations",
+  title: "Project/VolumeAnnotations",
   component: TextAnnotations,
 };
 
