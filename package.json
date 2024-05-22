@@ -21,7 +21,8 @@
     "build": "vite build",
     "preview": "vite preview",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "test-storybook": "test-storybook"
   },
   "dependencies": {
     "dompurify": "^2.3.6",
@@ -40,6 +41,7 @@
     "@storybook/addon-actions": "^6.4.19",
     "@storybook/addon-essentials": "^6.4.19",
     "@storybook/addon-links": "^6.4.19",
+    "@storybook/test-runner": "^0.17.0",
     "@storybook/vue3": "^6.4.19",
     "@vitejs/plugin-vue": "^2.2.0",
     "babel-loader": "^8.2.3",
