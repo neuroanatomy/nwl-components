@@ -7,7 +7,7 @@ import Button from "@/components/common/Button.vue";
 import Row from "@/components/project/Row.vue";
 import { get, forEach } from "lodash-es";
 import { action } from "@storybook/addon-actions";
-import brainboxFiles from "@/components/project/TextAnnotations.brainbox.fixtures.json";
+import brainboxProject from "@/components/project/TextAnnotations.brainbox.fixtures.json";
 import { inject, ref } from "vue";
 
 export default {
@@ -37,10 +37,10 @@ const Template = (args) => ({
     return ret;
   },
   template: `
-    <ProjectPage :fullscreen="fullscreen">
+    <ProjectPage :fullscreen="fullscreen" :project="project">
       <template v-slot:left>
         <TextAnnotations
-          projectName="bcprimates3"
+          :projectName="project.shortname"
           :extractKeys="extractKeys"
           currentFileID="624eafaa6c930bb4648d0550"
           @value-change="valueChange"
@@ -51,7 +51,7 @@ const Template = (args) => ({
           <Editor>
             <template v-slot:tools>
               <Row centered>
-                <RangeSlider max="100" v-model="value" @input="sliceChange" />
+                <RangeSlider max=100 v-model="value" @input="sliceChange" />
               </Row>
               <Row centered>
                 <ButtonsGroup>
@@ -109,19 +109,20 @@ export const Default = Template.bind({});
 Default.args = {
   valueChange: action("value changed"),
   selectFile: action("file selected"),
-  extractKeys: (props) => {
+  extractKeys: (files) => {
     let keys = new Map();
     keys.set("Name", "name");
     keys.set("File", "source");
-    props.files.forEach((file) => {
-      let annotations = get(file, ["mri", "annotations", props.projectName]);
+    files.forEach((file) => {
+      let annotations = get(file, ["mri", "annotations", brainboxProject.shortname]);
       if (annotations == null) return;
       forEach(annotations, (_value, key) => {
-        keys.set(key, ["mri", "annotations", props.projectName, key, "data"]);
+        keys.set(key, ["mri", "annotations", brainboxProject.shortname, key, "data"]);
       });
     });
     return keys;
   },
-  files: brainboxFiles,
+  files: brainboxProject.files.list,
+  project: { ...brainboxProject, title: brainboxProject.name},
   sliceChange: action("slice changed"),
 };

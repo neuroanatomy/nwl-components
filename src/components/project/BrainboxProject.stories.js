@@ -9,7 +9,7 @@ import Col from "@/components/project/Col.vue";
 import Chat from "@/components/project/Chat.vue";
 import { get, forEach } from "lodash-es";
 import { action } from "@storybook/addon-actions";
-import brainboxFiles from "@/components/project/TextAnnotations.brainbox.fixtures.json";
+import brainboxProject from "@/components/project/TextAnnotations.brainbox.fixtures.json";
 import { ref, inject } from "vue";
 
 export default {
@@ -35,7 +35,7 @@ const Template = (args) => ({
     <EditorLayout>
       <template v-slot:left>
         <TextAnnotations
-          projectName="bcprimates3"
+          :projectName="project.shortname"
           :extractKeys="extractKeys"
           :transformFiles="transformFiles"
           currentFileID="624eafaa6c930bb4648d0550"
@@ -258,11 +258,12 @@ export const Default = Template.bind({});
 Default.args = {
   valueChange: action('value changed'),
   selectFile: action('file selected'),
-  extractKeys: (props) => {
+  extractKeys: () => {
     let keys = new Map();
     keys.set("Name", "name");
     keys.set("File", "source");
   },
-  files: brainboxFiles,
+  files: brainboxProject.files.list,
+  project: brainboxProject,
   sliceChange: action('slice changed'),
 }

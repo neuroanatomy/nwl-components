@@ -1,1205 +1,1211 @@
-[
-    {
-      "_id": "624eafaa6c930bb4648d0550",
-      "filename": "sub-OliveBaboon_Anelka.nii.gz",
-      "source": "https://drive.google.com/uc?id=1xBbyHMt2MMk_znChH2nTv7gVFNExbMR_",
-      "url": "/data/941181f7520e6541495092886a964f28/",
-      "included": "2021-09-30T06:59:43.240Z",
-      "owner": "katjaq",
-      "mri": {
-        "brain": "sub-OliveBaboon_Anelka.nii.gz",
-        "atlas": [
-          {
-            "owner": "katjaq",
-            "created": "2021-09-30T06:59:43.240Z",
-            "modified": "2021-09-30T06:59:43.240Z",
-            "type": "volume",
-            "filename": "Atlas.nii.gz",
-            "labels": "foreground.json",
-            "access": "edit",
-            "name": "Default",
-            "project": "",
-            "vectorial": []
-          },
-          {
-            "name": "Cerebrum",
-            "project": "test1",
-            "created": "2021-09-30T09:23:32.910Z",
-            "modified": "2021-09-30T09:23:32.910Z",
-            "modifiedBy": "katjaq",
-            "filename": "jenkzrn6du.nii.gz",
-            "labels": "freestyle.json",
-            "owner": "katjaq",
-            "type": "volume",
-            "vectorial": [],
-            "access": "add"
-          },
-          {
-            "name": "Cerebrum wip",
-            "project": "bcprimates3",
-            "created": "2022-02-11T08:16:28.117Z",
-            "modified": "2022-02-11T08:16:28.117Z",
-            "modifiedBy": "katjaq",
-            "filename": "0v2elgdz0mcf.nii.gz",
-            "labels": "freestyle.json",
-            "owner": "katjaq",
-            "type": "volume",
-            "access": "add"
-          },
-          {
-            "name": "Cerebrum",
-            "project": "bcprimates3",
-            "created": "2022-02-11T16:32:30.298Z",
-            "modified": "2022-02-11T16:32:30.298Z",
-            "modifiedBy": "katjaq",
-            "filename": "zfnjegiw03.nii.gz",
-            "labels": "freestyle.json",
-            "owner": "katjaq",
-            "type": "volume",
-            "vectorial": [],
-            "access": "add"
-          },
-          {
-            "name": "Cerebrum_BScut",
-            "project": "bcprimates3",
-            "created": "2022-02-11T16:32:30.298Z",
-            "modified": "2022-02-11T16:32:30.298Z",
-            "modifiedBy": "katjaq",
-            "filename": "r9t415qjpr.nii.gz",
-            "labels": "freestyle.json",
-            "owner": "katjaq",
-            "type": "volume",
-            "access": "add"
-          }
-        ],
-        "annotations": {
-          "bcprimates3": {
-            "Comments": {
-              "created": "2021-10-13T11:07:08.852Z",
-              "modified": "2022-02-12T08:47:44.495Z",
-              "modifiedBy": "r03ert0",
-              "type": "text",
-              "data": "Done; KH",
-              "access": ""
+{
+  "name": "bcprimates3",
+  "shortname": "bcprimates3",
+  "files": {
+    "list": [
+      {
+        "_id": "624eafaa6c930bb4648d0550",
+        "filename": "sub-OliveBaboon_Anelka.nii.gz",
+        "source": "https://drive.google.com/uc?id=1xBbyHMt2MMk_znChH2nTv7gVFNExbMR_",
+        "url": "/data/941181f7520e6541495092886a964f28/",
+        "included": "2021-09-30T06:59:43.240Z",
+        "owner": "katjaq",
+        "mri": {
+          "brain": "sub-OliveBaboon_Anelka.nii.gz",
+          "atlas": [
+            {
+              "owner": "katjaq",
+              "created": "2021-09-30T06:59:43.240Z",
+              "modified": "2021-09-30T06:59:43.240Z",
+              "type": "volume",
+              "filename": "Atlas.nii.gz",
+              "labels": "foreground.json",
+              "access": "edit",
+              "name": "Default",
+              "project": "",
+              "vectorial": []
             },
-            "Status": {
-              "created": "2022-01-05T10:32:01.352Z",
-              "modified": "2022-02-12T08:47:44.495Z",
-              "modifiedBy": "r03ert0",
-              "type": "text",
-              "data": "done",
-              "access": ""
+            {
+              "name": "Cerebrum",
+              "project": "test1",
+              "created": "2021-09-30T09:23:32.910Z",
+              "modified": "2021-09-30T09:23:32.910Z",
+              "modifiedBy": "katjaq",
+              "filename": "jenkzrn6du.nii.gz",
+              "labels": "freestyle.json",
+              "owner": "katjaq",
+              "type": "volume",
+              "vectorial": [],
+              "access": "add"
+            },
+            {
+              "name": "Cerebrum wip",
+              "project": "bcprimates3",
+              "created": "2022-02-11T08:16:28.117Z",
+              "modified": "2022-02-11T08:16:28.117Z",
+              "modifiedBy": "katjaq",
+              "filename": "0v2elgdz0mcf.nii.gz",
+              "labels": "freestyle.json",
+              "owner": "katjaq",
+              "type": "volume",
+              "access": "add"
+            },
+            {
+              "name": "Cerebrum",
+              "project": "bcprimates3",
+              "created": "2022-02-11T16:32:30.298Z",
+              "modified": "2022-02-11T16:32:30.298Z",
+              "modifiedBy": "katjaq",
+              "filename": "zfnjegiw03.nii.gz",
+              "labels": "freestyle.json",
+              "owner": "katjaq",
+              "type": "volume",
+              "vectorial": [],
+              "access": "add"
+            },
+            {
+              "name": "Cerebrum_BScut",
+              "project": "bcprimates3",
+              "created": "2022-02-11T16:32:30.298Z",
+              "modified": "2022-02-11T16:32:30.298Z",
+              "modifiedBy": "katjaq",
+              "filename": "r9t415qjpr.nii.gz",
+              "labels": "freestyle.json",
+              "owner": "katjaq",
+              "type": "volume",
+              "access": "add"
             }
-          },
-          "test1": {}
-        }
-      },
-      "modified": "2022-04-07T09:32:26.479Z",
-      "modifiedBy": "dhovart",
-      "name": "Anelka Olive",
-      "success": true,
-      "dim": [
-        180,
-        180,
-        180
-      ],
-      "pixdim": [
-        0.600000023841858,
-        0.600000023841858,
-        0.600000023841858
-      ],
-      "voxel2world": [
-        [
-          0.600000023841858,
-          0,
-          0
+          ],
+          "annotations": {
+            "bcprimates3": {
+              "Comments": {
+                "created": "2021-10-13T11:07:08.852Z",
+                "modified": "2022-02-12T08:47:44.495Z",
+                "modifiedBy": "r03ert0",
+                "type": "text",
+                "data": "Done; KH",
+                "access": ""
+              },
+              "Status": {
+                "created": "2022-01-05T10:32:01.352Z",
+                "modified": "2022-02-12T08:47:44.495Z",
+                "modifiedBy": "r03ert0",
+                "type": "text",
+                "data": "done",
+                "access": ""
+              }
+            },
+            "test1": {}
+          }
+        },
+        "modified": "2022-04-07T09:32:26.479Z",
+        "modifiedBy": "dhovart",
+        "name": "Anelka Olive",
+        "success": true,
+        "dim": [
+          180,
+          180,
+          180
         ],
-        [
-          0,
+        "pixdim": [
           0.600000023841858,
-          0
-        ],
-        [
-          0,
-          0,
+          0.600000023841858,
           0.600000023841858
-        ]
-      ],
-      "worldOrigin": [
-        -91,
-        -109,
-        91
-      ]
-    },
-    {
-      "_id": "6208d156827ae9dba5905b1d",
-      "filename": "sub-OliveBaboon_Pomponette.nii.gz",
-      "source": "https://drive.google.com/uc?id=1XgS3woS5W_Dq4mRAqeBSZZnhiCYy87FQ",
-      "url": "/data/f829248d466de2813b235fb5cf6a7cdf/",
-      "included": "2021-09-30T07:00:11.405Z",
-      "owner": "katjaq",
-      "mri": {
-        "brain": "sub-OliveBaboon_Pomponette.nii.gz",
-        "atlas": [
-          {
-            "owner": "katjaq",
-            "created": "2021-09-30T07:00:11.405Z",
-            "modified": "2021-09-30T07:00:11.405Z",
-            "type": "volume",
-            "filename": "Atlas.nii.gz",
-            "labels": "foreground.json",
-            "access": "edit",
-            "name": "Default",
-            "vectorial": [],
-            "project": ""
-          },
-          {
-            "name": "Cerebrum",
-            "project": "bcprimates3",
-            "created": "2022-02-06T23:16:03.289Z",
-            "modified": "2022-02-06T23:16:03.289Z",
-            "modifiedBy": "katjaq",
-            "filename": "xbujv39jiph.nii.gz",
-            "labels": "freestyle.json",
-            "owner": "katjaq",
-            "type": "volume",
-            "vectorial": [],
-            "access": "add"
-          },
-          {
-            "name": "Cerebrum wip",
-            "project": "bcprimates3",
-            "created": "2022-02-09T20:51:18.367Z",
-            "modified": "2022-02-09T20:51:18.367Z",
-            "modifiedBy": "katjaq",
-            "filename": "ir0hpfuok8l.nii.gz",
-            "labels": "freestyle.json",
-            "owner": "katjaq",
-            "type": "volume",
-            "access": "add"
-          },
-          {
-            "name": "Cerebrum_BScut",
-            "project": "bcprimates3",
-            "created": "2022-02-09T20:51:18.367Z",
-            "modified": "2022-02-09T20:51:18.367Z",
-            "modifiedBy": "katjaq",
-            "filename": "7oh5id4up0o.nii.gz",
-            "labels": "freestyle.json",
-            "owner": "katjaq",
-            "type": "volume",
-            "access": "add"
-          }
         ],
-        "annotations": {
-          "bcprimates3": {
-            "Comments": {
-              "created": "2021-10-13T11:07:08.852Z",
-              "modified": "2022-02-13T09:37:25.977Z",
-              "modifiedBy": "katjaq",
-              "type": "text",
-              "data": "seg from registration; to check and correct if needed",
-              "access": ""
+        "voxel2world": [
+          [
+            0.600000023841858,
+            0,
+            0
+          ],
+          [
+            0,
+            0.600000023841858,
+            0
+          ],
+          [
+            0,
+            0,
+            0.600000023841858
+          ]
+        ],
+        "worldOrigin": [
+          -91,
+          -109,
+          91
+        ]
+      },
+      {
+        "_id": "6208d156827ae9dba5905b1d",
+        "filename": "sub-OliveBaboon_Pomponette.nii.gz",
+        "source": "https://drive.google.com/uc?id=1XgS3woS5W_Dq4mRAqeBSZZnhiCYy87FQ",
+        "url": "/data/f829248d466de2813b235fb5cf6a7cdf/",
+        "included": "2021-09-30T07:00:11.405Z",
+        "owner": "katjaq",
+        "mri": {
+          "brain": "sub-OliveBaboon_Pomponette.nii.gz",
+          "atlas": [
+            {
+              "owner": "katjaq",
+              "created": "2021-09-30T07:00:11.405Z",
+              "modified": "2021-09-30T07:00:11.405Z",
+              "type": "volume",
+              "filename": "Atlas.nii.gz",
+              "labels": "foreground.json",
+              "access": "edit",
+              "name": "Default",
+              "vectorial": [],
+              "project": ""
             },
-            "Test": {
-              "created": "2022-01-03T16:59:29.491Z",
-              "modified": "2022-01-03T17:00:33.628Z",
+            {
+              "name": "Cerebrum",
+              "project": "bcprimates3",
+              "created": "2022-02-06T23:16:03.289Z",
+              "modified": "2022-02-06T23:16:03.289Z",
               "modifiedBy": "katjaq",
-              "type": "text",
-              "data": "yes",
-              "access": ""
+              "filename": "xbujv39jiph.nii.gz",
+              "labels": "freestyle.json",
+              "owner": "katjaq",
+              "type": "volume",
+              "vectorial": [],
+              "access": "add"
             },
-            "Status": {
-              "created": "2022-01-03T17:01:59.316Z",
-              "modified": "2022-02-13T09:37:25.977Z",
+            {
+              "name": "Cerebrum wip",
+              "project": "bcprimates3",
+              "created": "2022-02-09T20:51:18.367Z",
+              "modified": "2022-02-09T20:51:18.367Z",
               "modifiedBy": "katjaq",
-              "type": "text",
-              "data": "not started",
-              "access": ""
+              "filename": "ir0hpfuok8l.nii.gz",
+              "labels": "freestyle.json",
+              "owner": "katjaq",
+              "type": "volume",
+              "access": "add"
+            },
+            {
+              "name": "Cerebrum_BScut",
+              "project": "bcprimates3",
+              "created": "2022-02-09T20:51:18.367Z",
+              "modified": "2022-02-09T20:51:18.367Z",
+              "modifiedBy": "katjaq",
+              "filename": "7oh5id4up0o.nii.gz",
+              "labels": "freestyle.json",
+              "owner": "katjaq",
+              "type": "volume",
+              "access": "add"
+            }
+          ],
+          "annotations": {
+            "bcprimates3": {
+              "Comments": {
+                "created": "2021-10-13T11:07:08.852Z",
+                "modified": "2022-02-13T09:37:25.977Z",
+                "modifiedBy": "katjaq",
+                "type": "text",
+                "data": "seg from registration; to check and correct if needed",
+                "access": ""
+              },
+              "Test": {
+                "created": "2022-01-03T16:59:29.491Z",
+                "modified": "2022-01-03T17:00:33.628Z",
+                "modifiedBy": "katjaq",
+                "type": "text",
+                "data": "yes",
+                "access": ""
+              },
+              "Status": {
+                "created": "2022-01-03T17:01:59.316Z",
+                "modified": "2022-02-13T09:37:25.977Z",
+                "modifiedBy": "katjaq",
+                "type": "text",
+                "data": "not started",
+                "access": ""
+              }
             }
           }
-        }
-      },
-      "modified": "2022-02-13T09:37:26.377Z",
-      "modifiedBy": "katjaq",
-      "name": "Pomponette Olive",
-      "success": true,
-      "dim": [
-        180,
-        180,
-        180
-      ],
-      "pixdim": [
-        0.600000023841858,
-        0.600000023841858,
-        0.600000023841858
-      ],
-      "voxel2world": [
-        [
-          0.600000023841858,
-          0,
-          0
+        },
+        "modified": "2022-02-13T09:37:26.377Z",
+        "modifiedBy": "katjaq",
+        "name": "Pomponette Olive",
+        "success": true,
+        "dim": [
+          180,
+          180,
+          180
         ],
-        [
-          0,
+        "pixdim": [
           0.600000023841858,
-          0
-        ],
-        [
-          0,
-          0,
+          0.600000023841858,
           0.600000023841858
-        ]
-      ],
-      "worldOrigin": [
-        -91,
-        -109,
-        91
-      ]
-    },
-    {
-      "_id": "6208d167827ae9dba5905b21",
-      "filename": "marmoset_150um_b0.nii.gz",
-      "source": "https://drive.google.com/uc?id=1jXk4ZjmoDQFapfz9id8jTE1N2ihKXL5Q",
-      "url": "/data/bf6fe3b785dab175473cf64eb2fd184b/",
-      "included": "2021-10-19T12:31:32.541Z",
-      "owner": "katjaq",
-      "mri": {
-        "brain": "marmoset_150um_b0.nii.gz",
-        "atlas": [
-          {
-            "owner": "katjaq",
-            "created": "2021-10-19T12:31:32.541Z",
-            "modified": "2021-10-19T12:31:32.541Z",
-            "type": "volume",
-            "filename": "Atlas.nii.gz",
-            "labels": "foreground.json",
-            "access": "edit",
-            "name": "Default",
-            "project": "",
-            "vectorial": []
-          },
-          {
-            "name": "Cerebrum",
-            "project": "bcprimates3",
-            "created": "2022-02-06T23:16:06.391Z",
-            "modified": "2022-02-06T23:16:06.391Z",
-            "modifiedBy": "katjaq",
-            "filename": "e76xyb2fsyt.nii.gz",
-            "labels": "freestyle.json",
-            "owner": "katjaq",
-            "type": "volume",
-            "vectorial": [],
-            "access": "add"
-          },
-          {
-            "name": "Cerebrum wip",
-            "project": "bcprimates3",
-            "created": "2022-02-09T20:51:21.474Z",
-            "modified": "2022-02-09T20:51:21.474Z",
-            "modifiedBy": "katjaq",
-            "filename": "rn0k2v5shl7.nii.gz",
-            "labels": "freestyle.json",
-            "owner": "katjaq",
-            "type": "volume",
-            "access": "add",
-            "vectorial": []
-          },
-          {
-            "name": "Cerebrum_BScut",
-            "project": "bcprimates3",
-            "created": "2022-02-09T20:51:21.474Z",
-            "modified": "2022-02-09T20:51:21.474Z",
-            "modifiedBy": "katjaq",
-            "filename": "kky1kpfz45l.nii.gz",
-            "labels": "freestyle.json",
-            "owner": "katjaq",
-            "type": "volume",
-            "access": "add"
-          }
         ],
-        "annotations": {
-          "bcprimates3": {
-            "Comments": {
-              "created": "2021-10-19T12:31:20.556Z",
-              "modified": "2022-02-13T09:37:42.567Z",
-              "modifiedBy": "katjaq",
-              "type": "text",
-              "data": "KH; done",
-              "access": ""
+        "voxel2world": [
+          [
+            0.600000023841858,
+            0,
+            0
+          ],
+          [
+            0,
+            0.600000023841858,
+            0
+          ],
+          [
+            0,
+            0,
+            0.600000023841858
+          ]
+        ],
+        "worldOrigin": [
+          -91,
+          -109,
+          91
+        ]
+      },
+      {
+        "_id": "6208d167827ae9dba5905b21",
+        "filename": "marmoset_150um_b0.nii.gz",
+        "source": "https://drive.google.com/uc?id=1jXk4ZjmoDQFapfz9id8jTE1N2ihKXL5Q",
+        "url": "/data/bf6fe3b785dab175473cf64eb2fd184b/",
+        "included": "2021-10-19T12:31:32.541Z",
+        "owner": "katjaq",
+        "mri": {
+          "brain": "marmoset_150um_b0.nii.gz",
+          "atlas": [
+            {
+              "owner": "katjaq",
+              "created": "2021-10-19T12:31:32.541Z",
+              "modified": "2021-10-19T12:31:32.541Z",
+              "type": "volume",
+              "filename": "Atlas.nii.gz",
+              "labels": "foreground.json",
+              "access": "edit",
+              "name": "Default",
+              "project": "",
+              "vectorial": []
             },
-            "Status": {
-              "created": "2022-01-03T17:01:59.316Z",
-              "modified": "2022-02-13T09:37:42.567Z",
+            {
+              "name": "Cerebrum",
+              "project": "bcprimates3",
+              "created": "2022-02-06T23:16:06.391Z",
+              "modified": "2022-02-06T23:16:06.391Z",
               "modifiedBy": "katjaq",
-              "type": "text",
-              "data": "done"
+              "filename": "e76xyb2fsyt.nii.gz",
+              "labels": "freestyle.json",
+              "owner": "katjaq",
+              "type": "volume",
+              "vectorial": [],
+              "access": "add"
+            },
+            {
+              "name": "Cerebrum wip",
+              "project": "bcprimates3",
+              "created": "2022-02-09T20:51:21.474Z",
+              "modified": "2022-02-09T20:51:21.474Z",
+              "modifiedBy": "katjaq",
+              "filename": "rn0k2v5shl7.nii.gz",
+              "labels": "freestyle.json",
+              "owner": "katjaq",
+              "type": "volume",
+              "access": "add",
+              "vectorial": []
+            },
+            {
+              "name": "Cerebrum_BScut",
+              "project": "bcprimates3",
+              "created": "2022-02-09T20:51:21.474Z",
+              "modified": "2022-02-09T20:51:21.474Z",
+              "modifiedBy": "katjaq",
+              "filename": "kky1kpfz45l.nii.gz",
+              "labels": "freestyle.json",
+              "owner": "katjaq",
+              "type": "volume",
+              "access": "add"
+            }
+          ],
+          "annotations": {
+            "bcprimates3": {
+              "Comments": {
+                "created": "2021-10-19T12:31:20.556Z",
+                "modified": "2022-02-13T09:37:42.567Z",
+                "modifiedBy": "katjaq",
+                "type": "text",
+                "data": "KH; done",
+                "access": ""
+              },
+              "Status": {
+                "created": "2022-01-03T17:01:59.316Z",
+                "modified": "2022-02-13T09:37:42.567Z",
+                "modifiedBy": "katjaq",
+                "type": "text",
+                "data": "done"
+              }
             }
           }
-        }
-      },
-      "modified": "2022-02-13T09:37:42.966Z",
-      "modifiedBy": "katjaq",
-      "name": "Marmoset 150um",
-      "success": true,
-      "dim": [
-        192,
-        256,
-        192
-      ],
-      "pixdim": [
-        0.149999991059303,
-        0.150000005960464,
-        0.150000005960464
-      ],
-      "voxel2world": [
-        [
-          -0.149999991059303,
-          0,
-          0
+        },
+        "modified": "2022-02-13T09:37:42.966Z",
+        "modifiedBy": "katjaq",
+        "name": "Marmoset 150um",
+        "success": true,
+        "dim": [
+          192,
+          256,
+          192
         ],
-        [
-          0,
+        "pixdim": [
+          0.149999991059303,
           0.150000005960464,
-          0
-        ],
-        [
-          0,
-          0,
           0.150000005960464
-        ]
-      ],
-      "worldOrigin": [
-        20.875,
-        -23.7749996185303,
-        -16.5750007629395
-      ]
-    },
-    {
-      "_id": "6208d176827ae9dba5905b23",
-      "filename": "tarsius_syricta_65_29.nii.gz",
-      "source": "https://drive.google.com/uc?id=1BOhfhVAL3oCQ7_4tsF09HKxddawoxwRU",
-      "url": "/data/86ce8a8e3ae7d20986e205b7887f8dc5/",
-      "included": "2021-11-15T16:36:45.802Z",
-      "owner": "katjaq",
-      "mri": {
-        "brain": "tarsius_syricta_65_29.nii.gz",
-        "atlas": [
-          {
-            "owner": "katjaq",
-            "created": "2021-11-15T16:36:45.802Z",
-            "modified": "2021-11-15T16:36:45.802Z",
-            "type": "volume",
-            "filename": "Atlas.nii.gz",
-            "labels": "foreground.json",
-            "access": "edit",
-            "name": "Default",
-            "project": "",
-            "vectorial": []
-          },
-          {
-            "name": "Cerebrum",
-            "project": "bcprimates3",
-            "created": "2022-02-06T23:16:10.376Z",
-            "modified": "2022-02-06T23:16:10.376Z",
-            "modifiedBy": "katjaq",
-            "filename": "6297624uu86.nii.gz",
-            "labels": "freestyle.json",
-            "owner": "katjaq",
-            "type": "volume",
-            "vectorial": [],
-            "access": "add"
-          },
-          {
-            "name": "Cerebrum wip",
-            "project": "bcprimates3",
-            "created": "2022-02-09T20:51:25.041Z",
-            "modified": "2022-02-09T20:51:25.041Z",
-            "modifiedBy": "katjaq",
-            "filename": "lq75s55vakk.nii.gz",
-            "labels": "freestyle.json",
-            "owner": "katjaq",
-            "type": "volume",
-            "access": "add"
-          },
-          {
-            "name": "Cerebrum_BScut",
-            "project": "bcprimates3",
-            "created": "2022-02-09T20:51:25.041Z",
-            "modified": "2022-02-09T20:51:25.041Z",
-            "modifiedBy": "katjaq",
-            "filename": "fbhxvf96re.nii.gz",
-            "labels": "freestyle.json",
-            "owner": "katjaq",
-            "type": "volume",
-            "access": "add"
-          }
         ],
-        "annotations": {
-          "bcprimates3": {
-            "Comments": {
-              "created": "2021-11-15T16:36:35.817Z",
-              "modified": "2022-02-13T09:37:58.221Z",
-              "modifiedBy": "katjaq",
-              "type": "text",
-              "data": "TODO, KH axi 130--",
-              "access": ""
+        "voxel2world": [
+          [
+            -0.149999991059303,
+            0,
+            0
+          ],
+          [
+            0,
+            0.150000005960464,
+            0
+          ],
+          [
+            0,
+            0,
+            0.150000005960464
+          ]
+        ],
+        "worldOrigin": [
+          20.875,
+          -23.7749996185303,
+          -16.5750007629395
+        ]
+      },
+      {
+        "_id": "6208d176827ae9dba5905b23",
+        "filename": "tarsius_syricta_65_29.nii.gz",
+        "source": "https://drive.google.com/uc?id=1BOhfhVAL3oCQ7_4tsF09HKxddawoxwRU",
+        "url": "/data/86ce8a8e3ae7d20986e205b7887f8dc5/",
+        "included": "2021-11-15T16:36:45.802Z",
+        "owner": "katjaq",
+        "mri": {
+          "brain": "tarsius_syricta_65_29.nii.gz",
+          "atlas": [
+            {
+              "owner": "katjaq",
+              "created": "2021-11-15T16:36:45.802Z",
+              "modified": "2021-11-15T16:36:45.802Z",
+              "type": "volume",
+              "filename": "Atlas.nii.gz",
+              "labels": "foreground.json",
+              "access": "edit",
+              "name": "Default",
+              "project": "",
+              "vectorial": []
             },
-            "Status": {
-              "created": "2022-01-03T17:01:59.316Z",
-              "modified": "2022-02-13T09:37:58.221Z",
+            {
+              "name": "Cerebrum",
+              "project": "bcprimates3",
+              "created": "2022-02-06T23:16:10.376Z",
+              "modified": "2022-02-06T23:16:10.376Z",
               "modifiedBy": "katjaq",
-              "type": "text",
-              "data": "in progress"
+              "filename": "6297624uu86.nii.gz",
+              "labels": "freestyle.json",
+              "owner": "katjaq",
+              "type": "volume",
+              "vectorial": [],
+              "access": "add"
+            },
+            {
+              "name": "Cerebrum wip",
+              "project": "bcprimates3",
+              "created": "2022-02-09T20:51:25.041Z",
+              "modified": "2022-02-09T20:51:25.041Z",
+              "modifiedBy": "katjaq",
+              "filename": "lq75s55vakk.nii.gz",
+              "labels": "freestyle.json",
+              "owner": "katjaq",
+              "type": "volume",
+              "access": "add"
+            },
+            {
+              "name": "Cerebrum_BScut",
+              "project": "bcprimates3",
+              "created": "2022-02-09T20:51:25.041Z",
+              "modified": "2022-02-09T20:51:25.041Z",
+              "modifiedBy": "katjaq",
+              "filename": "fbhxvf96re.nii.gz",
+              "labels": "freestyle.json",
+              "owner": "katjaq",
+              "type": "volume",
+              "access": "add"
+            }
+          ],
+          "annotations": {
+            "bcprimates3": {
+              "Comments": {
+                "created": "2021-11-15T16:36:35.817Z",
+                "modified": "2022-02-13T09:37:58.221Z",
+                "modifiedBy": "katjaq",
+                "type": "text",
+                "data": "TODO, KH axi 130--",
+                "access": ""
+              },
+              "Status": {
+                "created": "2022-01-03T17:01:59.316Z",
+                "modified": "2022-02-13T09:37:58.221Z",
+                "modifiedBy": "katjaq",
+                "type": "text",
+                "data": "in progress"
+              }
             }
           }
-        }
-      },
-      "modified": "2022-02-13T09:37:58.621Z",
-      "modifiedBy": "katjaq",
-      "name": "Tarsier",
-      "success": true,
-      "dim": [
-        247,
-        244,
-        183
-      ],
-      "pixdim": [
-        0.100000001490116,
-        0.100000001490116,
-        0.100000001490116
-      ],
-      "voxel2world": [
-        [
-          0.100000001490116,
-          0,
-          0
+        },
+        "modified": "2022-02-13T09:37:58.621Z",
+        "modifiedBy": "katjaq",
+        "name": "Tarsier",
+        "success": true,
+        "dim": [
+          247,
+          244,
+          183
         ],
-        [
-          0,
+        "pixdim": [
           0.100000001490116,
-          0
-        ],
-        [
-          0,
-          0,
+          0.100000001490116,
           0.100000001490116
-        ]
-      ],
-      "worldOrigin": [
-        0,
-        0,
-        0
-      ]
-    },
-    {
-      "_id": "6208d17e827ae9dba5905b25",
-      "filename": "perodicticus_potto_62_441_2p0.nii.gz",
-      "source": "https://drive.google.com/uc?id=1-lOo_qGSQkOd3ziCsUsQhAK3vm9WtiTu",
-      "url": "/data/9fac920c395afc6f1878cc00411f579a/",
-      "included": "2021-11-15T16:22:14.315Z",
-      "owner": "katjaq",
-      "mri": {
-        "brain": "perodicticus_potto_62_441_2p0.nii.gz",
-        "atlas": [
-          {
-            "owner": "katjaq",
-            "created": "2021-11-15T16:22:14.315Z",
-            "modified": "2021-11-15T16:22:14.315Z",
-            "type": "volume",
-            "filename": "Atlas.nii.gz",
-            "labels": "foreground.json",
-            "access": "edit",
-            "name": "Default",
-            "vectorial": [],
-            "project": ""
-          },
-          {
-            "name": "Cerebrum",
-            "project": "bcprimates3",
-            "created": "2022-02-06T23:16:13.684Z",
-            "modified": "2022-02-06T23:16:13.684Z",
-            "modifiedBy": "katjaq",
-            "filename": "r85fvkh0jfc.nii.gz",
-            "labels": "freestyle.json",
-            "owner": "katjaq",
-            "type": "volume",
-            "vectorial": [],
-            "access": "add"
-          },
-          {
-            "name": "Cerebrum wip",
-            "project": "bcprimates3",
-            "created": "2022-02-09T20:51:28.440Z",
-            "modified": "2022-02-09T20:51:28.440Z",
-            "modifiedBy": "katjaq",
-            "filename": "02292fguo86m.nii.gz",
-            "labels": "freestyle.json",
-            "owner": "katjaq",
-            "type": "volume",
-            "access": "add"
-          },
-          {
-            "name": "Cerebrum_BScut",
-            "project": "bcprimates3",
-            "created": "2022-02-09T20:51:28.440Z",
-            "modified": "2022-02-09T20:51:28.440Z",
-            "modifiedBy": "katjaq",
-            "filename": "wlm365nv23e.nii.gz",
-            "labels": "freestyle.json",
-            "owner": "katjaq",
-            "type": "volume",
-            "access": "add"
-          }
         ],
-        "annotations": {
-          "bcprimates3": {
-            "Comments": {
-              "created": "2021-11-15T16:22:07.695Z",
-              "modified": "2022-02-13T09:38:06.092Z",
-              "modifiedBy": "katjaq",
-              "type": "text",
-              "data": "SD, cleaned out, needs refinement",
-              "access": ""
+        "voxel2world": [
+          [
+            0.100000001490116,
+            0,
+            0
+          ],
+          [
+            0,
+            0.100000001490116,
+            0
+          ],
+          [
+            0,
+            0,
+            0.100000001490116
+          ]
+        ],
+        "worldOrigin": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "_id": "6208d17e827ae9dba5905b25",
+        "filename": "perodicticus_potto_62_441_2p0.nii.gz",
+        "source": "https://drive.google.com/uc?id=1-lOo_qGSQkOd3ziCsUsQhAK3vm9WtiTu",
+        "url": "/data/9fac920c395afc6f1878cc00411f579a/",
+        "included": "2021-11-15T16:22:14.315Z",
+        "owner": "katjaq",
+        "mri": {
+          "brain": "perodicticus_potto_62_441_2p0.nii.gz",
+          "atlas": [
+            {
+              "owner": "katjaq",
+              "created": "2021-11-15T16:22:14.315Z",
+              "modified": "2021-11-15T16:22:14.315Z",
+              "type": "volume",
+              "filename": "Atlas.nii.gz",
+              "labels": "foreground.json",
+              "access": "edit",
+              "name": "Default",
+              "vectorial": [],
+              "project": ""
             },
-            "Status": {
-              "created": "2022-01-03T17:01:59.316Z",
-              "modified": "2022-02-13T09:38:06.092Z",
+            {
+              "name": "Cerebrum",
+              "project": "bcprimates3",
+              "created": "2022-02-06T23:16:13.684Z",
+              "modified": "2022-02-06T23:16:13.684Z",
               "modifiedBy": "katjaq",
-              "type": "text",
-              "data": "in progress"
+              "filename": "r85fvkh0jfc.nii.gz",
+              "labels": "freestyle.json",
+              "owner": "katjaq",
+              "type": "volume",
+              "vectorial": [],
+              "access": "add"
+            },
+            {
+              "name": "Cerebrum wip",
+              "project": "bcprimates3",
+              "created": "2022-02-09T20:51:28.440Z",
+              "modified": "2022-02-09T20:51:28.440Z",
+              "modifiedBy": "katjaq",
+              "filename": "02292fguo86m.nii.gz",
+              "labels": "freestyle.json",
+              "owner": "katjaq",
+              "type": "volume",
+              "access": "add"
+            },
+            {
+              "name": "Cerebrum_BScut",
+              "project": "bcprimates3",
+              "created": "2022-02-09T20:51:28.440Z",
+              "modified": "2022-02-09T20:51:28.440Z",
+              "modifiedBy": "katjaq",
+              "filename": "wlm365nv23e.nii.gz",
+              "labels": "freestyle.json",
+              "owner": "katjaq",
+              "type": "volume",
+              "access": "add"
+            }
+          ],
+          "annotations": {
+            "bcprimates3": {
+              "Comments": {
+                "created": "2021-11-15T16:22:07.695Z",
+                "modified": "2022-02-13T09:38:06.092Z",
+                "modifiedBy": "katjaq",
+                "type": "text",
+                "data": "SD, cleaned out, needs refinement",
+                "access": ""
+              },
+              "Status": {
+                "created": "2022-01-03T17:01:59.316Z",
+                "modified": "2022-02-13T09:38:06.092Z",
+                "modifiedBy": "katjaq",
+                "type": "text",
+                "data": "in progress"
+              }
             }
           }
-        }
-      },
-      "modified": "2022-02-13T09:38:06.491Z",
-      "modifiedBy": "katjaq",
-      "name": "Potto 2.0",
-      "success": true,
-      "dim": [
-        176,
-        242,
-        111
-      ],
-      "pixdim": [
-        0.200000002980232,
-        0.200000002980232,
-        0.200000002980232
-      ],
-      "voxel2world": [
-        [
-          0.200000002980232,
-          0,
-          0
+        },
+        "modified": "2022-02-13T09:38:06.491Z",
+        "modifiedBy": "katjaq",
+        "name": "Potto 2.0",
+        "success": true,
+        "dim": [
+          176,
+          242,
+          111
         ],
-        [
-          0,
+        "pixdim": [
           0.200000002980232,
-          0
-        ],
-        [
-          0,
-          0,
+          0.200000002980232,
           0.200000002980232
-        ]
-      ],
-      "worldOrigin": [
-        0,
-        0,
-        0
-      ]
-    },
-    {
-      "_id": "622267a262472081eab4d93f",
-      "filename": "BabouinJaunePapi_1820_reo_n4.nii.gz",
-      "source": "https://drive.google.com/uc?id=13DE2qjAlLbP3Lp4YMwpgWhyF6VvQaADT",
-      "url": "/data/0f965b5d20f5ac37eb5e2ed13e17b379/",
-      "included": "2021-11-21T17:39:49.293Z",
-      "owner": "katjaq",
-      "mri": {
-        "brain": "BabouinJaunePapi_1820_reo_n4.nii.gz",
-        "atlas": [
-          {
-            "owner": "katjaq",
-            "created": "2021-11-21T17:39:49.293Z",
-            "modified": "2021-11-21T17:39:49.293Z",
-            "type": "volume",
-            "filename": "Atlas.nii.gz",
-            "labels": "foreground.json",
-            "access": "edit",
-            "name": "Default",
-            "vectorial": [],
-            "project": ""
-          },
-          {
-            "name": "Cerebrum",
-            "project": "bcprimates3",
-            "created": "2022-02-06T23:16:16.495Z",
-            "modified": "2022-02-06T23:16:16.495Z",
-            "modifiedBy": "katjaq",
-            "filename": "e90yzmsqxq6.nii.gz",
-            "labels": "freestyle.json",
-            "owner": "katjaq",
-            "type": "volume",
-            "vectorial": [],
-            "access": "add"
-          },
-          {
-            "name": "Cerebrum wip",
-            "project": "bcprimates3",
-            "created": "2022-02-09T20:51:31.388Z",
-            "modified": "2022-02-09T20:51:31.388Z",
-            "modifiedBy": "katjaq",
-            "filename": "4e3rwrkm6pw.nii.gz",
-            "labels": "freestyle.json",
-            "owner": "katjaq",
-            "type": "volume",
-            "access": "add"
-          },
-          {
-            "name": "Cerebrum_BScut",
-            "project": "bcprimates3",
-            "created": "2022-02-09T20:51:31.388Z",
-            "modified": "2022-02-09T20:51:31.388Z",
-            "modifiedBy": "katjaq",
-            "filename": "cw15ecjitxd.nii.gz",
-            "labels": "freestyle.json",
-            "owner": "katjaq",
-            "type": "volume",
-            "access": "add"
-          }
         ],
-        "annotations": {
-          "bcprimates3": {
-            "Comments": {
-              "created": "2021-11-21T17:39:39.503Z",
-              "modified": "2022-03-04T19:25:24.521Z",
-              "modifiedBy": "katjaq",
-              "type": "text",
-              "data": "Done; SFA; KH",
-              "access": ""
+        "voxel2world": [
+          [
+            0.200000002980232,
+            0,
+            0
+          ],
+          [
+            0,
+            0.200000002980232,
+            0
+          ],
+          [
+            0,
+            0,
+            0.200000002980232
+          ]
+        ],
+        "worldOrigin": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "_id": "622267a262472081eab4d93f",
+        "filename": "BabouinJaunePapi_1820_reo_n4.nii.gz",
+        "source": "https://drive.google.com/uc?id=13DE2qjAlLbP3Lp4YMwpgWhyF6VvQaADT",
+        "url": "/data/0f965b5d20f5ac37eb5e2ed13e17b379/",
+        "included": "2021-11-21T17:39:49.293Z",
+        "owner": "katjaq",
+        "mri": {
+          "brain": "BabouinJaunePapi_1820_reo_n4.nii.gz",
+          "atlas": [
+            {
+              "owner": "katjaq",
+              "created": "2021-11-21T17:39:49.293Z",
+              "modified": "2021-11-21T17:39:49.293Z",
+              "type": "volume",
+              "filename": "Atlas.nii.gz",
+              "labels": "foreground.json",
+              "access": "edit",
+              "name": "Default",
+              "vectorial": [],
+              "project": ""
             },
-            "Status": {
-              "created": "2022-01-03T17:01:59.316Z",
-              "modified": "2022-03-04T19:25:24.521Z",
+            {
+              "name": "Cerebrum",
+              "project": "bcprimates3",
+              "created": "2022-02-06T23:16:16.495Z",
+              "modified": "2022-02-06T23:16:16.495Z",
               "modifiedBy": "katjaq",
-              "type": "text",
-              "data": "done",
-              "access": ""
+              "filename": "e90yzmsqxq6.nii.gz",
+              "labels": "freestyle.json",
+              "owner": "katjaq",
+              "type": "volume",
+              "vectorial": [],
+              "access": "add"
+            },
+            {
+              "name": "Cerebrum wip",
+              "project": "bcprimates3",
+              "created": "2022-02-09T20:51:31.388Z",
+              "modified": "2022-02-09T20:51:31.388Z",
+              "modifiedBy": "katjaq",
+              "filename": "4e3rwrkm6pw.nii.gz",
+              "labels": "freestyle.json",
+              "owner": "katjaq",
+              "type": "volume",
+              "access": "add"
+            },
+            {
+              "name": "Cerebrum_BScut",
+              "project": "bcprimates3",
+              "created": "2022-02-09T20:51:31.388Z",
+              "modified": "2022-02-09T20:51:31.388Z",
+              "modifiedBy": "katjaq",
+              "filename": "cw15ecjitxd.nii.gz",
+              "labels": "freestyle.json",
+              "owner": "katjaq",
+              "type": "volume",
+              "access": "add"
+            }
+          ],
+          "annotations": {
+            "bcprimates3": {
+              "Comments": {
+                "created": "2021-11-21T17:39:39.503Z",
+                "modified": "2022-03-04T19:25:24.521Z",
+                "modifiedBy": "katjaq",
+                "type": "text",
+                "data": "Done; SFA; KH",
+                "access": ""
+              },
+              "Status": {
+                "created": "2022-01-03T17:01:59.316Z",
+                "modified": "2022-03-04T19:25:24.521Z",
+                "modifiedBy": "katjaq",
+                "type": "text",
+                "data": "done",
+                "access": ""
+              }
             }
           }
-        }
-      },
-      "modified": "2022-03-04T19:25:22.645Z",
-      "modifiedBy": "katjaq",
-      "name": "Yellow baboon",
-      "success": true,
-      "dim": [
-        222,
-        272,
-        206
-      ],
-      "pixdim": [
-        0.300480782985687,
-        0.300480782985687,
-        0.300480782985687
-      ],
-      "voxel2world": [
-        [
-          0.300480782985687,
-          0,
-          0
+        },
+        "modified": "2022-03-04T19:25:22.645Z",
+        "modifiedBy": "katjaq",
+        "name": "Yellow baboon",
+        "success": true,
+        "dim": [
+          222,
+          272,
+          206
         ],
-        [
-          0,
+        "pixdim": [
           0.300480782985687,
-          0
-        ],
-        [
-          0,
-          0,
+          0.300480782985687,
           0.300480782985687
-        ]
-      ],
-      "worldOrigin": [
-        -32.7524070739746,
-        -40.8653869628906,
-        -38.161060333252
-      ]
-    },
-    {
-      "_id": "622267ae62472081eab4d942",
-      "filename": "CallicebeCallice_cfa2_reo_n4.nii.gz",
-      "source": "https://dl.dropbox.com/s/itjjb07frrxkgum/CallicebeCallice_cfa2_reo_n4.nii.gz",
-      "url": "/data/37268606d924e8f0882c45ea4b219bad/",
-      "included": "2021-11-22T12:43:03.023Z",
-      "owner": "katjaq",
-      "mri": {
-        "brain": "CallicebeCallice_cfa2_reo_n4.nii.gz",
-        "atlas": [
-          {
-            "owner": "katjaq",
-            "created": "2021-11-22T12:43:03.023Z",
-            "modified": "2021-11-22T12:43:03.023Z",
-            "type": "volume",
-            "filename": "Atlas.nii.gz",
-            "labels": "foreground.json",
-            "access": "edit",
-            "name": "Default",
-            "vectorial": [],
-            "project": ""
-          },
-          {
-            "name": "Cerebrum",
-            "project": "bcprimates3",
-            "created": "2022-02-06T23:16:19.261Z",
-            "modified": "2022-02-06T23:16:19.261Z",
-            "modifiedBy": "katjaq",
-            "filename": "yu18koapomi.nii.gz",
-            "labels": "freestyle.json",
-            "owner": "katjaq",
-            "type": "volume",
-            "access": "add",
-            "vectorial": []
-          },
-          {
-            "name": "Cerebrum wip",
-            "project": "bcprimates3",
-            "created": "2022-02-09T20:51:34.587Z",
-            "modified": "2022-02-09T20:51:34.587Z",
-            "modifiedBy": "katjaq",
-            "filename": "8c0xoo4npz6.nii.gz",
-            "labels": "freestyle.json",
-            "owner": "katjaq",
-            "type": "volume",
-            "access": "add",
-            "vectorial": []
-          },
-          {
-            "name": "Cerebrum_BScut",
-            "project": "bcprimates3",
-            "created": "2022-02-09T20:51:34.587Z",
-            "modified": "2022-02-09T20:51:34.587Z",
-            "modifiedBy": "katjaq",
-            "filename": "psvnlnjl6oj.nii.gz",
-            "labels": "freestyle.json",
-            "owner": "katjaq",
-            "type": "volume",
-            "access": "add"
-          }
         ],
-        "annotations": {
-          "bcprimates3": {
-            "Comments": {
-              "created": "2021-11-22T12:42:53.654Z",
-              "modified": "2022-03-04T19:25:35.819Z",
-              "modifiedBy": "katjaq",
-              "type": "text",
-              "data": "Done, SFA; KH",
-              "access": ""
+        "voxel2world": [
+          [
+            0.300480782985687,
+            0,
+            0
+          ],
+          [
+            0,
+            0.300480782985687,
+            0
+          ],
+          [
+            0,
+            0,
+            0.300480782985687
+          ]
+        ],
+        "worldOrigin": [
+          -32.7524070739746,
+          -40.8653869628906,
+          -38.161060333252
+        ]
+      },
+      {
+        "_id": "622267ae62472081eab4d942",
+        "filename": "CallicebeCallice_cfa2_reo_n4.nii.gz",
+        "source": "https://dl.dropbox.com/s/itjjb07frrxkgum/CallicebeCallice_cfa2_reo_n4.nii.gz",
+        "url": "/data/37268606d924e8f0882c45ea4b219bad/",
+        "included": "2021-11-22T12:43:03.023Z",
+        "owner": "katjaq",
+        "mri": {
+          "brain": "CallicebeCallice_cfa2_reo_n4.nii.gz",
+          "atlas": [
+            {
+              "owner": "katjaq",
+              "created": "2021-11-22T12:43:03.023Z",
+              "modified": "2021-11-22T12:43:03.023Z",
+              "type": "volume",
+              "filename": "Atlas.nii.gz",
+              "labels": "foreground.json",
+              "access": "edit",
+              "name": "Default",
+              "vectorial": [],
+              "project": ""
             },
-            "Status": {
-              "created": "2022-01-04T23:58:02.197Z",
-              "modified": "2022-03-04T19:25:35.819Z",
+            {
+              "name": "Cerebrum",
+              "project": "bcprimates3",
+              "created": "2022-02-06T23:16:19.261Z",
+              "modified": "2022-02-06T23:16:19.261Z",
               "modifiedBy": "katjaq",
-              "type": "text",
-              "data": "done",
-              "access": ""
+              "filename": "yu18koapomi.nii.gz",
+              "labels": "freestyle.json",
+              "owner": "katjaq",
+              "type": "volume",
+              "access": "add",
+              "vectorial": []
+            },
+            {
+              "name": "Cerebrum wip",
+              "project": "bcprimates3",
+              "created": "2022-02-09T20:51:34.587Z",
+              "modified": "2022-02-09T20:51:34.587Z",
+              "modifiedBy": "katjaq",
+              "filename": "8c0xoo4npz6.nii.gz",
+              "labels": "freestyle.json",
+              "owner": "katjaq",
+              "type": "volume",
+              "access": "add",
+              "vectorial": []
+            },
+            {
+              "name": "Cerebrum_BScut",
+              "project": "bcprimates3",
+              "created": "2022-02-09T20:51:34.587Z",
+              "modified": "2022-02-09T20:51:34.587Z",
+              "modifiedBy": "katjaq",
+              "filename": "psvnlnjl6oj.nii.gz",
+              "labels": "freestyle.json",
+              "owner": "katjaq",
+              "type": "volume",
+              "access": "add"
+            }
+          ],
+          "annotations": {
+            "bcprimates3": {
+              "Comments": {
+                "created": "2021-11-22T12:42:53.654Z",
+                "modified": "2022-03-04T19:25:35.819Z",
+                "modifiedBy": "katjaq",
+                "type": "text",
+                "data": "Done, SFA; KH",
+                "access": ""
+              },
+              "Status": {
+                "created": "2022-01-04T23:58:02.197Z",
+                "modified": "2022-03-04T19:25:35.819Z",
+                "modifiedBy": "katjaq",
+                "type": "text",
+                "data": "done",
+                "access": ""
+              }
             }
           }
-        }
-      },
-      "modified": "2022-03-04T19:25:33.957Z",
-      "modifiedBy": "katjaq",
-      "name": "Red-bellied titi",
-      "success": true,
-      "dim": [
-        328,
-        379,
-        239
-      ],
-      "pixdim": [
-        0.100000023841858,
-        0.100000023841858,
-        0.100000023841858
-      ],
-      "voxel2world": [
-        [
-          0.100000023841858,
-          0,
-          0
+        },
+        "modified": "2022-03-04T19:25:33.957Z",
+        "modifiedBy": "katjaq",
+        "name": "Red-bellied titi",
+        "success": true,
+        "dim": [
+          328,
+          379,
+          239
         ],
-        [
-          0,
+        "pixdim": [
           0.100000023841858,
-          0
-        ],
-        [
-          0,
-          0,
+          0.100000023841858,
           0.100000023841858
-        ]
-      ],
-      "worldOrigin": [
-        -15.9000034332275,
-        -20.7000045776367,
-        -14.5000038146973
-      ]
-    },
-    {
-      "_id": "622267b562472081eab4d945",
-      "filename": "GrandChirogaleCh_241e_reo_n4.nii.gz",
-      "source": "https://dl.dropbox.com/s/mdg6c59ob14rfop/GrandChirogaleCh_241e_reo_n4.nii.gz",
-      "url": "/data/39aee03821adee3f9881171f9be868db/",
-      "included": "2021-11-22T19:56:53.258Z",
-      "owner": "katjaq",
-      "mri": {
-        "brain": "GrandChirogaleCh_241e_reo_n4.nii.gz",
-        "atlas": [
-          {
-            "owner": "katjaq",
-            "created": "2021-11-22T19:56:53.258Z",
-            "modified": "2021-11-22T19:56:53.258Z",
-            "type": "volume",
-            "filename": "Atlas.nii.gz",
-            "labels": "foreground.json",
-            "access": "edit",
-            "name": "Default",
-            "vectorial": [],
-            "project": ""
-          },
-          {
-            "name": "Cerebrum",
-            "project": "bcprimates3",
-            "created": "2022-02-06T23:16:21.123Z",
-            "modified": "2022-02-06T23:16:21.123Z",
-            "modifiedBy": "katjaq",
-            "filename": "gz4adz7twga.nii.gz",
-            "labels": "freestyle.json",
-            "owner": "katjaq",
-            "type": "volume",
-            "access": "add",
-            "vectorial": []
-          },
-          {
-            "name": "Cerebrum wip",
-            "project": "bcprimates3",
-            "created": "2022-02-09T20:51:36.412Z",
-            "modified": "2022-02-09T20:51:36.412Z",
-            "modifiedBy": "katjaq",
-            "filename": "9ih2mpw0f2a.nii.gz",
-            "labels": "freestyle.json",
-            "owner": "katjaq",
-            "type": "volume",
-            "access": "add"
-          },
-          {
-            "name": "Cerebrum_BScut",
-            "project": "bcprimates3",
-            "created": "2022-02-09T20:51:36.412Z",
-            "modified": "2022-02-09T20:51:36.412Z",
-            "modifiedBy": "katjaq",
-            "filename": "alz69rwd9wq.nii.gz",
-            "labels": "freestyle.json",
-            "owner": "katjaq",
-            "type": "volume",
-            "access": "add"
-          }
         ],
-        "annotations": {
-          "bcprimates3": {
-            "Comments": {
-              "created": "2021-11-22T19:56:44.838Z",
-              "modified": "2022-03-04T19:25:42.958Z",
-              "modifiedBy": "katjaq",
-              "type": "text",
-              "data": "Done, SFA; KH",
-              "access": ""
+        "voxel2world": [
+          [
+            0.100000023841858,
+            0,
+            0
+          ],
+          [
+            0,
+            0.100000023841858,
+            0
+          ],
+          [
+            0,
+            0,
+            0.100000023841858
+          ]
+        ],
+        "worldOrigin": [
+          -15.9000034332275,
+          -20.7000045776367,
+          -14.5000038146973
+        ]
+      },
+      {
+        "_id": "622267b562472081eab4d945",
+        "filename": "GrandChirogaleCh_241e_reo_n4.nii.gz",
+        "source": "https://dl.dropbox.com/s/mdg6c59ob14rfop/GrandChirogaleCh_241e_reo_n4.nii.gz",
+        "url": "/data/39aee03821adee3f9881171f9be868db/",
+        "included": "2021-11-22T19:56:53.258Z",
+        "owner": "katjaq",
+        "mri": {
+          "brain": "GrandChirogaleCh_241e_reo_n4.nii.gz",
+          "atlas": [
+            {
+              "owner": "katjaq",
+              "created": "2021-11-22T19:56:53.258Z",
+              "modified": "2021-11-22T19:56:53.258Z",
+              "type": "volume",
+              "filename": "Atlas.nii.gz",
+              "labels": "foreground.json",
+              "access": "edit",
+              "name": "Default",
+              "vectorial": [],
+              "project": ""
             },
-            "Status": {
-              "created": "2022-01-04T23:58:02.197Z",
-              "modified": "2022-03-04T19:25:42.958Z",
+            {
+              "name": "Cerebrum",
+              "project": "bcprimates3",
+              "created": "2022-02-06T23:16:21.123Z",
+              "modified": "2022-02-06T23:16:21.123Z",
               "modifiedBy": "katjaq",
-              "type": "text",
-              "data": "done",
-              "access": ""
+              "filename": "gz4adz7twga.nii.gz",
+              "labels": "freestyle.json",
+              "owner": "katjaq",
+              "type": "volume",
+              "access": "add",
+              "vectorial": []
+            },
+            {
+              "name": "Cerebrum wip",
+              "project": "bcprimates3",
+              "created": "2022-02-09T20:51:36.412Z",
+              "modified": "2022-02-09T20:51:36.412Z",
+              "modifiedBy": "katjaq",
+              "filename": "9ih2mpw0f2a.nii.gz",
+              "labels": "freestyle.json",
+              "owner": "katjaq",
+              "type": "volume",
+              "access": "add"
+            },
+            {
+              "name": "Cerebrum_BScut",
+              "project": "bcprimates3",
+              "created": "2022-02-09T20:51:36.412Z",
+              "modified": "2022-02-09T20:51:36.412Z",
+              "modifiedBy": "katjaq",
+              "filename": "alz69rwd9wq.nii.gz",
+              "labels": "freestyle.json",
+              "owner": "katjaq",
+              "type": "volume",
+              "access": "add"
+            }
+          ],
+          "annotations": {
+            "bcprimates3": {
+              "Comments": {
+                "created": "2021-11-22T19:56:44.838Z",
+                "modified": "2022-03-04T19:25:42.958Z",
+                "modifiedBy": "katjaq",
+                "type": "text",
+                "data": "Done, SFA; KH",
+                "access": ""
+              },
+              "Status": {
+                "created": "2022-01-04T23:58:02.197Z",
+                "modified": "2022-03-04T19:25:42.958Z",
+                "modifiedBy": "katjaq",
+                "type": "text",
+                "data": "done",
+                "access": ""
+              }
             }
           }
-        }
-      },
-      "modified": "2022-03-04T19:25:41.082Z",
-      "modifiedBy": "katjaq",
-      "name": "Greater dwarf lemur",
-      "success": true,
-      "dim": [
-        278,
-        336,
-        256
-      ],
-      "pixdim": [
-        0.100000001490116,
-        0.100000001490116,
-        0.100000001490116
-      ],
-      "voxel2world": [
-        [
-          0.100000001490116,
-          0,
-          0
+        },
+        "modified": "2022-03-04T19:25:41.082Z",
+        "modifiedBy": "katjaq",
+        "name": "Greater dwarf lemur",
+        "success": true,
+        "dim": [
+          278,
+          336,
+          256
         ],
-        [
-          0,
+        "pixdim": [
           0.100000001490116,
-          0
-        ],
-        [
-          0,
-          0,
+          0.100000001490116,
           0.100000001490116
-        ]
-      ],
-      "worldOrigin": [
-        -13.6999998092651,
-        -18.8000011444092,
-        -17.5
-      ]
-    },
-    {
-      "_id": "62226a7162472081eab4d94a",
-      "filename": "LemurFauveLemurF_b758_reo_n4.nii.gz",
-      "source": "https://drive.google.com/uc?id=1cQDqjJxVtCBz5roSDtMXc6G-tbu6_Q6X",
-      "url": "/data/de451586976bdb20d01b8d818b65c684/",
-      "included": "2021-12-14T20:57:32.971Z",
-      "owner": "katjaq",
-      "mri": {
-        "brain": "LemurFauveLemurF_b758_reo_n4.nii.gz",
-        "atlas": [
-          {
-            "owner": "katjaq",
-            "created": "2021-12-14T20:57:32.971Z",
-            "modified": "2021-12-14T20:57:32.971Z",
-            "type": "volume",
-            "filename": "Atlas.nii.gz",
-            "labels": "foreground.json",
-            "access": "edit",
-            "name": "Default",
-            "vectorial": [],
-            "project": ""
-          },
-          {
-            "name": "Cerebrum",
-            "project": "bcprimates3",
-            "created": "2022-02-06T23:16:23.172Z",
-            "modified": "2022-02-06T23:16:23.172Z",
-            "modifiedBy": "katjaq",
-            "filename": "xuw4kfd8qc9.nii.gz",
-            "labels": "freestyle.json",
-            "owner": "katjaq",
-            "type": "volume",
-            "vectorial": [],
-            "access": "add"
-          },
-          {
-            "name": "Cerebrum wip",
-            "project": "bcprimates3",
-            "created": "2022-02-09T20:51:37.966Z",
-            "modified": "2022-02-09T20:51:37.966Z",
-            "modifiedBy": "katjaq",
-            "filename": "psl283w7krj.nii.gz",
-            "labels": "freestyle.json",
-            "owner": "katjaq",
-            "type": "volume",
-            "access": "add"
-          },
-          {
-            "name": "Cerebrum_BScut",
-            "project": "bcprimates3",
-            "created": "2022-02-09T20:51:37.966Z",
-            "modified": "2022-02-09T20:51:37.966Z",
-            "modifiedBy": "katjaq",
-            "filename": "qeu766klw78.nii.gz",
-            "labels": "freestyle.json",
-            "owner": "katjaq",
-            "type": "volume",
-            "access": "add"
-          }
         ],
-        "annotations": {
-          "bcprimates3": {
-            "Comments": {
-              "created": "2021-12-14T20:57:13.403Z",
-              "modified": "2022-03-04T19:37:23.326Z",
-              "modifiedBy": "katjaq",
-              "type": "text",
-              "data": "Done, SFA; KH",
-              "access": ""
+        "voxel2world": [
+          [
+            0.100000001490116,
+            0,
+            0
+          ],
+          [
+            0,
+            0.100000001490116,
+            0
+          ],
+          [
+            0,
+            0,
+            0.100000001490116
+          ]
+        ],
+        "worldOrigin": [
+          -13.6999998092651,
+          -18.8000011444092,
+          -17.5
+        ]
+      },
+      {
+        "_id": "62226a7162472081eab4d94a",
+        "filename": "LemurFauveLemurF_b758_reo_n4.nii.gz",
+        "source": "https://drive.google.com/uc?id=1cQDqjJxVtCBz5roSDtMXc6G-tbu6_Q6X",
+        "url": "/data/de451586976bdb20d01b8d818b65c684/",
+        "included": "2021-12-14T20:57:32.971Z",
+        "owner": "katjaq",
+        "mri": {
+          "brain": "LemurFauveLemurF_b758_reo_n4.nii.gz",
+          "atlas": [
+            {
+              "owner": "katjaq",
+              "created": "2021-12-14T20:57:32.971Z",
+              "modified": "2021-12-14T20:57:32.971Z",
+              "type": "volume",
+              "filename": "Atlas.nii.gz",
+              "labels": "foreground.json",
+              "access": "edit",
+              "name": "Default",
+              "vectorial": [],
+              "project": ""
             },
-            "Status": {
-              "created": "2022-01-04T23:58:02.197Z",
-              "modified": "2022-03-04T19:37:23.326Z",
+            {
+              "name": "Cerebrum",
+              "project": "bcprimates3",
+              "created": "2022-02-06T23:16:23.172Z",
+              "modified": "2022-02-06T23:16:23.172Z",
               "modifiedBy": "katjaq",
-              "type": "text",
-              "data": "done",
-              "access": ""
+              "filename": "xuw4kfd8qc9.nii.gz",
+              "labels": "freestyle.json",
+              "owner": "katjaq",
+              "type": "volume",
+              "vectorial": [],
+              "access": "add"
+            },
+            {
+              "name": "Cerebrum wip",
+              "project": "bcprimates3",
+              "created": "2022-02-09T20:51:37.966Z",
+              "modified": "2022-02-09T20:51:37.966Z",
+              "modifiedBy": "katjaq",
+              "filename": "psl283w7krj.nii.gz",
+              "labels": "freestyle.json",
+              "owner": "katjaq",
+              "type": "volume",
+              "access": "add"
+            },
+            {
+              "name": "Cerebrum_BScut",
+              "project": "bcprimates3",
+              "created": "2022-02-09T20:51:37.966Z",
+              "modified": "2022-02-09T20:51:37.966Z",
+              "modifiedBy": "katjaq",
+              "filename": "qeu766klw78.nii.gz",
+              "labels": "freestyle.json",
+              "owner": "katjaq",
+              "type": "volume",
+              "access": "add"
+            }
+          ],
+          "annotations": {
+            "bcprimates3": {
+              "Comments": {
+                "created": "2021-12-14T20:57:13.403Z",
+                "modified": "2022-03-04T19:37:23.326Z",
+                "modifiedBy": "katjaq",
+                "type": "text",
+                "data": "Done, SFA; KH",
+                "access": ""
+              },
+              "Status": {
+                "created": "2022-01-04T23:58:02.197Z",
+                "modified": "2022-03-04T19:37:23.326Z",
+                "modifiedBy": "katjaq",
+                "type": "text",
+                "data": "done",
+                "access": ""
+              }
             }
           }
-        }
-      },
-      "modified": "2022-03-04T19:37:21.433Z",
-      "modifiedBy": "katjaq",
-      "name": "Common brown lemur",
-      "success": true,
-      "dim": [
-        185,
-        254,
-        142
-      ],
-      "pixdim": [
-        0.19921875,
-        0.19921875,
-        0.19921875
-      ],
-      "voxel2world": [
-        [
-          0.19921875,
-          0,
-          0
+        },
+        "modified": "2022-03-04T19:37:21.433Z",
+        "modifiedBy": "katjaq",
+        "name": "Common brown lemur",
+        "success": true,
+        "dim": [
+          185,
+          254,
+          142
         ],
-        [
-          0,
+        "pixdim": [
           0.19921875,
-          0
-        ],
-        [
-          0,
-          0,
+          0.19921875,
           0.19921875
-        ]
-      ],
-      "worldOrigin": [
-        -18.7265625,
-        -28.2890625,
-        -17.53125
-      ]
-    },
-    {
-      "_id": "6208d200827ae9dba5905b31",
-      "filename": "Chimp_Female_Dara_reo_n4.nii.gz",
-      "source": "https://dl.dropbox.com/s/glxsava0l4nxmof/Chimp_Female_Dara_reo_n4.nii.gz",
-      "url": "/data/bf8e6438e95d5256f08a63296bf4e8e5/",
-      "included": "2022-01-15T21:06:31.626Z",
-      "owner": "katjaq",
-      "mri": {
-        "brain": "Chimp_Female_Dara_reo_n4.nii.gz",
-        "atlas": [
-          {
-            "owner": "katjaq",
-            "created": "2022-01-15T21:06:31.626Z",
-            "modified": "2022-01-15T21:06:31.626Z",
-            "type": "volume",
-            "filename": "Atlas.nii.gz",
-            "labels": "foreground.json",
-            "access": "edit",
-            "name": "Default",
-            "vectorial": [],
-            "project": ""
-          },
-          {
-            "name": "Cerebrum wip",
-            "project": "bcprimates3",
-            "created": "2022-02-09T21:15:38.323Z",
-            "modified": "2022-02-09T21:15:38.323Z",
-            "modifiedBy": "katjaq",
-            "filename": "6tq1mmbgije.nii.gz",
-            "labels": "freestyle.json",
-            "owner": "katjaq",
-            "type": "volume",
-            "vectorial": [],
-            "access": "add"
-          },
-          {
-            "name": "Cerebrum",
-            "project": "bcprimates3",
-            "created": "2022-02-11T08:16:35.522Z",
-            "modified": "2022-02-11T08:16:35.522Z",
-            "modifiedBy": "katjaq",
-            "filename": "h2bypzf3mpu.nii.gz",
-            "labels": "freestyle.json",
-            "owner": "katjaq",
-            "type": "volume",
-            "vectorial": [],
-            "access": "add"
-          },
-          {
-            "name": "Cerebrum_BScut",
-            "project": "bcprimates3",
-            "created": "2022-02-11T08:16:35.522Z",
-            "modified": "2022-02-11T08:16:35.522Z",
-            "modifiedBy": "katjaq",
-            "filename": "fpgfrfsnzea.nii.gz",
-            "labels": "freestyle.json",
-            "owner": "katjaq",
-            "type": "volume",
-            "vectorial": [],
-            "access": "add"
-          }
         ],
-        "annotations": {
-          "bcprimates3": {
-            "Comments": {
-              "created": "2022-01-15T21:06:07.084Z",
-              "modified": "2022-02-13T09:40:16.146Z",
-              "modifiedBy": "katjaq",
-              "type": "text",
-              "data": "SFA all done; checking, 1 uncertainty",
-              "access": "remove"
+        "voxel2world": [
+          [
+            0.19921875,
+            0,
+            0
+          ],
+          [
+            0,
+            0.19921875,
+            0
+          ],
+          [
+            0,
+            0,
+            0.19921875
+          ]
+        ],
+        "worldOrigin": [
+          -18.7265625,
+          -28.2890625,
+          -17.53125
+        ]
+      },
+      {
+        "_id": "6208d200827ae9dba5905b31",
+        "filename": "Chimp_Female_Dara_reo_n4.nii.gz",
+        "source": "https://dl.dropbox.com/s/glxsava0l4nxmof/Chimp_Female_Dara_reo_n4.nii.gz",
+        "url": "/data/bf8e6438e95d5256f08a63296bf4e8e5/",
+        "included": "2022-01-15T21:06:31.626Z",
+        "owner": "katjaq",
+        "mri": {
+          "brain": "Chimp_Female_Dara_reo_n4.nii.gz",
+          "atlas": [
+            {
+              "owner": "katjaq",
+              "created": "2022-01-15T21:06:31.626Z",
+              "modified": "2022-01-15T21:06:31.626Z",
+              "type": "volume",
+              "filename": "Atlas.nii.gz",
+              "labels": "foreground.json",
+              "access": "edit",
+              "name": "Default",
+              "vectorial": [],
+              "project": ""
             },
-            "Status": {
-              "created": "2022-01-15T21:06:07.084Z",
-              "modified": "2022-02-13T09:40:16.147Z",
+            {
+              "name": "Cerebrum wip",
+              "project": "bcprimates3",
+              "created": "2022-02-09T21:15:38.323Z",
+              "modified": "2022-02-09T21:15:38.323Z",
               "modifiedBy": "katjaq",
-              "type": "text",
-              "data": "in progress",
-              "access": "remove"
+              "filename": "6tq1mmbgije.nii.gz",
+              "labels": "freestyle.json",
+              "owner": "katjaq",
+              "type": "volume",
+              "vectorial": [],
+              "access": "add"
+            },
+            {
+              "name": "Cerebrum",
+              "project": "bcprimates3",
+              "created": "2022-02-11T08:16:35.522Z",
+              "modified": "2022-02-11T08:16:35.522Z",
+              "modifiedBy": "katjaq",
+              "filename": "h2bypzf3mpu.nii.gz",
+              "labels": "freestyle.json",
+              "owner": "katjaq",
+              "type": "volume",
+              "vectorial": [],
+              "access": "add"
+            },
+            {
+              "name": "Cerebrum_BScut",
+              "project": "bcprimates3",
+              "created": "2022-02-11T08:16:35.522Z",
+              "modified": "2022-02-11T08:16:35.522Z",
+              "modifiedBy": "katjaq",
+              "filename": "fpgfrfsnzea.nii.gz",
+              "labels": "freestyle.json",
+              "owner": "katjaq",
+              "type": "volume",
+              "vectorial": [],
+              "access": "add"
+            }
+          ],
+          "annotations": {
+            "bcprimates3": {
+              "Comments": {
+                "created": "2022-01-15T21:06:07.084Z",
+                "modified": "2022-02-13T09:40:16.146Z",
+                "modifiedBy": "katjaq",
+                "type": "text",
+                "data": "SFA all done; checking, 1 uncertainty",
+                "access": "remove"
+              },
+              "Status": {
+                "created": "2022-01-15T21:06:07.084Z",
+                "modified": "2022-02-13T09:40:16.147Z",
+                "modifiedBy": "katjaq",
+                "type": "text",
+                "data": "in progress",
+                "access": "remove"
+              }
             }
           }
-        }
-      },
-      "modified": "2022-02-13T09:40:16.544Z",
-      "modifiedBy": "katjaq",
-      "name": "Chimp_Dara",
-      "success": true,
-      "dim": [
-        275,
-        327,
-        239
-      ],
-      "pixdim": [
-        0.600000023841858,
-        0.600000023841858,
-        0.600000023841858
-      ],
-      "voxel2world": [
-        [
-          0.600000023841858,
-          0,
-          0
+        },
+        "modified": "2022-02-13T09:40:16.544Z",
+        "modifiedBy": "katjaq",
+        "name": "Chimp_Dara",
+        "success": true,
+        "dim": [
+          275,
+          327,
+          239
         ],
-        [
-          0,
+        "pixdim": [
           0.600000023841858,
-          0
-        ],
-        [
-          0,
-          0,
+          0.600000023841858,
           0.600000023841858
+        ],
+        "voxel2world": [
+          [
+            0.600000023841858,
+            0,
+            0
+          ],
+          [
+            0,
+            0.600000023841858,
+            0
+          ],
+          [
+            0,
+            0,
+            0.600000023841858
+          ]
+        ],
+        "worldOrigin": [
+          -81.6000061035156,
+          -102.000007629395,
+          -75.6000061035156
         ]
-      ],
-      "worldOrigin": [
-        -81.6000061035156,
-        -102.000007629395,
-        -75.6000061035156
-      ]
-    }
-  ]
+      }
+    ]
+  }
+}

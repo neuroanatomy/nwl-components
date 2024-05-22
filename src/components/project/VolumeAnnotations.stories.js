@@ -1,6 +1,6 @@
 import TextAnnotations from "@/components/project/TextAnnotations.vue";
 import { get, forEach } from "lodash-es";
-import brainboxFiles from "@/components/project/TextAnnotations.brainbox.fixtures.json";
+import brainboxProject from "@/components/project/TextAnnotations.brainbox.fixtures.json";
 import microdrawFiles from "@/components/project/TextAnnotations.microdraw.fixtures.json";
 import { action } from "@storybook/addon-actions";
 
@@ -37,26 +37,26 @@ const defaultArgs = {
 
 Brainbox.args = {
   ...defaultArgs,
-  extractKeys: (props) => {
+  extractKeys: (files) => {
     let keys = new Map();
     keys.set("Name", "name");
     keys.set("File", "source");
-    props.files.forEach((file) => {
-      let annotations = get(file, ["mri", "annotations", props.projectName]);
+    files.forEach((file) => {
+      let annotations = get(file, ["mri", "annotations", brainboxProject]);
       if (annotations == null) return;
       forEach(annotations, (_value, key) => {
-        keys.set(key, ["mri", "annotations", props.projectName, key, "data"]);
+        keys.set(key, ["mri", "annotations", brainboxProject, key, "data"]);
       });
     });
     return keys;
   },
 
-  files: brainboxFiles,
+  files: brainboxProject.files.list,
 };
 
 Microdraw.args = {
   ...defaultArgs,
-  extractKeys: (props) => {
+  extractKeys: () => {
     let keys = new Map();
     keys.set("Name", "name");
     keys.set("File", "source");
