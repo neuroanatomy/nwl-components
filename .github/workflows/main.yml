@@ -13,6 +13,7 @@ jobs:
         - run: npm ci
         - run: |
             npm run storybook &
+            sleep 5
             npm run test-storybook
 
   publish:
