@@ -1,17 +1,19 @@
-import RangeSlider from "@/components/project/RangeSlider.vue";
-import TextAnnotations from "@/components/project/TextAnnotations.vue";
-import ProjectPage from "@/components/pages/ProjectPage.vue";
-import Editor from "@/components/project/Editor.vue";
-import ButtonsGroup from "@/components/project/ButtonsGroup.vue";
-import Button from "@/components/common/Button.vue";
-import Row from "@/components/project/Row.vue";
-import { get, forEach } from "lodash-es";
-import { action } from "@storybook/addon-actions";
-import brainboxProject from "@/components/project/TextAnnotations.brainbox.fixtures.json";
-import { inject, ref } from "vue";
+import { action } from '@storybook/addon-actions';
+import { get, forEach } from 'lodash-es';
+import { inject, ref } from 'vue';
+
+import Button from '@/components/common/Button.vue';
+import ProjectPage from '@/components/pages/ProjectPage.vue';
+import ButtonsGroup from '@/components/project/ButtonsGroup.vue';
+import Editor from '@/components/project/Editor.vue';
+import RangeSlider from '@/components/project/RangeSlider.vue';
+import Row from '@/components/project/Row.vue';
+import brainboxProject from '@/components/project/TextAnnotations.brainbox.fixtures.json';
+import TextAnnotations from '@/components/project/TextAnnotations.vue';
+
 
 export default {
-  title: "Pages/Brainbox Editor",
+  title: 'Pages/Brainbox Editor'
 };
 
 const Template = (args) => ({
@@ -22,18 +24,19 @@ const Template = (args) => ({
     TextAnnotations,
     Button,
     ButtonsGroup,
-    Row,
+    Row
   },
-  setup() {
-    const { baseURL } = inject("config");
+  setup () {
+    const { baseURL } = inject('config');
     const fullscreen = ref(false);
     const ret = {
       ...args,
       handleFullscreen: () => {
         fullscreen.value = !fullscreen.value;
       },
-      fullscreen,
+      fullscreen
     };
+
     return ret;
   },
   template: `
@@ -101,28 +104,29 @@ const Template = (args) => ({
           </Editor>
         </template>
     </ProjectPage>
-`,
+`
 });
 
 export const Default = Template.bind({});
 
 Default.args = {
-  valueChange: action("value changed"),
-  selectFile: action("file selected"),
+  valueChange: action('value changed'),
+  selectFile: action('file selected'),
   extractKeys: (files) => {
-    let keys = new Map();
-    keys.set("Name", "name");
-    keys.set("File", "source");
+    const keys = new Map();
+    keys.set('Name', 'name');
+    keys.set('File', 'source');
     files.forEach((file) => {
-      let annotations = get(file, ["mri", "annotations", brainboxProject.shortname]);
-      if (annotations == null) return;
+      const annotations = get(file, ['mri', 'annotations', brainboxProject.shortname]);
+      if (annotations == null) { return; }
       forEach(annotations, (_value, key) => {
-        keys.set(key, ["mri", "annotations", brainboxProject.shortname, key, "data"]);
+        keys.set(key, ['mri', 'annotations', brainboxProject.shortname, key, 'data']);
       });
     });
+
     return keys;
   },
   files: brainboxProject.files.list,
   project: { ...brainboxProject, title: brainboxProject.name},
-  sliceChange: action("slice changed"),
+  sliceChange: action('slice changed')
 };

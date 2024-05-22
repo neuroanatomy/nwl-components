@@ -8,11 +8,23 @@
     <div class="content-wrapper">
       <slot name="content" />
     </div>
-    <div ref="tools" class="tools" :style="{ ...position }">
-      <button v-show="!toggled" class="show-tools" @click="toggled = true">
-        <img src="@/assets/bars.svg" alt="show tools" />
+    <div
+      ref="tools"
+      class="tools"
+      :style="{ ...position }"
+    >
+      <button
+        v-show="!toggled"
+        class="show-tools"
+        @click="toggled = true"
+      >
+        <img
+          src="@/assets/bars.svg"
+          alt="show tools"
+        >
       </button>
-      <div class="resizable"
+      <div
+        class="resizable"
         :class="{ 'resizable--two-cols': hasTwoCols }"
         v-show="toggled"
         :style="{width: toolsWidth, height: toolsHeight, minHeight: toolsMinHeight}"
@@ -22,22 +34,42 @@
           @mousedown="handleResizableMouseDown"
         />
         <div class="palette">
-          <div class="header" @mousedown="handleMouseDown" @touchstart="handleTouchStart" @touchend="handleTouchEnd">
-            <button class="toggle" @click="hideTools" @touchstart.stop="hideTools">
-              <img src="@/assets/times-circle.svg" alt="hide tools" />
+          <div
+            class="header"
+            @mousedown="handleMouseDown"
+            @touchstart="handleTouchStart"
+            @touchend="handleTouchEnd"
+          >
+            <button
+              class="toggle"
+              @click="hideTools"
+              @touchstart.stop="hideTools"
+            >
+              <img
+                src="@/assets/times-circle.svg"
+                alt="hide tools"
+              >
             </button>
             <span class="title">{{ title }}</span>
-            <button class="left" @mousedown.stop="placeLeft" @touchstart.stop="placeLeft">
+            <button
+              class="left"
+              @mousedown.stop="placeLeft"
+              @touchstart.stop="placeLeft"
+            >
               <img
                 src="@/assets/caret-square-o-left.svg"
                 alt="place tools left"
-              />
+              >
             </button>
-            <button class="right" @mousedown.stop="placeRight" @touchstart.stop="placeRight">
+            <button
+              class="right"
+              @mousedown.stop="placeRight"
+              @touchstart.stop="placeRight"
+            >
               <img
                 src="@/assets/caret-square-o-right.svg"
                 alt="place tools right"
-              />
+              >
             </button>
           </div>
           <div class="content">
@@ -49,16 +81,16 @@
   </div>
 </template>
 <script setup>
-import { ref, onMounted, onUnmounted } from "vue";
+import { ref, onMounted, onUnmounted } from 'vue';
 
 const props = defineProps({ title: String, height: Number, toolsMinHeight: String });
 
 const drag = ref(false);
 const dragResizableHandle = ref(false);
-const position = ref({ top: 5, left: 5, right: "auto" });
+const position = ref({ top: 5, left: 5, right: 'auto' });
 const relativeCoords = ref({ left: 0, top: 0 });
 const toggled = ref(true);
-const toolsWidth = ref("275px");
+const toolsWidth = ref('275px');
 const toolsHeight = ref(props.toolsMinHeight);
 const toolsRect = ref({});
 const area = ref(null);
@@ -69,13 +101,13 @@ const handleMouseDown = (event) => {
   const headerRect = event.target.getBoundingClientRect();
   relativeCoords.value = {
     left: event.clientX - headerRect.left,
-    top: event.clientY - headerRect.top,
+    top: event.clientY - headerRect.top
   };
   drag.value = true;
 };
 
 const handleTouchStart = (event) => {
-  if (event.touches.length !== 1) return;
+  if (event.touches.length !== 1) { return; }
   handleMouseDown(event.touches[0]);
   event.preventDefault();
 };
@@ -88,53 +120,53 @@ const handleTouchEnd = () => {
 const handleMouseLeaveOrUp = () => {
   drag.value = false;
   dragResizableHandle.value = false;
-  toolsRect.value = area.value.querySelector(".tools").getBoundingClientRect();
-}
+  toolsRect.value = area.value.querySelector('.tools').getBoundingClientRect();
+};
 
 const handleResizableMouseDown = (event) => {
   dragResizableHandle.value = true;
-  toolsRect.value = area.value.querySelector(".tools").getBoundingClientRect();
-  event.preventDefault()
-}
+  toolsRect.value = area.value.querySelector('.tools').getBoundingClientRect();
+  event.preventDefault();
+};
 
 const placeLeft = () => {
   drag.value = false;
-  position.value = { left: `${margin}px`, top: `${margin}px`, right: "auto" };
+  position.value = { left: `${margin}px`, top: `${margin}px`, right: 'auto' };
 };
 
 const placeRight = () => {
   drag.value = false;
-  position.value = { left: "auto", top: `${margin}px`, right: `${margin}px` };
+  position.value = { left: 'auto', top: `${margin}px`, right: `${margin}px` };
 };
 
 const hideTools = (event) => {
   toggled.value = false;
   const areaRect = area.value.getBoundingClientRect();
-  if (position.value.left === "auto") return;
+  if (position.value.left === 'auto') { return; }
   parseInt(position.value.left) > areaRect.width / 2 - toolsRect.value.width / 2
     ? placeRight()
     : placeLeft();
 };
 
 onMounted(() => {
-  document.addEventListener("mousemove", handleMove);
-  document.addEventListener("touchmove", handleTouchMove, { passive: false });
+  document.addEventListener('mousemove', handleMove);
+  document.addEventListener('touchmove', handleTouchMove, { passive: false });
   placeLeft();
-  toolsRect.value = area.value.querySelector(".tools").getBoundingClientRect();
+  toolsRect.value = area.value.querySelector('.tools').getBoundingClientRect();
 });
 
 onUnmounted(() => {
-  document.removeEventListener("touchmove", handleTouchMove);
-  document.removeEventListener("mousemove", handleMove);
+  document.removeEventListener('touchmove', handleTouchMove);
+  document.removeEventListener('mousemove', handleMove);
 });
 
 const handleTouchMove = (event) => {
   if (event.touches) {
-    if (event.touches.length !== 1) return;
+    if (event.touches.length !== 1) { return; }
     handleMove(event.touches[0]);
     event.preventDefault();
   }
-}
+};
 
 const handleMove = (event) => {
   if (drag.value) {
@@ -161,8 +193,8 @@ const handleMove = (event) => {
     const initialBottom = toolsRect.value.top + toolsRect.value.height;
     const offsetRight = event.clientX - initialRight;
     const offsetBottom = event.clientY - initialBottom;
-    toolsWidth.value = parseInt(toolsRect.value.width + offsetRight) + "px";
-    toolsHeight.value = parseInt(toolsRect.value.height + offsetBottom) + "px";
+    toolsWidth.value = parseInt(toolsRect.value.width + offsetRight) + 'px';
+    toolsHeight.value = parseInt(toolsRect.value.height + offsetBottom) + 'px';
 
     hasTwoCols.value = toolsRect.value.width + offsetRight > 520;
   }

@@ -1,24 +1,25 @@
-import RangeSlider from "@/components/project/RangeSlider.vue";
-import { action } from "@storybook/addon-actions";
+import { action } from '@storybook/addon-actions';
 import { ref } from 'vue';
 
+import RangeSlider from '@/components/project/RangeSlider.vue';
+
 export default {
-  title: "Project/RangeSlider",
-  component: RangeSlider,
+  title: 'Project/RangeSlider',
+  component: RangeSlider
 };
 
 const Template = (args) => ({
   components: { RangeSlider },
-  setup() {
+  setup () {
     return {
       ...args,
       value: ref(0),
-      change: action('input'),
+      change: action('input')
     };
   },
   template: `
     <RangeSlider max="100" v-model="value" @update:modelValue="change" />
-  `,
+  `
 });
 
 export const Default = Template.bind({});

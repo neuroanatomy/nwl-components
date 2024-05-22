@@ -4,18 +4,18 @@
     v-bind="props"
     :value="modelValue"
     @input="handleInput"
-  />
+  >
 </template>
 <script setup>
 const props = defineProps({
-    placeholder: String,
-    disabled: Boolean,
-    modelValue: String,
+  placeholder: String,
+  disabled: Boolean,
+  modelValue: String
 });
 const emit = defineEmits(['update:modelValue']);
 const handleInput = (event) => {
-    emit('update:modelValue', event.target.value);
-}
+  emit('update:modelValue', event.target.value);
+};
 </script>
 <style scoped>
 input[type="text"] {
@@ -31,5 +31,5 @@ input[type="text"][disabled] {
 }
 ::placeholder {
   color: #ccc;
-} 
+}
 </style>

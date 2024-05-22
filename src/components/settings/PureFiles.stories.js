@@ -1,35 +1,36 @@
-import PureFiles from "@/components/settings/PureFiles.vue";
-import { action } from "@storybook/addon-actions";
-import { reactive } from "vue";
+import { action } from '@storybook/addon-actions';
+import { reactive } from 'vue';
+
+import PureFiles from '@/components/settings/PureFiles.vue';
 
 export default {
-  title: "Settings/Files",
-  component: PureFiles,
+  title: 'Settings/Files',
+  component: PureFiles
 };
 const Template = (args) => ({
   components: { PureFiles },
-  setup() {
+  setup () {
     return { ...args };
   },
   template: `<PureFiles :files="files"
                 @add-file="addFile"
                 @remove-files="removeFiles"
-                @update-file="updateFile" />`,
+                @update-file="updateFile" />`
 });
 
 export const Default = Template.bind({});
 Default.args = {
   files: reactive([
     {
-      source: "http://foo.bar",
-      name: "Name",
+      source: 'http://foo.bar',
+      name: 'Name'
     },
     {
-      source: "http://baz.foo",
-      name: "Another Name",
-    },
+      source: 'http://baz.foo',
+      name: 'Another Name'
+    }
   ]),
-  addFile: action("add file"),
-  removeFiles: action("remove files"),
-  updateFile: action("update file"),
+  addFile: action('add file'),
+  removeFiles: action('remove files'),
+  updateFile: action('update file')
 };

@@ -1,41 +1,42 @@
-import PureAnnotations from "@/components/settings/PureAnnotations.vue";
-import { action } from "@storybook/addon-actions";
-import { reactive } from "vue";
-import faker from "@faker-js/faker";
+import faker from '@faker-js/faker';
+import { action } from '@storybook/addon-actions';
+import { reactive } from 'vue';
+
+import PureAnnotations from '@/components/settings/PureAnnotations.vue';
 
 export default {
-  title: "Settings/Annotations",
-  component: PureAnnotations,
+  title: 'Settings/Annotations',
+  component: PureAnnotations
 };
 const Template = (args) => ({
   components: { PureAnnotations },
-  setup() {
+  setup () {
     return {...args};
   },
   template:
     `<PureAnnotations :annotations="annotations"
                     @add-annotation="addAnnotation"
                     @remove-annotations="removeAnnotations"
-                    @update-annotation="updateAnnotation" />`,
+                    @update-annotation="updateAnnotation" />`
 });
 
 export const Default = Template.bind({});
 Default.args = {
   annotations: reactive([
     {
-      "type": "volume",
-      "name": "A volume annotation",
-      "values": "axolotl_labels.json",
-      "display": "true"
+      'type': 'volume',
+      'name': 'A volume annotation',
+      'values': 'axolotl_labels.json',
+      'display': 'true'
     },
     {
-      "type": "text",
-      "name": "texte",
-      "values": "A text annotation",
-      "display": "true"
-    },
+      'type': 'text',
+      'name': 'texte',
+      'values': 'A text annotation',
+      'display': 'true'
+    }
   ]),
-  addAnnotation: action("add annotation"),
-  removeAnnotations: action("remove annotations"),
-  updateAnnotation: action("update annotation"),
+  addAnnotation: action('add annotation'),
+  removeAnnotations: action('remove annotations'),
+  updateAnnotation: action('update annotation')
 };

@@ -6,7 +6,7 @@
 <script setup>
 const props = defineProps({
   fullWidth: { type: Boolean, default: false }
-})
+});
 </script>
 <style scoped>
 .group {

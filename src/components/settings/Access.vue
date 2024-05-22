@@ -13,28 +13,28 @@
       class="view"
       :disabled="readonly"
       :title="`view ${type}`"
-    ></button>
+    />
     <button
       :small="true"
       @click="handleButtonClick(2)"
       class="edit"
       :disabled="readonly"
       :title="`edit ${type}`"
-    ></button>
+    />
     <button
       :small="true"
       @click="handleButtonClick(3)"
       class="add"
       :disabled="readonly"
       :title="`add ${type}`"
-    ></button>
+    />
     <button
       :small="true"
       @click="handleButtonClick(4)"
       class="remove"
       :disabled="readonly"
       :title="`remove ${type}`"
-    ></button>
+    />
   </div>
 </template>
 
@@ -47,10 +47,10 @@ const props = defineProps({
     default: false
   }
 });
-const emit = defineEmits(["updateAccess"]);
+const emit = defineEmits(['updateAccess']);
 
 const handleButtonClick = (level) => {
-  if(props.readonly) return;
+  if (props.readonly) { return; }
   emit('updateAccess', props.collaborator, props.type, level);
 };
 </script>

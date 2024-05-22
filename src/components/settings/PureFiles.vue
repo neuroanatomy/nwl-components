@@ -21,7 +21,7 @@
               placeholder="File URL"
               @blur="handleSourceChange(file, $event.currentTarget.textContent)"
               @keyup.enter="handleSourceChange(file, $event.currentTarget.textContent)"
-              >{{ file.source }}</span>
+            >{{ file.source }}</span>
           </td>
           <td>
             <TextInput
@@ -35,13 +35,31 @@
       </tbody>
     </Table>
     <div class="actions">
-      <Button :small="true" @click="$emit('importCsv')" title="Upload CSV">
-        <img src="@/assets/upload.svg" alt="Import CSV" />
+      <Button
+        :small="true"
+        @click="$emit('importCsv')"
+        title="Upload CSV"
+      >
+        <img
+          src="@/assets/upload.svg"
+          alt="Import CSV"
+        >
       </Button>
-      <Button :small="true" @click="$emit('downloadCsv')" title="Download CSV">
-        <img src="@/assets/download.svg" alt="Download CSV" />
+      <Button
+        :small="true"
+        @click="$emit('downloadCsv')"
+        title="Download CSV"
+      >
+        <img
+          src="@/assets/download.svg"
+          alt="Download CSV"
+        >
       </Button>
-      <Button :small="true" @click="$emit('addFile')" title="Add file">
+      <Button
+        :small="true"
+        @click="$emit('addFile')"
+        title="Add file"
+      >
         +
       </Button>
       <Button
@@ -57,30 +75,31 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
-import TextInput from "@/components/common/TextInput.vue";
-import Button from "@/components/common/Button.vue";
-import Table from "@/components/common/Table.vue";
+import { ref } from 'vue';
+
+import Button from '@/components/common/Button.vue';
+import Table from '@/components/common/Table.vue';
+import TextInput from '@/components/common/TextInput.vue';
 
 const props = defineProps({
   files: {
     type: Array,
-    required: true,
-  },
+    required: true
+  }
 });
 
 const emit = defineEmits([
-  "addFile",
-  "removeFiles",
-  "updateFile",
-  "importCsv",
-  "downloadCsv",
+  'addFile',
+  'removeFiles',
+  'updateFile',
+  'importCsv',
+  'downloadCsv'
 ]);
 
 const emitFileUpdate = (idx, properties) => {
-  emit("updateFile", idx, {
+  emit('updateFile', idx, {
     ...props.files[idx],
-    ...properties,
+    ...properties
   });
 };
 
@@ -91,13 +110,13 @@ const handleRowClick = (event, idx) => {
 
 const handleNameChange = (file, name) => {
   const idx = props.files.indexOf(file);
-  if (idx < 0) return;
+  if (idx < 0) { return; }
   emitFileUpdate(idx, { name });
 };
 
 const handleSourceChange = (file, source) => {
   const idx = props.files.indexOf(file);
-  if (idx < 0) return;
+  if (idx < 0) { return; }
   emitFileUpdate(idx, { source });
 };
 </script>

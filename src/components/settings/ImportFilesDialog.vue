@@ -11,7 +11,10 @@
           </thead>
 
           <tbody>
-            <tr v-for="file in filesToImport" :key="file.source">
+            <tr
+              v-for="file in filesToImport"
+              :key="file.source"
+            >
               <td
                 contentEditable="true"
                 @blur="file.source = $event.currentTarget.textContent"
@@ -25,10 +28,16 @@
       </div>
 
       <div class="actions">
-        <Button className="push-button" @click="$emit('import', filesToImport)">
+        <Button
+          class-name="push-button"
+          @click="$emit('import', filesToImport)"
+        >
           Import
         </Button>
-        <Button className="push-button" @click="$emit('cancel')">
+        <Button
+          class-name="push-button"
+          @click="$emit('cancel')"
+        >
           Cancel
         </Button>
       </div>
@@ -37,14 +46,15 @@
 </template>
 
 <script setup>
-import Button from "@/components/common/Button.vue";
-import { ref } from "vue";
+import { ref } from 'vue';
+
+import Button from '@/components/common/Button.vue';
 
 const props = defineProps({
   files: {
     type: Array,
-    required: true,
-  },
+    required: true
+  }
 });
 
 const filesToImport = ref(props.files);

@@ -1,7 +1,7 @@
 <template>
   <Wrapper>
     <Header>
-      <span class="title">{{siteName}}</span>
+      <span class="title">{{ siteName }}</span>
     </Header>
     <main>
       <div class="container">
@@ -20,15 +20,21 @@
               value = $event.target.value;
             "
             placeholder="Enter the project short name"
-          />
-          <div class="warning" v-show="existingProject">
+          >
+          <div
+            class="warning"
+            v-show="existingProject"
+          >
             The project
             <a :href="`/project/${value}`">
               <strong>{{ value }}</strong>
             </a>
             already exists
           </div>
-          <div class="warning" v-show="!validInput">
+          <div
+            class="warning"
+            v-show="!validInput"
+          >
             This name is not allowed. Project short names can only contain
             letters and numbers
           </div>
@@ -42,7 +48,12 @@
           >
             Create Project
           </Button>
-          <Button class="push-button" @click="cancel">Cancel</Button>
+          <Button
+            class="push-button"
+            @click="cancel"
+          >
+            Cancel
+          </Button>
         </div>
       </div>
     </main>
@@ -50,21 +61,23 @@
   </Wrapper>
 </template>
 <script setup>
-import Wrapper from "@/components/layout/Wrapper.vue";
-import Header from "@/components/layout/Header.vue";
-import Footer from "@/components/layout/Footer.vue";
-import Button from "@/components/common/Button.vue";
-import { ref, inject } from "vue";
+import { ref, inject } from 'vue';
+
+import Button from '@/components/common/Button.vue';
+import Footer from '@/components/layout/Footer.vue';
+import Header from '@/components/layout/Header.vue';
+import Wrapper from '@/components/layout/Wrapper.vue';
+
 const props = defineProps({
   onKeyDown: Function,
   validInput: Boolean,
-  existingProject: Boolean,
+  existingProject: Boolean
 });
 const { siteName } = inject('config');
 const createProject = (value) => {
   location.pathname = `/project/${value}/settings`;
 };
-const cancel = () => location.assign("/");
+const cancel = () => location.assign('/');
 </script>
 <style scoped>
 .container {

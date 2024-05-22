@@ -1,20 +1,20 @@
-import Editor from "@/components/project/Editor.vue";
+import Editor from '@/components/project/Editor.vue';
 
 export default {
-  title: "Project/Editor",
-  component: Editor,
+  title: 'Project/Editor',
+  component: Editor
 };
 
 const Template = (args) => ({
   components: { Editor },
-  setup() {
+  setup () {
     return {
-      ...args,
+      ...args
     };
   },
   template: `
     <Editor />
-  `,
+  `
 });
 
 export const Default = Template.bind({});

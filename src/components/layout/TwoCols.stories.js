@@ -1,16 +1,16 @@
-import TwoCols from "@/components/layout/TwoCols.vue";
-import Wrapper from "@/components/layout/Wrapper.vue";
+import TwoCols from '@/components/layout/TwoCols.vue';
+import Wrapper from '@/components/layout/Wrapper.vue';
 
 export default {
-  title: "Layout/Two cols",
-  component: TwoCols,
+  title: 'Layout/Two cols',
+  component: TwoCols
 };
 
 const Template = (args) => ({
   components: { TwoCols, Wrapper },
-  setup() {
+  setup () {
     return {
-      ...args,
+      ...args
     };
   },
   template: `
@@ -24,7 +24,7 @@ const Template = (args) => ({
       </TwoCols>
     </main>
   </Wrapper>
-  `,
+  `
 });
 
 export const Default = Template.bind({});

@@ -1,5 +1,9 @@
 <template>
-  <button :title="title" :disabled="disabled" :class="classes">
+  <button
+    :title="title"
+    :disabled="disabled"
+    :class="classes"
+  >
     <slot />
   </button>
 </template>
@@ -8,7 +12,7 @@ const props = defineProps({
   className: String,
   title: String,
   disabled: Boolean,
-  small: Boolean,
+  small: Boolean
 });
 
 const classes = { small: props.small === true };

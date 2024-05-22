@@ -1,11 +1,14 @@
 <template>
-    <div class="row" :class="classes">
-        <slot />
-    </div>
+  <div
+    class="row"
+    :class="classes"
+  >
+    <slot />
+  </div>
 </template>
 <script setup>
 const props = defineProps({
-  centered: Boolean,
+  centered: Boolean
 });
 
 const classes = { centered: props.centered === true };

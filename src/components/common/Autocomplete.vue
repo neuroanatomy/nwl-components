@@ -1,41 +1,42 @@
 <script setup>
 // Adapted from https://www.digitalocean.com/community/tutorials/vuejs-vue-a11y-autocomplete
-import { watch, reactive, ref, onMounted, onUnmounted } from "vue";
-import { nanoid } from "nanoid";
+import { nanoid } from 'nanoid';
+import { watch, reactive, ref, onMounted, onUnmounted } from 'vue';
+
 import TextInput from './TextInput.vue';
 
 const props = defineProps({
   items: {
     type: Array,
-    required: false,
+    required: false
   },
   isAsync: {
     type: Boolean,
     required: false,
-    default: false,
+    default: false
   },
   ariaLabel: {
     type: String,
-    required: true,
+    required: true
   },
   defaultValue: {
     type: String,
     required: false,
-    default: "",
+    default: ''
   },
   disabled: {
     type: Boolean,
     required: false,
-    default: false,
+    default: false
   },
   extraSelectArgs: {
     type: Array,
-    default: () => [],
+    default: () => []
   },
   extractResultText: {
     type: Function,
-    default: (r) => r,
-  },
+    default: (r) => r
+  }
 });
 
 const state = reactive({
@@ -44,7 +45,7 @@ const state = reactive({
   search: props.defaultValue,
   isLoading: false,
   arrowCounter: 0,
-  activedescendant: "",
+  activedescendant: ''
 });
 
 const root = ref(null);
@@ -54,10 +55,10 @@ watch(props.items, () => {
   state.isLoading = false;
 });
 
-const emit = defineEmits(["input", "select"]);
+const emit = defineEmits(['input', 'select']);
 
 const onChange = (event) => {
-  emit("input", state.search);
+  emit('input', state.search);
   state.isOpen = true;
   if (props.isAsync) {
     state.isLoading = true;
@@ -67,27 +68,22 @@ const onChange = (event) => {
 };
 
 const filterResults = () => {
-  state.results = state.items.filter((item) => {
-    return item.toLowerCase().indexOf(state.search.toLowerCase()) > -1;
-  });
+  state.results = state.items.filter((item) => item.toLowerCase().indexOf(state.search.toLowerCase()) > -1);
 };
 
-const getId = (index) => {
-  return `result-item-${index}`;
-};
+const getId = (index) => `result-item-${index}`;
 
 const setActiveDescendent = () => {
   state.activedescendant = getId(state.arrowCounter);
 };
 
-const isSelected = (i) => {
-  return i === state.arrowCounter;
-};
+const isSelected = (i) => i === state.arrowCounter;
 
 const setResult = (result) => {
   state.search = props.extractResultText(result);
   state.isOpen = false;
-  emit("select", result, ...props.extraSelectArgs);
+  emit('select', result, ...props.extraSelectArgs);
+
   return false;
 };
 
@@ -122,11 +118,11 @@ const handleClickOutside = (evt) => {
 const uid = nanoid();
 
 onMounted(() => {
-  document.addEventListener("click", handleClickOutside);
+  document.addEventListener('click', handleClickOutside);
 });
 
 onUnmounted(() => {
-  document.removeEventListener("click", handleClickOutside);
+  document.removeEventListener('click', handleClickOutside);
 });
 </script>
 <template>
@@ -157,7 +153,12 @@ onUnmounted(() => {
       class="autocomplete-results"
       role="listbox"
     >
-      <li class="loading" v-if="state.isLoading">Loading results...</li>
+      <li
+        class="loading"
+        v-if="state.isLoading"
+      >
+        Loading results...
+      </li>
       <li
         v-else
         v-for="(result, i) in state.results"

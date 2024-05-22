@@ -1,25 +1,27 @@
-import Chat from "@/components/project/Chat.vue";
-import { reactive } from "vue";
+import { reactive } from 'vue';
+
+import Chat from '@/components/project/Chat.vue';
 
 export default {
-  title: "Project/Chat",
-  component: Chat,
+  title: 'Project/Chat',
+  component: Chat
 };
 
 const Template = (args) => ({
   components: { Chat },
-  setup() {
+  setup () {
     const messages = reactive([]);
     const handleSend = (msg) => messages.push(msg);
+
     return {
       ...args,
       messages,
-      handleSend,
+      handleSend
     };
   },
   template: `
     <Chat :received-messages="messages" @send-message="handleSend" />
-  `,
+  `
 });
 
 export const Default = Template.bind({});

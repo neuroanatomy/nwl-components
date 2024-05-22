@@ -6,18 +6,18 @@
     @keydown="toggleCheckbox($event.key)"
     tabindex="0"
     aria-label="label"
-  ></span>
+  />
 </template>
 <script setup>
-import { ref } from "vue";
+import { ref } from 'vue';
 
 const emit = defineEmits(['update:modelValue', 'change']);
 const props = defineProps({
-    modelValue: Boolean,
+  modelValue: Boolean
 });
 const isChecked = ref(props.modelValue);
 if (typeof props.modelValue === 'string') {
-    isChecked.value === props.modelValue === 'true';
+  isChecked.value === props.modelValue === 'true';
 }
 const toggleCheckbox = (key) => {
   if (key != null && key !== ' ') {

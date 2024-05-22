@@ -5,9 +5,13 @@
     </Header>
     <main>
       <TwoCols>
-        <template v-slot:side>
+        <template #side>
           <div id="userImage">
-            <img alt="user avatar" :src="user.avatarURL" style="width: 100%" />
+            <img
+              alt="user avatar"
+              :src="user.avatarURL"
+              style="width: 100%"
+            >
           </div>
 
           <div id="userDescription">
@@ -18,8 +22,8 @@
           </div>
         </template>
 
-        <template v-slot:content>
-            <slot name="content" />
+        <template #content>
+          <slot name="content" />
         </template>
       </TwoCols>
     </main>
@@ -27,19 +31,20 @@
   </Wrapper>
 </template>
 <script setup>
-import Wrapper from "@/components/layout/Wrapper.vue";
-import Header from "@/components/layout/Header.vue";
-import Footer from "@/components/layout/Footer.vue";
-import TwoCols from "@/components/layout/TwoCols.vue";
-import Settings from "@/components/settings/Settings.vue";
+import { ref, inject } from 'vue';
 
-import { ref, inject } from "vue";
+import Footer from '@/components/layout/Footer.vue';
+import Header from '@/components/layout/Header.vue';
+import TwoCols from '@/components/layout/TwoCols.vue';
+import Wrapper from '@/components/layout/Wrapper.vue';
+import Settings from '@/components/settings/Settings.vue';
+
 
 const { usernameField } = inject('config');
 const props = defineProps({
   user: {
     type: Object,
-    required: true,
-  },
+    required: true
+  }
 });
 </script>

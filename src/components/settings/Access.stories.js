@@ -1,27 +1,28 @@
-import Access from "@/components/settings/Access.vue";
-import { action } from "@storybook/addon-actions";
+import { action } from '@storybook/addon-actions';
+
+import Access from '@/components/settings/Access.vue';
 
 export default {
-  title: "Settings/Access",
-  component: Access,
+  title: 'Settings/Access',
+  component: Access
 };
 
 const Template = (args) => ({
   components: { Access },
-  setup() {
+  setup () {
     return {
-      ...args,
+      ...args
     };
   },
-  template: `<Access :collaborator="collaborator" type="annotations" @update-access="handleAccessChange" />`,
+  template: '<Access :collaborator="collaborator" type="annotations" @update-access="handleAccessChange" />'
 });
 
 export const Default = Template.bind({});
 Default.args = {
   collaborator: {
-    username: "anyone",
-    access: { collaborators: "view", annotations: "edit", files: "view" },
-    name: "Any User",
+    username: 'anyone',
+    access: { collaborators: 'view', annotations: 'edit', files: 'view' },
+    name: 'Any User'
   },
-  handleAccessChange: action("access change"),
+  handleAccessChange: action('access change')
 };

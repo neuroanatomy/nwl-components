@@ -10,7 +10,11 @@
           :class="{ vertical, horizontal: !vertical }"
           @resize="emit('resize', $event)"
         >
-          <pane class="left" :size="leftSize"  v-if="!fullscreen">
+          <pane
+            class="left"
+            :size="leftSize"
+            v-if="!fullscreen"
+          >
             <div class="left-header">
               <button
                 @click="
@@ -20,14 +24,20 @@
                   emit('layoutChange', vertical);
                 "
               >
-                <img src="@/assets/caret-square-o-right.svg" alt="" />
+                <img
+                  src="@/assets/caret-square-o-right.svg"
+                  alt=""
+                >
               </button>
             </div>
             <div class="leftContent">
               <slot name="left" />
             </div>
           </pane>
-          <pane class="right" size="rightSize">
+          <pane
+            class="right"
+            size="rightSize"
+          >
             <slot name="right" />
           </pane>
         </splitpanes>
@@ -36,15 +46,16 @@
   </Wrapper>
 </template>
 <script setup>
-import { ref } from "vue";
-import { Splitpanes, Pane } from "splitpanes";
-import "splitpanes/dist/splitpanes.css";
-import Wrapper from "@/components/layout/Wrapper.vue";
-import Header from "@/components/layout/Header.vue";
-import Footer from "@/components/layout/Footer.vue";
-import TwoCols from "@/components/layout/TwoCols.vue";
-import Settings from "@/components/settings/Settings.vue";
-import useProject from "@/store/project";
+import { Splitpanes, Pane } from 'splitpanes';
+import { ref } from 'vue';
+
+import 'splitpanes/dist/splitpanes.css';
+import Footer from '@/components/layout/Footer.vue';
+import Header from '@/components/layout/Header.vue';
+import TwoCols from '@/components/layout/TwoCols.vue';
+import Wrapper from '@/components/layout/Wrapper.vue';
+import Settings from '@/components/settings/Settings.vue';
+import useProject from '@/store/project';
 
 const vertical = ref(true);
 const leftSize = ref(40);
@@ -53,7 +64,7 @@ const rightSize = ref(60);
 const props = defineProps({
   project: {
     type: Object,
-    required: true,
+    required: true
   },
   fullscreen: Boolean
 });
@@ -61,7 +72,7 @@ const props = defineProps({
 const { setProject } = useProject();
 setProject(props.project);
 
-const emit = defineEmits(["resize", "layoutChange"]);
+const emit = defineEmits(['resize', 'layoutChange']);
 </script>
 <style scoped>
 main {

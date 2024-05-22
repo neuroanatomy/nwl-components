@@ -1,17 +1,17 @@
-import UserPage from "@/components/pages/UserPage.vue";
-import Tabs from "@/components/common/Tabs/Tabs.vue";
-import Tab from "@/components/common/Tabs/Tab.vue";
+import Tab from '@/components/common/Tabs/Tab.vue';
+import Tabs from '@/components/common/Tabs/Tabs.vue';
+import UserPage from '@/components/pages/UserPage.vue';
 
 export default {
-  title: "Pages/User",
-  component: UserPage,
+  title: 'Pages/User',
+  component: UserPage
 };
 
 const Template = (args) => ({
   components: { UserPage, Tabs, Tab },
-  setup() {
+  setup () {
     return {
-      ...args,
+      ...args
     };
   },
   template: `
@@ -26,18 +26,18 @@ const Template = (args) => ({
             </Tab>
         </Tabs>
     </template>
-  </UserPage>`,
+  </UserPage>`
 });
 
 export const Default = Template.bind({});
 Default.args = {
   user: {
-    _id: "61fbf78ee97e73dc0930e7f4",
-    name: "Denis Hovart",
-    url: "",
-    brainboxURL: "/user/dhovart",
-    avatarURL: "https://avatars.githubusercontent.com/u/764576?v=4",
-    joined: "2022-02-03T15:41:02.286Z",
-    nickname: "dhovart",
-  },
+    _id: '61fbf78ee97e73dc0930e7f4',
+    name: 'Denis Hovart',
+    url: '',
+    brainboxURL: '/user/dhovart',
+    avatarURL: 'https://avatars.githubusercontent.com/u/764576?v=4',
+    joined: '2022-02-03T15:41:02.286Z',
+    nickname: 'dhovart'
+  }
 };

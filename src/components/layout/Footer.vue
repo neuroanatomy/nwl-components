@@ -1,10 +1,19 @@
 <template>
   <footer>
     <p>
-      <a target="_blank" href="http://neuroanatomy.github.io">
-        <img alt="Neuroanatomy" src="@/assets/naat-bw.svg" />
+      <a
+        target="_blank"
+        href="http://neuroanatomy.github.io"
+      >
+        <img
+          alt="Neuroanatomy"
+          src="@/assets/naat-bw.svg"
+        >
       </a>
-      <a target="_blank" href="http://neuroanatomy.github.io">
+      <a
+        target="_blank"
+        href="http://neuroanatomy.github.io"
+      >
         groupe de neuroanatomie appliquée et théorique
       </a>
     </p>

@@ -1,12 +1,15 @@
 <template>
-  <div class="labelset" v-if="ontology != null && open">
+  <div
+    class="labelset"
+    v-if="ontology != null && open"
+  >
     <div class="header">
       <img
         class="close"
         alt="close"
         src="@/assets/times-circle.svg"
         @click="emit('onClose')"
-      />
+      >
     </div>
 
     <h3>Label Set</h3>
@@ -14,11 +17,15 @@
 
     <h3>Labels</h3>
     <ul class="label-list">
-      <li v-for="(label, index) in ontology.labels" :key="label.name" @click="emit('labelClick', index)">
+      <li
+        v-for="(label, index) in ontology.labels"
+        :key="label.name"
+        @click="emit('labelClick', index)"
+      >
         <div
           class="label-color"
           :style="`background-color: rgb(${label.color[0]}, ${label.color[1]}, ${label.color[2]});`"
-        ></div>
+        />
         <span class="label-name">{{ label.name }}</span>
       </li>
     </ul>
@@ -27,11 +34,11 @@
 <script setup>
 
 const props = defineProps({
-    ontology: {
-        type: Object,
-        required: true
-    },
-    open: Boolean,
+  ontology: {
+    type: Object,
+    required: true
+  },
+  open: Boolean
 });
 
 const emit = defineEmits(['labelClick', 'onClose']);

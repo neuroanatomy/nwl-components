@@ -81,8 +81,8 @@
         title="Remove selected collaborators"
         :disabled="
           selected == null ||
-          collaborators[selected][username] == 'anyone' ||
-          collaborators[selected].userID === 'anyone'
+            collaborators[selected][username] == 'anyone' ||
+            collaborators[selected].userID === 'anyone'
         "
       >
         -
@@ -92,34 +92,35 @@
 </template>
 
 <script setup>
-import { ref, inject } from "vue";
-import TextInput from "@/components/common/TextInput.vue";
-import Button from "@/components/common/Button.vue";
-import Table from "@/components/common/Table.vue";
-import Access from "@/components/settings/Access.vue";
-import Autocomplete from "@/components/common/Autocomplete.vue";
-import { debounce } from "lodash-es";
-import AccessLevel from "@/domain/AccessLevel";
+import { debounce } from 'lodash-es';
+import { ref, inject } from 'vue';
+
+import Autocomplete from '@/components/common/Autocomplete.vue';
+import Button from '@/components/common/Button.vue';
+import Table from '@/components/common/Table.vue';
+import TextInput from '@/components/common/TextInput.vue';
+import Access from '@/components/settings/Access.vue';
+import AccessLevel from '@/domain/AccessLevel';
 
 const props = defineProps({
   collaborators: {
     type: Array,
-    required: true,
+    required: true
   },
-  usersFound: Array,
+  usersFound: Array
 });
 
 const emit = defineEmits([
-  "addCollaborator",
-  "removeCollaborators",
-  "updateCollaborator",
-  "searchUsers",
+  'addCollaborator',
+  'removeCollaborators',
+  'updateCollaborator',
+  'searchUsers'
 ]);
 
-const { usernameField } = inject("config");
+const { usernameField } = inject('config');
 
 const handleUserSearch = debounce((search) => {
-  emit("searchUsers", search);
+  emit('searchUsers', search);
 }, 300);
 
 const selected = ref(null);
@@ -128,15 +129,15 @@ const handleRowClick = (event, idx) => {
 };
 
 const emitCollaboratorUpdate = (idx, properties) => {
-  emit("updateCollaborator", idx, {
+  emit('updateCollaborator', idx, {
     ...props.collaborators[idx],
-    ...properties,
+    ...properties
   });
 };
 
 const handleAccessChange = (collaborator, accessType, level) => {
   const idx = props.collaborators.indexOf(collaborator);
-  if (idx < 0) return;
+  if (idx < 0) { return; }
   const existingAccessLevel = new AccessLevel(
     props.collaborators[idx].access[accessType]
   ).toInt();
@@ -149,14 +150,14 @@ const handleAccessChange = (collaborator, accessType, level) => {
   emitCollaboratorUpdate(idx, {
     access: {
       ...props.collaborators[idx].access,
-      [accessType]: AccessLevel.fromInt(requestedLevel).toString(),
-    },
+      [accessType]: AccessLevel.fromInt(requestedLevel).toString()
+    }
   });
 };
 
 const handleNameChange = (collaborator, name) => {
   const idx = props.collaborators.indexOf(collaborator);
-  if (idx < 0) return;
+  if (idx < 0) { return; }
   emitCollaboratorUpdate(idx, { name });
 };
 
@@ -164,7 +165,7 @@ const handleUserSelect = (userInfo, idx) => {
   emitCollaboratorUpdate(idx, {
     [usernameField]: userInfo[usernameField],
     userID: userInfo[usernameField],
-    name: userInfo.name,
+    name: userInfo.name
   });
 };
 </script>

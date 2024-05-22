@@ -1,18 +1,18 @@
-import Header from "@/components/layout/Header.vue";
+import Header from '@/components/layout/Header.vue';
 
 export default {
-  title: "Layout/Header",
-  component: Header,
+  title: 'Layout/Header',
+  component: Header
 };
 
 const Template = (args) => ({
   components: { Header },
-  setup() {
+  setup () {
     return {
-      ...args,
+      ...args
     };
   },
-  template: `<Header />`,
+  template: '<Header />'
 });
 
 export const Default = Template.bind({});

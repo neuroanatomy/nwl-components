@@ -1,17 +1,24 @@
 <template>
   <header>
-    <a class="logo" href="/">
-      <img :src="logoURL" :alt="siteName" />
+    <a
+      class="logo"
+      href="/"
+    >
+      <img
+        :src="logoURL"
+        :alt="siteName"
+      >
     </a>
     <slot />
     <Nav />
   </header>
 </template>
 <script setup>
-import { inject } from "vue";
-import Nav from "@/components/layout/Nav.vue";
+import { inject } from 'vue';
 
-const { logoURL, siteName } = inject("config");
+import Nav from '@/components/layout/Nav.vue';
+
+const { logoURL, siteName } = inject('config');
 
 </script>
 <style scoped>

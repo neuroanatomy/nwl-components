@@ -6,20 +6,22 @@
           <li
             :key="tab.props.title"
             @click="selectTab(index)"
-            :class='{"selected": (index == selectedIndex)}'
+            :class="{&quot;selected&quot;: (index == selectedIndex)}"
           >
             {{ tab.props.title }}
           </li>
         </template>
       </template>
     </ul>
-    <template v-if="false"><slot /></template>
+    <template v-if="false">
+      <slot />
+    </template>
     <CurrentTab :key="selectedIndex" />
   </div>
 </template>
 
 <script setup>
-import { ref, getCurrentInstance } from "vue";
+import { ref, getCurrentInstance } from 'vue';
 const selectedIndex = ref(0);
 const instance = getCurrentInstance();
 const children = instance.vnode.children.default();
@@ -32,7 +34,7 @@ const selectTab = (i) => {
 </script>
 
 <style scoped>
-ul { 
+ul {
   list-style: none;
   display: flex;
   padding: 0;
@@ -50,4 +52,3 @@ li {
   background: #333;
 }
 </style>
- 

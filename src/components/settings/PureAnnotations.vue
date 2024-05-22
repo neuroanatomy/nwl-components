@@ -83,26 +83,27 @@
   </div>
 </template>
 <script setup>
-import { inject, ref, reactive } from "vue";
-import Select from "@/components/common/Select.vue";
-import TextInput from "@/components/common/TextInput.vue";
-import Button from "@/components/common/Button.vue";
-import Checkbox from "@/components/common/Checkbox.vue";
-import Table from "@/components/common/Table.vue";
+import { inject, ref, reactive } from 'vue';
 
-const { baseURL, fetchLabelSets, annotationTypes } = inject("config");
+import Button from '@/components/common/Button.vue';
+import Checkbox from '@/components/common/Checkbox.vue';
+import Select from '@/components/common/Select.vue';
+import Table from '@/components/common/Table.vue';
+import TextInput from '@/components/common/TextInput.vue';
+
+const { baseURL, fetchLabelSets, annotationTypes } = inject('config');
 
 const props = defineProps({
   annotations: {
     type: Array,
-    required: true,
-  },
+    required: true
+  }
 });
 
 const emit = defineEmits([
-  "addAnnotation",
-  "removeAnnotations",
-  "updateAnnotation",
+  'addAnnotation',
+  'removeAnnotations',
+  'updateAnnotation'
 ]);
 
 const labelSets = reactive([]);
@@ -119,25 +120,25 @@ const handleRowClick = (event, idx) => {
 };
 
 const emitAnnotationUpdate = (idx, properties) => {
-  emit("updateAnnotation", idx, {
+  emit('updateAnnotation', idx, {
     ...props.annotations[idx],
-    ...properties,
+    ...properties
   });
 };
 
 const handleNameChange = (annotation, name) => {
   const idx = props.annotations.indexOf(annotation);
-  if (idx < 0) return;
+  if (idx < 0) { return; }
   emitAnnotationUpdate(idx, { name });
 };
 
 const handleTypeChange = (annotation, type) => {
   const idx = props.annotations.indexOf(annotation);
-  if (idx < 0) return;
+  if (idx < 0) { return; }
   const payload = { type };
-  if (type === "text") {
-    payload.values = "";
-  } else if (labelSets.every(label => label.source !== props.annotations[idx].values)) {
+  if (type === 'text') {
+    payload.values = '';
+  } else if (labelSets.every((label) => label.source !== props.annotations[idx].values)) {
     payload.values = labelSets[0].source;
   }
   emitAnnotationUpdate(idx, payload);
@@ -145,13 +146,13 @@ const handleTypeChange = (annotation, type) => {
 
 const handleValueChange = (annotation, values) => {
   const idx = props.annotations.indexOf(annotation);
-  if (idx < 0) return;
+  if (idx < 0) { return; }
   emitAnnotationUpdate(idx, { values });
 };
 
 const handleDisplayChange = (annotation, display) => {
   const idx = props.annotations.indexOf(annotation);
-  if (idx < 0) return;
+  if (idx < 0) { return; }
   emitAnnotationUpdate(idx, { display });
 };
 </script>

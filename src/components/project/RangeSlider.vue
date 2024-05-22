@@ -1,48 +1,68 @@
 <template>
   <div class="range-slider">
-    <Button small @click="handleMinusClick" v-if="displayButtons">-</Button>
-    <input type="range" min="0" :max="max" :value="innerValue" step="1" @input="handleInput" />
-    <Button small @click="handlePlusClick" v-if="displayButtons">+</Button>
+    <Button
+      small
+      @click="handleMinusClick"
+      v-if="displayButtons"
+    >
+      -
+    </Button>
+    <input
+      type="range"
+      min="0"
+      :max="max"
+      :value="innerValue"
+      step="1"
+      @input="handleInput"
+    >
+    <Button
+      small
+      @click="handlePlusClick"
+      v-if="displayButtons"
+    >
+      +
+    </Button>
   </div>
 </template>
 <script setup>
-import Button from '@/components/common/Button.vue';
 import { ref, watch, computed } from 'vue';
+
+import Button from '@/components/common/Button.vue';
 
 const props = defineProps({
   max: {
     type: Number,
-    required: true,
+    required: true
   },
   modelValue: {
     type: Number,
-    default: 0,
+    default: 0
   },
   displayButtons: {
     type: Boolean,
-    default: true,
+    default: true
   }
 });
 
-const innerValue = computed({ 
-  get: () => props.modelValue, 
-  set: (value) => emit('update:modelValue', value) 
+const innerValue = computed({
+  get: () => props.modelValue,
+  set: (value) => emit('update:modelValue', value)
 });
 const emit = defineEmits(['update:modelValue']);
 
 const handleInput = ($event) => {
   innerValue.value = parseInt($event.target.value);
-} 
+};
 
 const handlePlusClick = () => {
   const value = (innerValue.value || props.modelValue) + 1;
   innerValue.value = Math.min(value, props.max);
-}
+};
 
 const handleMinusClick = () => {
   const value = (innerValue.value || props.modelValue) - 1;
   innerValue.value = Math.max(value, 0);
-}
+};
 </script>
 <style scoped>
 .range-slider {

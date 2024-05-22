@@ -6,8 +6,7 @@
         @input="onTitleInput"
         placeholder="Enter a project name"
         :class="{ title: true, empty: !content || content.trim().length === 0 }"
-        >{{ content }}</span
-      >
+      >{{ content }}</span>
     </Header>
     <main>
       <Settings v-if="project != null" />
@@ -16,17 +15,18 @@
   </Wrapper>
 </template>
 <script setup>
-import Wrapper from "@/components/layout/Wrapper.vue";
-import Header from "@/components/layout/Header.vue";
-import Footer from "@/components/layout/Footer.vue";
-import Settings from "@/components/settings/Settings.vue";
+import { ref, watch } from 'vue';
 
-import useProject from "@/store/project";
-import { ref, watch } from "vue";
+import Footer from '@/components/layout/Footer.vue';
+import Header from '@/components/layout/Header.vue';
+import Wrapper from '@/components/layout/Wrapper.vue';
+import Settings from '@/components/settings/Settings.vue';
+import useProject from '@/store/project';
+
 const props = defineProps({
   project: {
     type: Object,
-    required: true,
+    required: true
   },
   files: Object
 });

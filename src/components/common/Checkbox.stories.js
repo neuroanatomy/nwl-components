@@ -1,22 +1,23 @@
-import Checkbox from "@/components/common/Checkbox.vue";
-import { ref } from "vue";
+import { ref } from 'vue';
+
+import Checkbox from '@/components/common/Checkbox.vue';
 
 export default {
-  title: "Common/Checkbox",
-  component: Checkbox,
+  title: 'Common/Checkbox',
+  component: Checkbox
 };
 
 const Template = (args) => ({
   components: { Checkbox },
-  setup() {
+  setup () {
     return {
       ...args,
-      toggled: ref(true),
+      toggled: ref(true)
     };
   },
   template: `
     <Checkbox v-model="toggled" />
-  `,
+  `
 });
 
 export const Default = Template.bind({});

@@ -4,15 +4,15 @@ import useProject from '@/store/project';
 import useUserSearch from '@/store/userSearch';
 
 const {
-    project,
-    addCollaborator,
-    updateCollaborator,
-    removeCollaborators,
+  project,
+  addCollaborator,
+  updateCollaborator,
+  removeCollaborators
 } = useProject();
 
 const {
-    usersFound,
-    fetchUsers,
+  usersFound,
+  fetchUsers
 } = useUserSearch();
 
 </script>
@@ -24,5 +24,6 @@ const {
     @add-collaborator="addCollaborator"
     @remove-collaborators="removeCollaborators"
     @update-collaborator="updateCollaborator"
-    @search-users="fetchUsers" />
+    @search-users="fetchUsers"
+  />
 </template>

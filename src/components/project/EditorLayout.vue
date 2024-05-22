@@ -4,7 +4,10 @@
       :horizontal="!vertical"
       :class="{ horizontal: !vertical, vertical }"
     >
-      <pane class="left" :size="leftSize">
+      <pane
+        class="left"
+        :size="leftSize"
+      >
         <div class="left-header">
           <button
             @click="
@@ -13,21 +16,27 @@
               rightSize = 60;
             "
           >
-            <img src="@/assets/caret-square-o-right.svg" alt="" />
+            <img
+              src="@/assets/caret-square-o-right.svg"
+              alt=""
+            >
           </button>
         </div>
         <slot name="left" />
       </pane>
-      <pane class="right" size="rightSize">
+      <pane
+        class="right"
+        size="rightSize"
+      >
         <slot name="right" />
       </pane>
     </splitpanes>
   </div>
 </template>
 <script setup>
-import { ref } from "vue";
-import { Splitpanes, Pane } from "splitpanes";
-import "splitpanes/dist/splitpanes.css";
+import { Splitpanes, Pane } from 'splitpanes';
+import { ref } from 'vue';
+import 'splitpanes/dist/splitpanes.css';
 
 const vertical = ref(true);
 const leftSize = ref(40);

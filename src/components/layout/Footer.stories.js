@@ -1,18 +1,18 @@
-import Footer from "@/components/layout/Footer.vue";
+import Footer from '@/components/layout/Footer.vue';
 
 export default {
-  title: "Layout/Footer",
-  component: Footer,
+  title: 'Layout/Footer',
+  component: Footer
 };
 
 const Template = (args) => ({
   components: { Footer },
-  setup() {
+  setup () {
     return {
-      ...args,
+      ...args
     };
   },
-  template: `<Footer />`,
+  template: '<Footer />'
 });
 
 export const Default = Template.bind({});

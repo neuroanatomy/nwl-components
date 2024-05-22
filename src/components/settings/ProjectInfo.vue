@@ -1,7 +1,11 @@
 <template>
   <div class="image">
     <a :href="`/project/${project.shortname}`">
-      <svg id="jdenticon" width="100%" height="100%"></svg>
+      <svg
+        id="jdenticon"
+        width="100%"
+        height="100%"
+      />
     </a>
   </div>
 
@@ -9,7 +13,10 @@
     <a :href="`/project/${project.shortname}`">
       <h1>{{ project.shortname }}</h1>
     </a>
-    <TextInput v-model="project.url" placeholder="Enter a project website" />
+    <TextInput
+      v-model="project.url"
+      placeholder="Enter a project website"
+    />
     <p>
       by <a :href="`/user/${project.owner}`">{{ project.owner }}</a>
     </p>
@@ -30,45 +37,81 @@
       <span id="numFiles">{{ project.files.list.length }}</span> Data Files
     </p>
 
-    <dialog ref="embedDialog" class="embedDialog">
+    <dialog
+      ref="embedDialog"
+      class="embedDialog"
+    >
       <form>
         <label>
           Embed code:
-          <textarea v-text="embedCode" ref="embedCodeTextarea" />
+          <textarea
+            v-text="embedCode"
+            ref="embedCodeTextarea"
+          />
         </label>
         <div>
-          <Button className="push-button" value="cancel" formmethod="dialog">Cancel</Button>
-          <Button className="push-button" @click.prevent="copyEmbedCode" value="default">Copy</Button>
+          <Button
+            class-name="push-button"
+            value="cancel"
+            formmethod="dialog"
+          >
+            Cancel
+          </Button>
+          <Button
+            class-name="push-button"
+            @click.prevent="copyEmbedCode"
+            value="default"
+          >
+            Copy
+          </Button>
         </div>
       </form>
     </dialog>
 
     <div class="actions">
-      <Button className="push-button" @click="handleProjectSave"
-        >Save Changes</Button
+      <Button
+        class-name="push-button"
+        @click="handleProjectSave"
       >
-      <Button className="push-button" @click="handleProjectDeletion"
-        >Delete Project</Button
+        Save Changes
+      </Button>
+      <Button
+        class-name="push-button"
+        @click="handleProjectDeletion"
       >
-      <Button className="push-button" @click="goToProject"
-        >Go to Project</Button
+        Delete Project
+      </Button>
+      <Button
+        class-name="push-button"
+        @click="goToProject"
       >
-      <Button className="push-button" @click="embedProject"
-        >Embed Project</Button
+        Go to Project
+      </Button>
+      <Button
+        class-name="push-button"
+        @click="embedProject"
       >
-      <p id="saveFeedback" :class="{ disappear: !feedbackVisible}">{{feedback}}</p>
+        Embed Project
+      </Button>
+      <p
+        id="saveFeedback"
+        :class="{ disappear: !feedbackVisible}"
+      >
+        {{ feedback }}
+      </p>
     </div>
   </div>
 </template>
 
 <script setup>
-import { onMounted, ref, inject, computed } from "vue";
-import { update as updateIcon } from "jdenticon";
-import md5 from "md5";
-import TextInput from "@/components/common/TextInput.vue";
-import TextArea from "@/components/common/TextArea.vue";
-import Button from "@/components/common/Button.vue";
-import useProject from "@/store/project.js";
+import { update as updateIcon } from 'jdenticon';
+import md5 from 'md5';
+import { onMounted, ref, inject, computed } from 'vue';
+
+import Button from '@/components/common/Button.vue';
+import TextArea from '@/components/common/TextArea.vue';
+import TextInput from '@/components/common/TextInput.vue';
+import useProject from '@/store/project.js';
 
 const { project, saveProject, deleteProject } = useProject();
 const { baseURL } = inject('config');
@@ -89,22 +132,22 @@ const handleProjectSave = async () => {
 
 const handleProjectDeletion = async () => {
   const confirmation = confirm(
-    "Are you sure you want to delete project " +
+    'Are you sure you want to delete project ' +
       project.value.shortname +
-      "? " +
-      "This operation cannot be undone."
+      '? ' +
+      'This operation cannot be undone.'
   );
   if (!confirmation) {
     return;
   }
   const res = await deleteProject(project.value.shortname);
   if (res.success) {
-    feedback.value = "Successfully deleted";
-    setTimeout(function() {
-      window.location.assign("/");
+    feedback.value = 'Successfully deleted';
+    setTimeout(function () {
+      window.location.assign('/');
     }, 2000);
   } else {
-    feedback.value = "Unable to delete project";
+    feedback.value = 'Unable to delete project';
   }
 };
 
@@ -120,11 +163,11 @@ const embedProject = () => { embedDialog.value.showModal(); };
 const copyEmbedCode = () => {
   navigator.clipboard.writeText(embedCode.value);
   embedDialog.value.close();
-}
+};
 
 onMounted(() => {
   updateIcon(
-    document.getElementById("jdenticon"),
+    document.getElementById('jdenticon'),
     md5(project.value.shortname)
   );
 });

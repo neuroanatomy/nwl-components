@@ -5,7 +5,7 @@
 </template>
 <script setup>
 const props = defineProps({
-  id: String,
+  id: String
 });
 </script>
 <style scoped>

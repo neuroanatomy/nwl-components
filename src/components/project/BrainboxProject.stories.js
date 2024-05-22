@@ -1,36 +1,39 @@
-import RangeSlider from "@/components/project/RangeSlider.vue";
-import TextAnnotations from "@/components/project/TextAnnotations.vue";
-import EditorLayout from "@/components/project/EditorLayout.vue";
-import Editor from "@/components/project/Editor.vue";
-import ButtonsGroup from "@/components/project/ButtonsGroup.vue";
-import Button from "@/components/common/Button.vue";
-import Row from "@/components/project/Row.vue";
-import Col from "@/components/project/Col.vue";
-import Chat from "@/components/project/Chat.vue";
-import { get, forEach } from "lodash-es";
 import { action } from "@storybook/addon-actions";
-import brainboxProject from "@/components/project/TextAnnotations.brainbox.fixtures.json";
-import { ref, inject } from "vue";
+import { get, forEach } from "lodash-es";
+import brainboxProject from '@/components/project/TextAnnotations.brainbox.fixtures.json';
+
+import { ref, inject } from 'vue';
+
 import alpha from '@/assets/alpha.svg';
+import Button from '@/components/common/Button.vue';
+import ButtonsGroup from '@/components/project/ButtonsGroup.vue';
+import Chat from '@/components/project/Chat.vue';
+import Col from '@/components/project/Col.vue';
+import Editor from '@/components/project/Editor.vue';
+import EditorLayout from '@/components/project/EditorLayout.vue';
+import RangeSlider from '@/components/project/RangeSlider.vue';
+import Row from '@/components/project/Row.vue';
+import TextAnnotations from '@/components/project/TextAnnotations.vue';
 
 export default {
-  title: "Project/Brainbox Editor",
+  title: 'Project/Brainbox Editor'
 };
 
 const Template = (args) => ({
   components: { EditorLayout, Editor, RangeSlider, TextAnnotations, Button, ButtonsGroup, Row, Col, Chat },
-  setup() {
+  setup () {
     const {baseURL} = inject('config');
     const ret = {
       ...args,
       alpha,
       isChatDisplayed: ref(true),
       transformFiles: (files) => files.map((file) => ({
-          ...file,
-          source: `${baseURL}/mri?url=${file.source}`
-        })),
-      };
-      return ret;
+        ...file,
+        source: `${baseURL}/mri?url=${file.source}`
+      }))
+    };
+
+    return ret;
   },
   template: `
     <EditorLayout>
@@ -251,7 +254,7 @@ const Template = (args) => ({
           </Editor>
         </template>
     </EditorLayout>
-`,
+`
 });
 
 export const Default = Template.bind({});
@@ -260,11 +263,11 @@ Default.args = {
   valueChange: action('value changed'),
   selectFile: action('file selected'),
   extractKeys: () => {
-    let keys = new Map();
-    keys.set("Name", "name");
-    keys.set("File", "source");
+    const keys = new Map();
+    keys.set('Name', 'name');
+    keys.set('File', 'source');
   },
   files: brainboxProject.files.list,
   project: brainboxProject,
-  sliceChange: action('slice changed'),
-}
+  sliceChange: action('slice changed')
+};

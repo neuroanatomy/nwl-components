@@ -2,7 +2,12 @@
   <Table id="volAnnotations">
     <thead>
       <tr>
-        <th v-for="[key] in keys" :key="key">{{ key }}</th>
+        <th
+          v-for="[key] in keys"
+          :key="key"
+        >
+          {{ key }}
+        </th>
       </tr>
     </thead>
     <tbody>
@@ -16,26 +21,27 @@
           v-for="[key, selector] in keys"
           :key="`${key}_${index}`"
         >
-          {{get(atlas, selector)}}
+          {{ get(atlas, selector) }}
         </td>
       </tr>
     </tbody>
   </Table>
 </template>
 <script setup>
-import { ref, watch } from 'vue';
 import { get } from 'lodash-es';
+import { ref, watch } from 'vue';
+
 import Table from '@/components/common/Table.vue';
 
 const props = defineProps({
   annotations: {
     type: Array,
-    required: true,
+    required: true
   },
   extractKeys: {
     type: Function,
-    required: false,
-  },
+    required: false
+  }
 });
 
 const emit = defineEmits(['selectAnnotation']);
@@ -65,7 +71,7 @@ td {
   word-break: break-all;
   word-break: break-word;
 
-  hyphens: auto;  
+  hyphens: auto;
 }
 .selected {
   background: #444;

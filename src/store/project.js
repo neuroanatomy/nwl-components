@@ -1,13 +1,14 @@
-import { inject, reactive, toRefs } from "vue";
-import ProjectService from "@/services/project";
+import { inject, reactive, toRefs } from 'vue';
+
+import ProjectService from '@/services/project';
 
 const state = reactive({
   project: null,
-  loading: true,
+  loading: true
 });
 
-export default function useProject() {
-  const { baseURL, usernameField } = inject("config");
+export default function useProject () {
+  const { baseURL, usernameField } = inject('config');
   const service = new ProjectService(baseURL);
 
   const setProject = (project) => {
@@ -20,42 +21,38 @@ export default function useProject() {
     state.loading = false;
   };
 
-  const saveProject = async (project) => {
-    return await service.save(project);
-  };
+  const saveProject = async (project) => await service.save(project);
 
-  const deleteProject = async (id) => {
-    return await service.delete(id);
-  };
+  const deleteProject = async (id) => await service.delete(id);
 
   const updateProject = (data) => {
-    if (!state.project) return;
+    if (!state.project) { return; }
     state.project = {
       ...state.project,
-      ...data,
+      ...data
     };
   };
 
   const addCollaborator = () => {
-    if (!state.project) return;
+    if (!state.project) { return; }
     state.project.collaborators.list.push({
-      [usernameField]: "",
-      name: "",
-      access: { collaborators: "none", annotations: "none", files: "none" },
+      [usernameField]: '',
+      name: '',
+      access: { collaborators: 'none', annotations: 'none', files: 'none' }
     });
   };
 
   const updateCollaborator = (idx, data) => {
-    if (!state.project) return;
+    if (!state.project) { return; }
     const collaborator = state.project.collaborators.list[idx];
     state.project.collaborators.list[idx] = {
       ...collaborator,
-      ...data,
+      ...data
     };
   };
 
   const removeCollaborators = (collaboratorsIdx) => {
-    if (!state.project) return;
+    if (!state.project) { return; }
     state.project.collaborators.list = state.project.collaborators.list.filter(
       (collaborator) =>
         !collaboratorsIdx.includes(
@@ -65,26 +62,26 @@ export default function useProject() {
   };
 
   const addAnnotation = () => {
-    if (!state.project) return;
+    if (!state.project) { return; }
     state.project.annotations.list.push({
-      type: "text",
-      name: "",
+      type: 'text',
+      name: '',
       values: null,
-      display: true,
+      display: true
     });
   };
 
   const updateAnnotation = (idx, data) => {
-    if (!state.project) return;
+    if (!state.project) { return; }
     const annotation = state.project.annotations.list[idx];
     state.project.annotations.list[idx] = {
       ...annotation,
-      ...data,
+      ...data
     };
   };
 
   const removeAnnotations = (annotationsIdx) => {
-    if (!state.project) return;
+    if (!state.project) { return; }
     state.project.annotations.list = state.project.annotations.list.filter(
       (annotation) =>
         !annotationsIdx.includes(
@@ -94,24 +91,24 @@ export default function useProject() {
   };
 
   const addFile = () => {
-    if (!state.project) return;
+    if (!state.project) { return; }
     state.project.files.list.push({
-      source: "",
-      name: "",
+      source: '',
+      name: ''
     });
   };
 
   const updateFile = (idx, data) => {
-    if (!state.project) return;
+    if (!state.project) { return; }
     const file = state.project.files.list[idx];
     state.project.files.list[idx] = {
       ...file,
-      ...data,
+      ...data
     };
   };
 
   const removeFiles = (filesIdx) => {
-    if (!state.project) return;
+    if (!state.project) { return; }
     state.project.files.list = state.project.files.list.filter(
       (file) => !filesIdx.includes(state.project.files.list.indexOf(file))
     );
@@ -132,6 +129,6 @@ export default function useProject() {
     removeAnnotations,
     addFile,
     updateFile,
-    removeFiles,
+    removeFiles
   };
 }

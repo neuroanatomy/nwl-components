@@ -6,7 +6,7 @@
         title="add project"
         alt="add project"
         src="@/assets/plus.svg"
-      />
+      >
     </a>
     <a
       :href="`/project/${project.shortname}/settings`"
@@ -17,56 +17,67 @@
         title="settings"
         alt="settings"
         src="@/assets/settings.svg"
-      />
+      >
     </a>
-    <a :href="searchURL" target="_blank">
+    <a
+      :href="searchURL"
+      target="_blank"
+    >
       <img
         class="button"
         title="search"
         alt="search"
         src="@/assets/search.svg"
-    /></a>
+      ></a>
     <a :href="docURL">
       <img
         class="button"
         title="documentation"
         alt="documentation"
         src="@/assets/doc.svg"
-      />
+      >
     </a>
-    <a :href="issuesURL" target="_blank">
+    <a
+      :href="issuesURL"
+      target="_blank"
+    >
       <img
         class="button"
         title="report a bug"
         alt="report a bug"
         src="@/assets/bug.svg"
-    /></a>
-    <a :href="githubURL" target="_blank">
+      ></a>
+    <a
+      :href="githubURL"
+      target="_blank"
+    >
       <img
         class="button"
         title="join our github project"
         alt="join our github project"
         style="width: 15px; height: 15px"
         src="@/assets/github.svg"
-    /></a>
+      ></a>
     <div class="login">
       <span v-if="user != null && user.username !== 'anyone'">
-        <a :href="`/user/${user.username}`">{{ user.username }}</a> (<a href="/logout"
-          >Log Out</a
-        >)
+        <a :href="`/user/${user.username}`">{{ user.username }}</a> (<a href="/logout">Log Out</a>)
       </span>
-      <a v-else href='/auth/github'>Log in with GitHub</a>
+      <a
+        v-else
+        href="/auth/github"
+      >Log in with GitHub</a>
     </div>
   </nav>
 </template>
 <script setup>
-import { inject } from "vue";
-import useProject from "@/store/project";
+import { inject } from 'vue';
 
-const { githubURL, issuesURL, searchURL, docURL } = inject("config");
-const user = inject("user");
+import useProject from '@/store/project';
 
-const displaySettings = inject("displaySettings");
+const { githubURL, issuesURL, searchURL, docURL } = inject('config');
+const user = inject('user');
+
+const displaySettings = inject('displaySettings');
 const { project } = useProject();
 </script>
 <style scoped>

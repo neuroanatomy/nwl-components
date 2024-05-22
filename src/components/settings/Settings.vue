@@ -1,9 +1,9 @@
 <template>
   <TwoCols>
-    <template v-slot:side>
+    <template #side>
       <ProjectInfo />
     </template>
-    <template v-slot:content>
+    <template #content>
       <div class="content">
         <Collaborators />
         <Annotations />
@@ -13,11 +13,11 @@
   </TwoCols>
 </template>
 <script setup>
-import TwoCols from "@/components/layout/TwoCols.vue";
-import ProjectInfo from "@/components/settings/ProjectInfo.vue";
-import Collaborators from "@/components/settings/Collaborators.vue";
-import Annotations from "@/components/settings/Annotations.vue";
-import Files from "@/components/settings/Files.vue";
+import TwoCols from '@/components/layout/TwoCols.vue';
+import Annotations from '@/components/settings/Annotations.vue';
+import Collaborators from '@/components/settings/Collaborators.vue';
+import Files from '@/components/settings/Files.vue';
+import ProjectInfo from '@/components/settings/ProjectInfo.vue';
 </script>
 <style scoped>
 .content {
