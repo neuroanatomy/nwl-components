@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import { action } from '@storybook/addon-actions';
 import { ref } from 'vue';
 

@@ -28,16 +28,22 @@ const props = defineProps({
     type: Object,
     required: true
   },
-  files: Object
+  files: {
+    type: Object,
+    required: false,
+    default: null
+  }
 });
 
-const { project, setProject, updateProject } = useProject();
+const { setProject, updateProject } = useProject();
 
 setProject(props.project);
-// update store on prop change
-watch(props.files, (files) => updateProject({ files: { list: files } }));
+if (props.files !== null) {
+  // update store on prop change
+  watch(props.files, (files) => updateProject({ files: { list: files } }));
+}
 
-const content = ref(project.value.name);
+const content = ref(props.project.name);
 
 const onTitleInput = (event) => {
   content.value = event.currentTarget.textContent;

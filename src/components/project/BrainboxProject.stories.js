@@ -1,7 +1,4 @@
-import { action } from "@storybook/addon-actions";
-import { get, forEach } from "lodash-es";
-import brainboxProject from '@/components/project/TextAnnotations.brainbox.fixtures.json';
-
+import { action } from '@storybook/addon-actions';
 import { ref, inject } from 'vue';
 
 import alpha from '@/assets/alpha.svg';
@@ -13,6 +10,7 @@ import Editor from '@/components/project/Editor.vue';
 import EditorLayout from '@/components/project/EditorLayout.vue';
 import RangeSlider from '@/components/project/RangeSlider.vue';
 import Row from '@/components/project/Row.vue';
+import brainboxProject from '@/components/project/TextAnnotations.brainbox.fixtures.json';
 import TextAnnotations from '@/components/project/TextAnnotations.vue';
 
 export default {

@@ -7,6 +7,7 @@ const state = reactive({
   loading: true
 });
 
+// eslint-disable-next-line max-statements
 export default function useProject () {
   const { baseURL, usernameField } = inject('config');
   const service = new ProjectService(baseURL);
@@ -21,9 +22,9 @@ export default function useProject () {
     state.loading = false;
   };
 
-  const saveProject = async (project) => await service.save(project);
+  const saveProject = (project) => service.save(project);
 
-  const deleteProject = async (id) => await service.delete(id);
+  const deleteProject = (id) => service.delete(id);
 
   const updateProject = (data) => {
     if (!state.project) { return; }

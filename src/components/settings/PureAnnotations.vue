@@ -91,7 +91,7 @@ import Select from '@/components/common/Select.vue';
 import Table from '@/components/common/Table.vue';
 import TextInput from '@/components/common/TextInput.vue';
 
-const { baseURL, fetchLabelSets, annotationTypes } = inject('config');
+const { fetchLabelSets, annotationTypes } = inject('config');
 
 const props = defineProps({
   annotations: {

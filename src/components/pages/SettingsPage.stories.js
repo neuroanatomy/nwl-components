@@ -11,7 +11,7 @@ const Template = (args) => ({
     return {
       ...args,
       project: {
-        name: '',
+        name: 'test project',
         shortname: 'testproject',
         url: '',
         brainboxURL: '/project/testproject',

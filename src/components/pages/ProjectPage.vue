@@ -50,11 +50,8 @@ import { Splitpanes, Pane } from 'splitpanes';
 import { ref } from 'vue';
 
 import 'splitpanes/dist/splitpanes.css';
-import Footer from '@/components/layout/Footer.vue';
 import Header from '@/components/layout/Header.vue';
-import TwoCols from '@/components/layout/TwoCols.vue';
 import Wrapper from '@/components/layout/Wrapper.vue';
-import Settings from '@/components/settings/Settings.vue';
 import useProject from '@/store/project';
 
 const vertical = ref(true);

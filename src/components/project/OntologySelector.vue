@@ -33,10 +33,11 @@
 </template>
 <script setup>
 
-const props = defineProps({
+defineProps({
   ontology: {
     type: Object,
-    required: true
+    required: false,
+    default: null
   },
   open: Boolean
 });

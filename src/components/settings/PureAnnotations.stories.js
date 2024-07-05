@@ -1,4 +1,3 @@
-import faker from '@faker-js/faker';
 import { action } from '@storybook/addon-actions';
 import { reactive } from 'vue';
 
@@ -27,13 +26,13 @@ Default.args = {
       'type': 'volume',
       'name': 'A volume annotation',
       'values': 'axolotl_labels.json',
-      'display': 'true'
+      'display': true
     },
     {
       'type': 'text',
       'name': 'texte',
       'values': 'A text annotation',
-      'display': 'true'
+      'display': true
     }
   ]),
   addAnnotation: action('add annotation'),

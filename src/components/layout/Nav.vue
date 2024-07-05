@@ -77,7 +77,7 @@ import useProject from '@/store/project';
 const { githubURL, issuesURL, searchURL, docURL } = inject('config');
 const user = inject('user');
 
-const displaySettings = inject('displaySettings');
+const displaySettings = inject('displaySettings', false);
 const { project } = useProject();
 </script>
 <style scoped>

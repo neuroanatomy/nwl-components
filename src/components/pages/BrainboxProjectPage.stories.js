@@ -1,6 +1,6 @@
 import { action } from '@storybook/addon-actions';
 import { get, forEach } from 'lodash-es';
-import { inject, ref } from 'vue';
+import { ref } from 'vue';
 
 import Button from '@/components/common/Button.vue';
 import ProjectPage from '@/components/pages/ProjectPage.vue';
@@ -27,14 +27,14 @@ const Template = (args) => ({
     Row
   },
   setup () {
-    const { baseURL } = inject('config');
     const fullscreen = ref(false);
     const ret = {
       ...args,
       handleFullscreen: () => {
         fullscreen.value = !fullscreen.value;
       },
-      fullscreen
+      fullscreen,
+      value: ref(50)
     };
 
     return ret;
@@ -54,7 +54,7 @@ const Template = (args) => ({
           <Editor>
             <template v-slot:tools>
               <Row centered>
-                <RangeSlider max=100 v-model="value" @input="sliceChange" />
+                <RangeSlider :max="100" v-model="value" @input="sliceChange" />
               </Row>
               <Row centered>
                 <ButtonsGroup>
@@ -118,7 +118,7 @@ Default.args = {
     keys.set('File', 'source');
     files.forEach((file) => {
       const annotations = get(file, ['mri', 'annotations', brainboxProject.shortname]);
-      if (annotations == null) { return; }
+      if (annotations === null) { return; }
       forEach(annotations, (_value, key) => {
         keys.set(key, ['mri', 'annotations', brainboxProject.shortname, key, 'data']);
       });
