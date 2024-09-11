@@ -2,15 +2,21 @@
   <input
     type="text"
     v-bind="props"
-    :value="modelValue"
     @input="handleInput"
+    v-model="model"
   >
 </template>
 <script setup>
 const props = defineProps({
-  placeholder: String,
-  disabled: Boolean,
-  modelValue: String
+  placeholder: {
+    type: String,
+    default: ''
+  },
+  disabled: Boolean
+});
+const model = defineModel({
+  type: String,
+  default: ''
 });
 const emit = defineEmits(['update:modelValue']);
 const handleInput = (event) => {

@@ -821,11 +821,12 @@ const Template = (args) => ({
             'url': ''
           }
         ]
-      }
+      },
+      opacity: ref(0.5)
     };
   },
   template: `
-    <OntologySelector :ontology="ontology" :open="open" @label-click="handleLabelClick" on-close="open = false" />
+    <OntologySelector :ontology="ontology" :open="open" v-model:opacity="opacity" @label-click="handleLabelClick" @on-close="open = false" />
   `
 });
 

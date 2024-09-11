@@ -81,7 +81,7 @@
         title="Remove selected collaborators"
         :disabled="
           selected == null ||
-            collaborators[selected][username] == 'anyone' ||
+            collaborators[selected].username === 'anyone' ||
             collaborators[selected].userID === 'anyone'
         "
       >
@@ -107,7 +107,10 @@ const props = defineProps({
     type: Array,
     required: true
   },
-  usersFound: Array
+  usersFound: {
+    type: Array,
+    default: () => []
+  }
 });
 
 const emit = defineEmits([
@@ -144,7 +147,7 @@ const handleAccessChange = (collaborator, accessType, level) => {
 
   let requestedLevel = level;
   if (existingAccessLevel === requestedLevel) {
-    requestedLevel--;
+    requestedLevel -= 1;
   }
 
   emitCollaboratorUpdate(idx, {

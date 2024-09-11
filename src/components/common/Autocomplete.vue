@@ -8,7 +8,7 @@ import TextInput from './TextInput.vue';
 const props = defineProps({
   items: {
     type: Array,
-    required: false
+    default: () => []
   },
   isAsync: {
     type: Boolean,
@@ -57,7 +57,11 @@ watch(props.items, () => {
 
 const emit = defineEmits(['input', 'select']);
 
-const onChange = (event) => {
+const filterResults = () => {
+  state.results = state.items.filter((item) => item.toLowerCase().indexOf(state.search.toLowerCase()) > -1);
+};
+
+const onChange = () => {
   emit('input', state.search);
   state.isOpen = true;
   if (props.isAsync) {
@@ -65,10 +69,6 @@ const onChange = (event) => {
   } else {
     filterResults();
   }
-};
-
-const filterResults = () => {
-  state.results = state.items.filter((item) => item.toLowerCase().indexOf(state.search.toLowerCase()) > -1);
 };
 
 const getId = (index) => `result-item-${index}`;
@@ -87,7 +87,7 @@ const setResult = (result) => {
   return false;
 };
 
-const onArrowDown = (evt) => {
+const onArrowDown = () => {
   if (state.isOpen) {
     state.arrowCounter = (state.arrowCounter + 1) % state.results.length;
     setActiveDescendent();
