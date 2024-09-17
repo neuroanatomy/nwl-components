@@ -33,7 +33,7 @@
     "splitpanes": "^3.1.0"
   },
   "peerDependencies": {
-    "vue": "^3.4.0"
+    "vue": "^3.5.3"
   },
   "devDependencies": {
     "@babel/core": "^7.17.4",

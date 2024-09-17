@@ -9,14 +9,20 @@
 </template>
 <script setup>
 const props = defineProps({
-  className: String,
-  title: String,
+  className: {
+    type: String,
+    default: null
+  },
+  title: {
+    type: String,
+    default: null
+  },
   disabled: Boolean,
   small: Boolean
 });
 
 const classes = { small: props.small === true };
-if (props.className != null) {
+if (props.className !== null) {
   classes[props.className] = true;
 }
 </script>
@@ -43,6 +49,7 @@ button {
   color: #ddd;
   text-align: center;
   -webkit-appearance: none;
+  appearance: none;
   cursor: pointer;
   padding: 5px 0;
   font-weight: bold;

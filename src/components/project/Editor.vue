@@ -83,7 +83,10 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue';
 
-const props = defineProps({ title: String, height: Number, toolsMinHeight: String });
+defineProps({
+  title: { type: String, default: ''},
+  toolsMinHeight: {type: String, default: null}
+});
 
 const drag = ref(false);
 const dragResizableHandle = ref(false);
@@ -91,10 +94,11 @@ const position = ref({ top: 5, left: 5, right: 'auto' });
 const relativeCoords = ref({ left: 0, top: 0 });
 const toggled = ref(true);
 const toolsWidth = ref('275px');
-const toolsHeight = ref(props.toolsMinHeight);
+const toolsHeight = ref('');
 const toolsRect = ref({});
 const area = ref(null);
 const hasTwoCols = ref(false);
+const margin = 5;
 
 
 const handleMouseDown = (event) => {
@@ -115,7 +119,6 @@ const handleTouchStart = (event) => {
 const handleTouchEnd = () => {
   drag.value = false;
 };
-
 
 const handleMouseLeaveOrUp = () => {
   drag.value = false;
@@ -139,32 +142,14 @@ const placeRight = () => {
   position.value = { left: 'auto', top: `${margin}px`, right: `${margin}px` };
 };
 
-const hideTools = (event) => {
+const hideTools = () => {
   toggled.value = false;
   const areaRect = area.value.getBoundingClientRect();
   if (position.value.left === 'auto') { return; }
-  parseInt(position.value.left) > areaRect.width / 2 - toolsRect.value.width / 2
-    ? placeRight()
-    : placeLeft();
-};
-
-onMounted(() => {
-  document.addEventListener('mousemove', handleMove);
-  document.addEventListener('touchmove', handleTouchMove, { passive: false });
-  placeLeft();
-  toolsRect.value = area.value.querySelector('.tools').getBoundingClientRect();
-});
-
-onUnmounted(() => {
-  document.removeEventListener('touchmove', handleTouchMove);
-  document.removeEventListener('mousemove', handleMove);
-});
-
-const handleTouchMove = (event) => {
-  if (event.touches) {
-    if (event.touches.length !== 1) { return; }
-    handleMove(event.touches[0]);
-    event.preventDefault();
+  if (parseInt(position.value.left) > areaRect.width / 2 - toolsRect.value.width / 2) {
+    placeRight();
+  } else {
+    placeLeft();
   }
 };
 
@@ -200,7 +185,26 @@ const handleMove = (event) => {
   }
 };
 
-const margin = 5;
+const handleTouchMove = (event) => {
+  if (event.touches) {
+    if (event.touches.length !== 1) { return; }
+    handleMove(event.touches[0]);
+    event.preventDefault();
+  }
+};
+
+onMounted(() => {
+  document.addEventListener('mousemove', handleMove);
+  document.addEventListener('touchmove', handleTouchMove, { passive: false });
+  placeLeft();
+  toolsRect.value = area.value.querySelector('.tools').getBoundingClientRect();
+  toolsHeight.value = toolsRect.value.top + toolsRect.value.height;
+});
+
+onUnmounted(() => {
+  document.removeEventListener('touchmove', handleTouchMove);
+  document.removeEventListener('mousemove', handleMove);
+});
 </script>
 <style scoped>
 .area {

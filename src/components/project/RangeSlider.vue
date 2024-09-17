@@ -25,7 +25,7 @@
   </div>
 </template>
 <script setup>
-import { ref, watch, computed } from 'vue';
+import { computed } from 'vue';
 
 import Button from '@/components/common/Button.vue';
 
@@ -44,11 +44,12 @@ const props = defineProps({
   }
 });
 
+const emit = defineEmits(['update:modelValue']);
+
 const innerValue = computed({
   get: () => props.modelValue,
   set: (value) => emit('update:modelValue', value)
 });
-const emit = defineEmits(['update:modelValue']);
 
 const handleInput = ($event) => {
   innerValue.value = parseInt($event.target.value);
@@ -73,6 +74,7 @@ const handleMinusClick = () => {
 }
 input[type=range] {
   -webkit-appearance: none;
+  appearance: none;
   margin: 18px 5px;
   width: 100%;
   background: transparent;
@@ -96,6 +98,7 @@ input[type=range]::-webkit-slider-thumb {
   background: #ffffff;
   cursor: pointer;
   -webkit-appearance: none;
+  appearance: none;
   margin-top: -10px;
 }
 input[type=range]:focus::-webkit-slider-runnable-track {

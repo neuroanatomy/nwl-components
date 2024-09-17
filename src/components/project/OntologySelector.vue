@@ -97,11 +97,10 @@ onUnmounted(() => {
 <style scoped>
 
 .labelset {
-    overflow: scroll;
+    overflow: auto;
     position: fixed;
     width: 50%;
     height: 50%;
-    overflow: scroll;
     top: 50%;
     left: 50%;
     transform: translate( -50%, -50%);
@@ -133,8 +132,6 @@ h3 {
     background-color: #666;
     padding: 0 5px 0 10px;
     margin: -10px -10px 5px -10px;
-    cursor:  pointer;
-    /* pointer-events: none; */
 }
 
 .header img {

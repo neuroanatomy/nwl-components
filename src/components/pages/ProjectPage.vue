@@ -111,9 +111,11 @@ main {
 .vertical .left-header button {
   transform: rotate(90deg);
 }
+
 .horizontal {
   height: calc(100vh - 82px);
 }
+
 .fullscreen .horizontal {
   height: 100vh;
 }

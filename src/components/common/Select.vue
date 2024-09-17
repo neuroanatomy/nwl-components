@@ -8,11 +8,13 @@
   </select>
 </template>
 <script setup>
-import { ref, onMounted } from 'vue';
 
 const props = defineProps({
   disabled: Boolean,
-  modelValue: String
+  modelValue: {
+    type: String,
+    required: true
+  }
 });
 
 const emit = defineEmits(['update:modelValue']);

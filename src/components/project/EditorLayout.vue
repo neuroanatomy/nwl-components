@@ -1,3 +1,5 @@
+<!-- Looks like a lighter version of ProjectPage.vue
+ Currently only used by BrainboxProject.stories.js -->
 <template>
   <div className="editor">
     <splitpanes
@@ -69,11 +71,20 @@ const rightSize = ref(60);
     max-height: 14px;
 }
 
+.horizontal {
+  height: 100vh;
+}
+
+.horizontal :deep(.area) {
+  height: 100%;
+}
+
 .vertical .left-header button {
     transform: rotate(90deg);
 }
-.horizontal {
-  height: auto;
+
+.vertical :deep(.area) {
+  height: 100vh;
 }
 
 .vertical .left {

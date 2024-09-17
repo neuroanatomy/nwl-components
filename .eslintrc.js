@@ -10,7 +10,7 @@ module.exports = {
   ],
   'overrides': [
     {
-      files: ['*.vue'],
+      files: ['*.vue', '*.stories.js'],
       rules: {
         // 300 lines limit seems to short for *.vue files
         'max-lines': 'off'
