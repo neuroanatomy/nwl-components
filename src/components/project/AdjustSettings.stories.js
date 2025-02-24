@@ -23,10 +23,13 @@ const Template = (args) => ({
   },
   template: `
     <AdjustSettings
-        :alpha="alphaValue" @change-alpha="changeAlpha"
-        :brightness="brightnessValue" @change-brightness="changeBrightness"
-        :contrast="contrastValue" @change-contrast="changeContrast"
+        v-model:alpha="alphaValue" @update:alpha="changeAlpha"
+        v-model:brightness="brightnessValue" @update:brightness="changeBrightness"
+        v-model:contrast="contrastValue" @update:contrast="changeContrast"
     />
+    <div>Alpha: {{ alphaValue }}</div>
+    <div>Brightness: {{ brightnessValue }}</div>
+    <div>Contrast: {{ contrastValue }}</div>
   `
 });
 
