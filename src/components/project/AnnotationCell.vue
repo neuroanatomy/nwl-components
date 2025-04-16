@@ -14,7 +14,10 @@ import DOMPurify from 'dompurify';
 import { ref, computed, watch } from 'vue';
 
 const props = defineProps({
-  value: String,
+  value: {
+    type: String,
+    default: ''
+  },
   index: {
     type: Number,
     required: true
@@ -23,7 +26,10 @@ const props = defineProps({
     type: [String, Array],
     required: true
   },
-  linkPrefix: String
+  linkPrefix: {
+    type: String,
+    default: ''
+  }
 });
 
 const emit = defineEmits(['valueChange']);

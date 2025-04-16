@@ -1,8 +1,6 @@
 <template>
   <div
     class="area"
-    @mouseup="handleMouseLeaveOrUp"
-    @mouseleave="handleMouseLeaveOrUp"
     ref="area"
   >
     <div class="content-wrapper">
@@ -27,11 +25,13 @@
         class="resizable"
         :class="{ 'resizable--two-cols': hasTwoCols }"
         v-show="toggled"
-        :style="{width: toolsWidth, height: toolsHeight, minHeight: toolsMinHeight}"
+        :style="{width: toolsWidth, height: toolsHeight, minHeight: toolsMinHeight || 'fit-content'}"
       >
         <div
           class="resizable-handle"
           @mousedown="handleResizableMouseDown"
+          @touchstart="handleResizableTouchStart"
+          @touchend="handleMouseLeaveOrUp"
         />
         <div class="palette">
           <div
@@ -84,7 +84,7 @@
 import { ref, onMounted, onUnmounted } from 'vue';
 
 defineProps({
-  title: { type: String, default: ''},
+  title: {type: String, default: ''},
   toolsMinHeight: {type: String, default: null}
 });
 
@@ -129,6 +129,12 @@ const handleMouseLeaveOrUp = () => {
 const handleResizableMouseDown = (event) => {
   dragResizableHandle.value = true;
   toolsRect.value = area.value.querySelector('.tools').getBoundingClientRect();
+  event.preventDefault();
+};
+
+const handleResizableTouchStart = (event) => {
+  if (event.touches.length !== 1) { return; }
+  handleResizableMouseDown(event);
   event.preventDefault();
 };
 
@@ -196,14 +202,19 @@ const handleTouchMove = (event) => {
 onMounted(() => {
   document.addEventListener('mousemove', handleMove);
   document.addEventListener('touchmove', handleTouchMove, { passive: false });
+  document.addEventListener('mouseup', handleMouseLeaveOrUp);
   placeLeft();
-  toolsRect.value = area.value.querySelector('.tools').getBoundingClientRect();
-  toolsHeight.value = toolsRect.value.top + toolsRect.value.height;
+  // Wait for the DOM to be updated before getting the bounding rect
+  requestAnimationFrame(() => {
+    toolsRect.value = area.value.querySelector('.tools').getBoundingClientRect();
+    toolsHeight.value = toolsRect.value.top + toolsRect.value.height;
+  });
 });
 
 onUnmounted(() => {
   document.removeEventListener('touchmove', handleTouchMove);
   document.removeEventListener('mousemove', handleMove);
+  document.removeEventListener('mouseup', handleMouseLeaveOrUp);
 });
 </script>
 <style scoped>
@@ -230,9 +241,12 @@ onUnmounted(() => {
   z-index: 11;
 }
 .tools .palette {
+  display: flex;
+  flex-direction: column;
   width: 100%;
   height: 100%;
-  min-width: 274px;
+  min-width: fit-content;
+  min-height: fit-content;
   background-color: rgba(0, 0, 0, 0.7);
   box-shadow: 2px 2px 5px grey;
 }
@@ -253,8 +267,9 @@ onUnmounted(() => {
 }
 
 .tools .content {
+  min-height: fit-content;
+  flex-grow: 1;
   padding: 5px 10px;
-  height: 100%;
   display: flex;
   flex-direction: column;
 }

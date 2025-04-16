@@ -21,13 +21,11 @@ body {
   font-family: "Lucida Grande", "Lucida Sans Unicode", Helvetica, Arial, Verdana,
     sans-serif;
   font-size: 14px;
-  display: flex;
-  flex-direction: column;
+  display: block;
   min-height: 100vh;
 }
 
 .app > main {
-  flex: 1;
   padding: 20px;
 }
 

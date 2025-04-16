@@ -24,8 +24,14 @@
 import { ref, watch } from 'vue';
 
 const props = defineProps({
-  notification: String,
-  receivedMessages: Array
+  notification: {
+    type: String,
+    default: ''
+  },
+  receivedMessages: {
+    type: Array,
+    default: () => []
+  }
 });
 
 const emit = defineEmits(['sendMessage']);
@@ -48,7 +54,6 @@ const handleEnter = (event) => {
     height: 100%;
     display: flex;
     flex-direction: column;
-    height: calc(100% - 22px);
 }
 
 .messages {

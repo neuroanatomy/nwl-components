@@ -2,6 +2,8 @@ import { action } from '@storybook/addon-actions';
 import { ref, inject } from 'vue';
 
 import alpha from '@/assets/alpha.svg';
+import chat from '@/assets/chat.svg';
+import scroll from '@/assets/scroll.svg';
 import Button from '@/components/common/Button.vue';
 import ButtonsGroup from '@/components/project/ButtonsGroup.vue';
 import Chat from '@/components/project/Chat.vue';
@@ -10,6 +12,7 @@ import Editor from '@/components/project/Editor.vue';
 import EditorLayout from '@/components/project/EditorLayout.vue';
 import RangeSlider from '@/components/project/RangeSlider.vue';
 import Row from '@/components/project/Row.vue';
+import ScriptConsole from '@/components/project/ScriptConsole.vue';
 import brainboxProject from '@/components/project/TextAnnotations.brainbox.fixtures.json';
 import TextAnnotations from '@/components/project/TextAnnotations.vue';
 
@@ -17,14 +20,20 @@ export default {
   title: 'Project/Brainbox Editor'
 };
 
+const displayChat = ref(true);
+const displayScript = ref(false);
+
 const Template = (args) => ({
-  components: { EditorLayout, Editor, RangeSlider, TextAnnotations, Button, ButtonsGroup, Row, Col, Chat },
+  components: { EditorLayout, Editor, RangeSlider, TextAnnotations, Button, ButtonsGroup, Row, Col, Chat, ScriptConsole },
   setup () {
     const {baseURL} = inject('config');
     const ret = {
       ...args,
       alpha,
-      isChatDisplayed: ref(true),
+      chat,
+      scroll,
+      displayChat,
+      displayScript,
       transformFiles: (files) => files.map((file) => ({
         ...file,
         source: `${baseURL}/mri?url=${file.source}`
@@ -47,7 +56,7 @@ const Template = (args) => ({
         />
       </template>
       <template #right>
-        <Editor :class="{ reduced: !isChatDisplayed }">
+        <Editor :class="{ reduced: !displayChat && !displayScript }">
           <template #tools>
             <Row centered>
               <RangeSlider
@@ -77,7 +86,6 @@ const Template = (args) => ({
                 </ButtonsGroup>
 
                 <Button
-                  @click="isChatDisplayed = !isChatDisplayed"
                   title="Full screen"
                 >
                   <img
@@ -97,21 +105,25 @@ const Template = (args) => ({
                 </Button>
                 <ButtonsGroup>
                   <Button
+                    @click="toggleChat()"
                     title="Chat"
+                    :class="{ pressed: displayChat }"
                   >
                     <img
                       class="icon"
                       alt="Chat"
-                      :src="alpha"
+                      :src="chat"
                     >
                   </Button>
                   <Button
+                    @click="toggleScript()"
                     title="Script"
+                    :class="{ pressed: displayScript }"
                   >
                     <img
                       class="icon"
                       alt="Script"
-                      :src="alpha"
+                      :src="scroll"
                     >
                   </Button>
                 </ButtonsGroup>
@@ -138,6 +150,7 @@ const Template = (args) => ({
               <Col>
                 <ButtonsGroup full-width>
                   <Button
+                    title="Show"
                   >
                     <img
                       class="icon"
@@ -146,6 +159,7 @@ const Template = (args) => ({
                     >
                   </Button>
                   <Button
+                    title="Paint"
                   >
                     <img
                       class="icon"
@@ -154,6 +168,7 @@ const Template = (args) => ({
                     >
                   </Button>
                   <Button
+                    title="Erase"
                   >
                     <img
                       class="icon"
@@ -162,6 +177,7 @@ const Template = (args) => ({
                     >
                   </Button>
                   <Button
+                    title="Landmark"
                   >
                     <img
                       class="icon"
@@ -170,6 +186,7 @@ const Template = (args) => ({
                     >
                   </Button>
                   <Button
+
                   >
                     <img
                       class="icon"
@@ -290,20 +307,14 @@ const Template = (args) => ({
               </ButtonsGroup>
             </Row>
 
-            <Row
-              style="flex: 1; min-height:60px;"
-              v-if="isChatDisplayed"
-            >
-              <div
-                class="text"
-                style="width: 100%;"
-              >
-                <Chat
-                  :received-messages="receivedMessages"
-                  notification="notification"
-                  @send-message="sendChatMessage"
-                />
-              </div>
+            <Row style="flex: 1;">
+              <Chat
+                v-show="displayChat"
+                :received-messages="receivedMessages"
+                notification="notification"
+                @send-message="sendChatMessage"
+              />
+              <ScriptConsole v-show="displayScript" />
             </Row>
           </template>
           <template #content>
@@ -336,5 +347,19 @@ Default.args = {
   changePenSize: action('changePenSize'),
   changeView: action('changeView'),
   receivedMessages,
-  sendChatMessage: (msg) => receivedMessages.value.push(msg)
+  sendChatMessage: (msg) => receivedMessages.value.push(msg),
+  displayChat,
+  displayScript,
+  toggleChat: () => {
+    displayChat.value = !displayChat.value;
+    if (displayChat.value) {
+      displayScript.value = false;
+    }
+  },
+  toggleScript: () => {
+    displayScript.value = !displayScript.value;
+    if (displayScript.value) {
+      displayChat.value = false;
+    }
+  }
 };

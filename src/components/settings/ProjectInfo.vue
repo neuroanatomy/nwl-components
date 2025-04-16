@@ -126,11 +126,12 @@ const handleProjectSave = async () => {
   } else if (res.error) {
     feedback.value = res.error;
   }
-  setTimeout(() => feedbackVisible.value = false, 5000);
-  setTimeout(() => feedback.value = '', 5500);
+  setTimeout(() => { feedbackVisible.value = false; }, 5000);
+  setTimeout(() => { feedback.value = ''; }, 5500);
 };
 
 const handleProjectDeletion = async () => {
+  // eslint-disable-next-line no-alert
   const confirmation = confirm(
     'Are you sure you want to delete project ' +
       project.value.shortname +
