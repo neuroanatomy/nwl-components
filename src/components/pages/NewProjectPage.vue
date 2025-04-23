@@ -14,11 +14,8 @@
           <input
             class="input"
             type="text"
-            @click="handleNameChange"
-            @keyup="
-              onKeyDown($event);
-              value = $event.target.value;
-            "
+            ref="inputEl"
+            @input="onKeyDown"
             placeholder="Enter the project short name"
           >
           <div
@@ -26,8 +23,8 @@
             v-show="existingProject"
           >
             The project
-            <a :href="`/project/${value}`">
-              <strong>{{ value }}</strong>
+            <a :href="`/project/${inputEl?.value}`">
+              <strong>{{ inputEl?.value }}</strong>
             </a>
             already exists
           </div>
@@ -43,7 +40,7 @@
         <div class="actions">
           <Button
             :disabled="!validInput || existingProject"
-            @click="createProject(value)"
+            @click="createProject(inputEl?.value)"
             class="push-button"
           >
             Create Project
@@ -61,7 +58,7 @@
   </Wrapper>
 </template>
 <script setup>
-import { inject } from 'vue';
+import { ref, inject } from 'vue';
 
 import Button from '@/components/common/Button.vue';
 import Footer from '@/components/layout/Footer.vue';
@@ -81,7 +78,8 @@ const createProject = (value) => {
   location.pathname = `/project/${value}/settings`;
 };
 const cancel = () => location.assign('/');
-const value = '';
+const inputEl = ref(null);
+// const value = '';
 </script>
 <style scoped>
 .container {

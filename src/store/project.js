@@ -67,7 +67,7 @@ export default function useProject () {
     state.project.annotations.list.push({
       type: 'text',
       name: '',
-      values: null,
+      values: '',
       display: true
     });
   };
