@@ -1,23 +1,25 @@
 <template>
   <div class="chat">
-    <div class="notifications">
-      {{ notification }}
-    </div>
-    <ul
-      class="messages"
-      ref="messagesRef"
-    >
-      <li
-        v-for="(msg, index) in receivedMessages"
-        :key="index"
+    <div class="overlay">
+      <div class="notifications">
+        {{ notification }}
+      </div>
+      <ul
+        class="messages"
+        ref="messagesRef"
       >
-        <span v-html="msg" />
-      </li>
-    </ul>
-    <input
-      type="text"
-      @keyup.enter="handleEnter"
-    >
+        <li
+          v-for="(msg, index) in receivedMessages"
+          :key="index"
+        >
+          <span v-html="msg" />
+        </li>
+      </ul>
+      <input
+        type="text"
+        @keyup.enter="handleEnter"
+      >
+    </div>
   </div>
 </template>
 <script setup>
@@ -54,6 +56,16 @@ const handleEnter = (event) => {
     height: 100%;
     display: flex;
     flex-direction: column;
+    position: relative;
+    min-height: 60px;
+}
+
+.overlay {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    position: absolute;
 }
 
 .messages {
@@ -61,17 +73,15 @@ const handleEnter = (event) => {
     background: #000;
     opacity: 0.5;
     border-radius: 3px;
-    margin: 1px;
+    margin: 1px 0px;
     user-select: text;
     overflow: auto;
-    min-height: 40px;
     padding: 3px;
     list-style: none;
     flex: 1;
 }
 
 input {
-    width: 100%;
     color: black;
     height: 22px;
 }
