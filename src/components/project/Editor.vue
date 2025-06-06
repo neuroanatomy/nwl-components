@@ -9,7 +9,7 @@
     <div
       ref="tools"
       class="tools"
-      :style="{ ...position }"
+      :style="{ ...clampedPosition }"
     >
       <button
         v-show="!toggled"
@@ -81,22 +81,22 @@
   </div>
 </template>
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref, onMounted, onUnmounted, computed } from 'vue';
 
 defineProps({
   title: {type: String, default: ''},
   toolsMinHeight: {type: String, default: null}
 });
-
 const drag = ref(false);
 const dragResizableHandle = ref(false);
-const position = ref({ top: 5, left: 5, right: 'auto' });
+const position = ref({ top: 0, left: 0 });
 const relativeCoords = ref({ left: 0, top: 0 });
 const toggled = ref(true);
 const toolsWidth = ref('275px');
 const toolsHeight = ref('275px');
 const toolsRect = ref({});
 const area = ref(null);
+const areaRect = ref({width: 0, height: 0});
 const hasTwoCols = ref(false);
 const margin = 5;
 
@@ -140,43 +140,59 @@ const handleResizableTouchStart = (event) => {
 
 const placeLeft = () => {
   drag.value = false;
-  position.value = { left: `${margin}px`, top: `${margin}px`, right: 'auto' };
+  position.value = { left: 0, top: 0 };
 };
 
 const placeRight = () => {
   drag.value = false;
-  position.value = { left: 'auto', top: `${margin}px`, right: `${margin}px` };
+  position.value = { left: Infinity, top: 0 };
 };
 
 const hideTools = () => {
   toggled.value = false;
-  const areaRect = area.value.getBoundingClientRect();
-  if (position.value.left === 'auto') { return; }
-  if (parseInt(position.value.left) > areaRect.width / 2 - toolsRect.value.width / 2) {
+  if (parseInt(position.value.left) > areaRect.value.width / 2 - toolsRect.value.width / 2) {
     placeRight();
   } else {
     placeLeft();
   }
 };
 
+const clampedPosition = computed(() => {
+  const posX = Math.max(
+    margin,
+    Math.min(
+      areaRect.value.width - toolsRect.value.width - margin,
+      position.value.left
+    )
+  );
+  const posY = Math.max(
+    margin,
+    Math.min(
+      areaRect.value.height - toolsRect.value.height - margin,
+      position.value.top
+    )
+  );
+
+  return {
+    left: `${posX}px`,
+    top: `${posY}px`
+  };
+});
+
+// eslint-disable-next-line max-statements
 const handleMove = (event) => {
   if (drag.value) {
-    const areaRect = area.value.getBoundingClientRect();
-    const posX = Math.max(
-      0,
-      Math.min(
-        areaRect.width - toolsRect.value.width,
-        event.clientX - areaRect.left - relativeCoords.value.left
-      )
+    const posX = Math.min(
+      areaRect.value.width - toolsRect.value.width - margin,
+      event.clientX - areaRect.value.left - relativeCoords.value.left
     );
-    const posY = Math.max(
-      0,
-      Math.min(
-        areaRect.height - toolsRect.value.height,
-        event.clientY - areaRect.top - relativeCoords.value.top
-      )
+    const posY = Math.min(
+      areaRect.value.height - toolsRect.value.height - margin,
+      event.clientY - areaRect.value.top - relativeCoords.value.top
     );
-    position.value = { left: `${posX}px`, top: `${posY}px` };
+    position.value = { left: posX, top: posY };
+
+    return true;
   }
 
   if (dragResizableHandle.value) {
@@ -188,14 +204,19 @@ const handleMove = (event) => {
     toolsHeight.value = parseInt(toolsRect.value.height + offsetBottom) + 'px';
 
     hasTwoCols.value = toolsRect.value.width + offsetRight > 520;
+
+    return true;
   }
+
+  return false;
 };
 
 const handleTouchMove = (event) => {
   if (event.touches) {
     if (event.touches.length !== 1) { return; }
-    handleMove(event.touches[0]);
-    event.preventDefault();
+    if (handleMove(event.touches[0])) {
+      event.preventDefault();
+    }
   }
 };
 
@@ -209,6 +230,15 @@ onMounted(() => {
     toolsRect.value = area.value.querySelector('.tools').getBoundingClientRect();
     toolsHeight.value = toolsRect.value.top + toolsRect.value.height;
   });
+
+  const areaObserver = new ResizeObserver(() => {
+    requestAnimationFrame(() => {
+      areaRect.value = area.value.getBoundingClientRect();
+    });
+  });
+  areaObserver.observe(area.value);
+  // set initial values
+  areaRect.value = area.value.getBoundingClientRect();
 });
 
 onUnmounted(() => {
