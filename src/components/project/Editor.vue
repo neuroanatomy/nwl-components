@@ -89,6 +89,7 @@ defineProps({
 });
 const drag = ref(false);
 const dragResizableHandle = ref(false);
+const tools = ref(null);
 const position = ref({ top: 0, left: 0 });
 const relativeCoords = ref({ left: 0, top: 0 });
 const toggled = ref(true);
@@ -102,7 +103,7 @@ const margin = 5;
 
 
 const handleMouseDown = (event) => {
-  const headerRect = event.target.getBoundingClientRect();
+  const headerRect = tools.value.getBoundingClientRect();
   relativeCoords.value = {
     left: event.clientX - headerRect.left,
     top: event.clientY - headerRect.top
@@ -182,6 +183,7 @@ const clampedPosition = computed(() => {
 // eslint-disable-next-line max-statements
 const handleMove = (event) => {
   if (drag.value) {
+    areaRect.value = area.value.getBoundingClientRect();
     const posX = Math.min(
       areaRect.value.width - toolsRect.value.width - margin,
       event.clientX - areaRect.value.left - relativeCoords.value.left
