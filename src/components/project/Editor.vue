@@ -235,7 +235,7 @@ onMounted(() => {
 
   const areaObserver = new ResizeObserver(() => {
     requestAnimationFrame(() => {
-      areaRect.value = area.value.getBoundingClientRect();
+      areaRect.value = area.value?.getBoundingClientRect();
     });
   });
   areaObserver.observe(area.value);
