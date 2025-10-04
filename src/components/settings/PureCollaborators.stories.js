@@ -1,6 +1,6 @@
 import faker from '@faker-js/faker';
 import { action } from '@storybook/addon-actions';
-import { reactive } from 'vue';
+import { inject, reactive } from 'vue';
 
 import PureCollaborators from '@/components/settings/PureCollaborators.vue';
 
@@ -11,7 +11,21 @@ export default {
 const Template = (args) => ({
   components: { PureCollaborators },
   setup () {
-    return {...args};
+    const { usernameField } = inject('config');
+    const usersFound = reactive([]);
+    const searchUsers = () => {
+      usersFound.splice(0, usersFound.length);
+      for (let i = 0; i < 3; i++) {
+        const name = faker.name.findName();
+        usersFound.push({ name, [usernameField]: faker.internet.userName(name)});
+      }
+    };
+
+    return {
+      ...args,
+      usersFound,
+      searchUsers
+    };
   },
   template:
     `<PureCollaborators :collaborators="collaborators"
@@ -21,8 +35,6 @@ const Template = (args) => ({
                     @update-collaborator="updateCollaborator"
                     @search-users="searchUsers" />`
 });
-
-const usersFound = reactive([]);
 
 export const Default = Template.bind({});
 Default.args = {
@@ -48,15 +60,7 @@ Default.args = {
       name: 'Yet Another User'
     }
   ],
-  usersFound,
   addCollaborator: action('add collaborator'),
   removeCollaborators: action('remove collaborators'),
-  updateCollaborator: action('update collaborator'),
-  searchUsers: (userID) => {
-    usersFound.splice(0, usersFound.length);
-    for (let i = 0; i < 3; i++) {
-      const name = faker.name.findName();
-      usersFound.push({ name, nickname: faker.internet.userName(name)});
-    }
-  }
+  updateCollaborator: action('update collaborator')
 };

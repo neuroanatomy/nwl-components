@@ -4,7 +4,7 @@
   </div>
 </template>
 <script setup>
-const props = defineProps({
+defineProps({
   fullWidth: { type: Boolean, default: false }
 });
 </script>

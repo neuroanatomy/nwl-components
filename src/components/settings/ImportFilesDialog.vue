@@ -57,6 +57,8 @@ const props = defineProps({
   }
 });
 
+defineEmits(['import', 'cancel']);
+
 const filesToImport = ref(props.files);
 </script>
 

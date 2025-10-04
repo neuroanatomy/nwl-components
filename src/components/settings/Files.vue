@@ -36,8 +36,9 @@ const handleCSVImport = () => {
 };
 
 const handleCSVDownload = () => {
+  // eslint-disable-next-line no-alert
   const filename = prompt('File name', `${project.value.shortname}`);
-  if (filename == null) {
+  if (filename === null) {
     return;
   }
   const csv = project.value.files.list
@@ -52,7 +53,7 @@ const handleCSVDownload = () => {
   document.body.removeChild(a);
 };
 
-function appendFiles (files) {
+const appendFiles = (files) => {
   files.forEach((file) => {
     if (file.source.length < 10) {
       console.log('Too short to be an url:', file.source);
@@ -62,7 +63,7 @@ function appendFiles (files) {
     const found = project.value.files.list.find(
       (f) => f.source === file.source
     );
-    if (found != null) {
+    if (found) {
       if (found.name === '') {
         found.name = file.name;
       }
@@ -71,7 +72,7 @@ function appendFiles (files) {
     }
   });
   displayImportDialog.value = false;
-}
+};
 </script>
 <template>
   <ImportFilesDialog

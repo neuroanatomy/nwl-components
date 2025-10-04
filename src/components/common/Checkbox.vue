@@ -17,10 +17,10 @@ const props = defineProps({
 });
 const isChecked = ref(props.modelValue);
 if (typeof props.modelValue === 'string') {
-  isChecked.value === props.modelValue === 'true';
+  isChecked.value = props.modelValue === 'true';
 }
 const toggleCheckbox = (key) => {
-  if (key != null && key !== ' ') {
+  if (typeof key !== 'undefined' && key !== ' ') {
     return;
   }
   isChecked.value = !isChecked.value;

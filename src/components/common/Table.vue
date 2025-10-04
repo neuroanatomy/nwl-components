@@ -5,8 +5,10 @@
 </template>
 <script setup>
 const props = defineProps({
-  id: String
-});
+  id: {
+    type: String,
+    default: null
+  }});
 </script>
 <style scoped>
 table {

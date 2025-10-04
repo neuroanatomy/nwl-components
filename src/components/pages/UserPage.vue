@@ -31,17 +31,16 @@
   </Wrapper>
 </template>
 <script setup>
-import { ref, inject } from 'vue';
+import { inject } from 'vue';
 
 import Footer from '@/components/layout/Footer.vue';
 import Header from '@/components/layout/Header.vue';
 import TwoCols from '@/components/layout/TwoCols.vue';
 import Wrapper from '@/components/layout/Wrapper.vue';
-import Settings from '@/components/settings/Settings.vue';
 
 
 const { usernameField } = inject('config');
-const props = defineProps({
+defineProps({
   user: {
     type: Object,
     required: true

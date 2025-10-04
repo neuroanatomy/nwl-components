@@ -3,6 +3,10 @@ module.exports = {
     'browser': true,
     'es2021': true
   },
+  parserOptions: {
+    ecmaVersion: 2022, // To allow modern class fields
+    sourceType: 'module'
+  },
   'extends': [
     'naat',
     'plugin:vue/vue3-strongly-recommended',

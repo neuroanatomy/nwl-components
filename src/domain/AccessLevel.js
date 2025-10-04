@@ -9,41 +9,41 @@ export default class AccessLevel {
 
   numericalLevel = 0;
 
-  constructor(level) {
+  constructor (level) {
     const index = AccessLevel.values.indexOf(level);
     this.numericalLevel = Math.max(0, index);
   }
 
-  static fromInt(level) {
+  static fromInt (level) {
     return new AccessLevel(this.values[level]);
   }
 
-  toInt() {
+  toInt () {
     return this.numericalLevel;
   }
 
-  toString() {
+  toString () {
     return AccessLevel.values[this.numericalLevel];
   }
 
-  isGreaterThan(accessLevel) {
+  isGreaterThan (accessLevel) {
     return this.toInt() > accessLevel.toInt();
   }
 
-  isGreaterThanOrEqualTo(accessLevel) {
+  isGreaterThanOrEqualTo (accessLevel) {
     return this.toInt() >= accessLevel.toInt();
   }
 
-  isLesserThan(accessLevel) {
+  isLesserThan (accessLevel) {
     return this.toInt() < accessLevel.toInt();
   }
 
-  isLesserThanOrEqualTo(accessLevel) {
+  isLesserThanOrEqualTo (accessLevel) {
     return this.toInt() <= accessLevel.toInt();
   }
 
-  isEqualTo(accessLevel) {
+  isEqualTo (accessLevel) {
     return this.toInt() === accessLevel.toInt();
   }
 
-};
+}

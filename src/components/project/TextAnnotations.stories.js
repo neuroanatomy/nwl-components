@@ -44,10 +44,10 @@ Brainbox.args = {
     keys.set('Name', 'name');
     keys.set('File', 'source');
     files.forEach((file) => {
-      const annotations = get(file, ['mri', 'annotations', brainboxProject.projectName]);
-      if (annotations == null) { return; }
+      const annotations = get(file, ['mri', 'annotations', brainboxProject.shortname]);
+      if (!annotations) { return; }
       forEach(annotations, (_value, key) => {
-        keys.set(key, ['mri', 'annotations', brainboxProject.projectName, key, 'data']);
+        keys.set(key, ['mri', 'annotations', brainboxProject.shortname, key, 'data']);
       });
     });
 

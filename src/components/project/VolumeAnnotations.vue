@@ -40,7 +40,7 @@ const props = defineProps({
   },
   extractKeys: {
     type: Function,
-    required: false
+    required: true
   }
 });
 

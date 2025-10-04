@@ -27,7 +27,7 @@ const Template = (args) => ({
 export const Brainbox = Template.bind({});
 
 Brainbox.args = {
-  extractKeys: (files) => {
+  extractKeys: () => {
     const keys = new Map();
     keys.set('Name', 'name');
     keys.set('Labels sets', 'labels');

@@ -40,8 +40,14 @@
 
 <script setup>
 const props = defineProps({
-  collaborator: Object,
-  type: String,
+  collaborator: {
+    type: Object,
+    required: true
+  },
+  type: {
+    type: String,
+    required: true
+  },
   readonly: {
     type: Boolean,
     default: false
