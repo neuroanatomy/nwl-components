@@ -3,6 +3,7 @@
     :title="title"
     :disabled="disabled"
     :class="classes"
+    tabindex="-1"
   >
     <slot />
   </button>

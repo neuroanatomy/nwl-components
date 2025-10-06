@@ -46,9 +46,7 @@ if (props.files !== null) {
 const content = ref(props.project.name);
 
 const onTitleInput = (event) => {
-  content.value = event.currentTarget.textContent;
-  updateProject({ name: content.value });
+  updateProject({ name: event.currentTarget.textContent });
 };
-
 
 </script>
