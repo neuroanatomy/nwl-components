@@ -12,6 +12,7 @@ export default defineConfig({
     }
   },
   build: {
+    target: 'es2015',
     lib: {
       entry: path.resolve(__dirname, 'src/components/index.js'),
       name: 'nwl-components',
