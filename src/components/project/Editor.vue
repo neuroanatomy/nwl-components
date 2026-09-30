@@ -2,90 +2,118 @@
   <div
     class="area"
     ref="area"
+    :class="{ 'area--docked': !overlayTools }"
   >
     <div class="content-wrapper">
       <slot name="content" />
     </div>
-    <div
-      ref="tools"
-      class="tools"
-      :style="{ ...clampedPosition }"
+    <Teleport
+      :disabled="overlayTools || !toolsTarget"
+      :to="toolsTarget || 'body'"
     >
-      <button
-        v-show="!toggled"
-        class="show-tools"
-        @click="toggled = true"
-      >
-        <img
-          src="@/assets/bars.svg"
-          alt="show tools"
-        >
-      </button>
       <div
-        class="resizable"
-        :class="{ 'resizable--two-cols': hasTwoCols }"
-        v-show="toggled"
-        :style="{width: toolsWidth, height: toolsHeight, minHeight: toolsMinHeight || 'fit-content'}"
+        ref="tools"
+        class="tools"
+        :class="{
+          'tools--overlay': overlayTools,
+          'tools--docked': !overlayTools,
+          'tools--reduced': reduced
+        }"
+        :style="overlayTools ? { ...clampedPosition } : null"
       >
-        <div
-          class="resizable-handle"
-          @mousedown="handleResizableMouseDown"
-          @touchstart="handleResizableTouchStart"
-          @touchend="handleMouseLeaveOrUp"
-        />
-        <div class="palette">
-          <div
-            class="header"
-            @mousedown="handleMouseDown"
-            @touchstart="handleTouchStart"
-            @touchend="handleTouchEnd"
+        <button
+          v-show="!toggled"
+          class="show-tools"
+          @click="toggled = true"
+        >
+          <img
+            src="@/assets/bars.svg"
+            alt="show tools"
           >
-            <button
-              class="toggle"
-              @click="hideTools"
-              @touchstart.stop="hideTools"
+        </button>
+        <div
+          class="resizable"
+          :class="{ 'resizable--two-cols': hasTwoCols }"
+          v-show="toggled"
+          :style="overlayTools
+            ? {width: toolsWidth, height: toolsHeight, minHeight: toolsMinHeight || 'fit-content'}
+            : { height: toolsHeight, minHeight: toolsMinHeight || 'fit-content'}"
+        >
+          <div
+            class="resizable-handle"
+            @mousedown="handleResizableMouseDown"
+            @touchstart="handleResizableTouchStart"
+            @touchend="handleMouseLeaveOrUp"
+          />
+          <div class="palette">
+            <div
+              class="header"
+              @mousedown="handleMouseDown"
+              @touchstart="handleTouchStart"
+              @touchend="handleTouchEnd"
             >
-              <img
-                src="@/assets/times-circle.svg"
-                alt="hide tools"
+              <button
+                class="toggle"
+                @click="hideTools"
+                @touchstart.stop="hideTools"
               >
-            </button>
-            <span class="title">{{ title }}</span>
-            <button
-              class="left"
-              @mousedown.stop="placeLeft"
-              @touchstart.stop="placeLeft"
-            >
-              <img
-                src="@/assets/caret-square-o-left.svg"
-                alt="place tools left"
+                <img
+                  src="@/assets/times-circle.svg"
+                  alt="hide tools"
+                >
+              </button>
+              <span class="title">{{ title }}</span>
+              <button
+                v-if="overlayTools"
+                class="left"
+                @mousedown.stop="placeLeft"
+                @touchstart.stop="placeLeft"
               >
-            </button>
-            <button
-              class="right"
-              @mousedown.stop="placeRight"
-              @touchstart.stop="placeRight"
-            >
-              <img
-                src="@/assets/caret-square-o-right.svg"
-                alt="place tools right"
+                <img
+                  src="@/assets/caret-square-o-left.svg"
+                  alt="place tools left"
+                >
+              </button>
+              <button
+                v-if="overlayTools"
+                class="right"
+                @mousedown.stop="placeRight"
+                @touchstart.stop="placeRight"
               >
-            </button>
-          </div>
-          <div class="content">
-            <slot name="tools" />
+                <img
+                  src="@/assets/caret-square-o-right.svg"
+                  alt="place tools right"
+                >
+              </button>
+            </div>
+            <div class="content">
+              <slot name="tools" />
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </Teleport>
   </div>
 </template>
 <script setup>
-import { ref, onMounted, onUnmounted, computed } from 'vue';
+import { ref, onMounted, onUnmounted, computed, watch } from 'vue';
 
-defineProps({
+const props = defineProps({
   title: {type: String, default: ''},
-  toolsMinHeight: {type: String, default: null}
+  toolsMinHeight: {type: String, default: null},
+  // true: the toolbox is a floating palette over the content (default).
+  // false: the toolbox is docked in normal flow (e.g. BrainBox-style pages
+  // that only want it to float in fullscreen).
+  overlayTools: {type: Boolean, default: true},
+  // External container to dock the toolbox into when overlayTools is false
+  // (e.g. a page's side column): CSS selector or, preferably, a template ref
+  // to the target element (reacts to the target being recreated around
+  // fullscreen toggles). The toolbox always renders in place when floating.
+  // Unset: docked inside the area, below the content (default docked).
+  toolsTarget: {type: [String, Object], default: null},
+  // Copy of the page-level reduced state (chat and script console both
+  // closed) so the reduced rules below travel with a teleported toolbox.
+  reduced: {type: Boolean, default: false}
 });
 const drag = ref(false);
 const dragResizableHandle = ref(false);
@@ -103,6 +131,7 @@ const margin = 5;
 
 
 const handleMouseDown = (event) => {
+  if (!props.overlayTools) { return; }
   const headerRect = tools.value.getBoundingClientRect();
   relativeCoords.value = {
     left: event.clientX - headerRect.left,
@@ -112,6 +141,7 @@ const handleMouseDown = (event) => {
 };
 
 const handleTouchStart = (event) => {
+  if (!props.overlayTools) { return; }
   if (event.touches.length !== 1) { return; }
   handleMouseDown(event.touches[0]);
   event.preventDefault();
@@ -124,12 +154,20 @@ const handleTouchEnd = () => {
 const handleMouseLeaveOrUp = () => {
   drag.value = false;
   dragResizableHandle.value = false;
-  toolsRect.value = area.value.querySelector('.tools').getBoundingClientRect();
+  // Measure the toolbox itself (template ref), not via area.querySelector:
+  // the toolbox can be teleported outside the area (toolsTarget), where the
+  // querySelector returns null and throws, leaving toolsRect stale — which
+  // made the resize start from a wrong reference rect.
+  toolsRect.value = tools.value.getBoundingClientRect();
 };
 
 const handleResizableMouseDown = (event) => {
   dragResizableHandle.value = true;
-  toolsRect.value = area.value.querySelector('.tools').getBoundingClientRect();
+  // Measure the toolbox itself (template ref), not via area.querySelector:
+  // the toolbox can be teleported outside the area (toolsTarget), where the
+  // querySelector returns null and throws, leaving toolsRect stale — which
+  // made the resize start from a wrong reference rect.
+  toolsRect.value = tools.value.getBoundingClientRect();
   event.preventDefault();
 };
 
@@ -202,10 +240,14 @@ const handleMove = (event) => {
     const initialBottom = toolsRect.value.top + toolsRect.value.height;
     const offsetRight = event.clientX - initialRight;
     const offsetBottom = event.clientY - initialBottom;
-    toolsWidth.value = parseInt(toolsRect.value.width + offsetRight) + 'px';
+    // Width (and the derived column count) is CSS-owned in docked mode, where
+    // the page clamps the toolbox to the image width; recording it here would
+    // carry the full docked column width into the next fullscreen session.
+    if (props.overlayTools) {
+      toolsWidth.value = parseInt(toolsRect.value.width + offsetRight) + 'px';
+      hasTwoCols.value = toolsRect.value.width + offsetRight > 520;
+    }
     toolsHeight.value = parseInt(toolsRect.value.height + offsetBottom) + 'px';
-
-    hasTwoCols.value = toolsRect.value.width + offsetRight > 520;
 
     return true;
   }
@@ -228,10 +270,12 @@ onMounted(() => {
   document.addEventListener('mouseup', handleMouseLeaveOrUp);
   placeLeft();
   // Wait for the DOM to be updated before getting the bounding rect
-  requestAnimationFrame(() => {
-    toolsRect.value = area.value.querySelector('.tools').getBoundingClientRect();
-    toolsHeight.value = toolsRect.value.top + toolsRect.value.height;
-  });
+  if (props.overlayTools) {
+    requestAnimationFrame(() => {
+      toolsRect.value = tools.value.getBoundingClientRect();
+      toolsHeight.value = toolsRect.value.top + toolsRect.value.height;
+    });
+  }
 
   const areaObserver = new ResizeObserver(() => {
     requestAnimationFrame(() => {
@@ -241,6 +285,17 @@ onMounted(() => {
   areaObserver.observe(area.value);
   // set initial values
   areaRect.value = area.value.getBoundingClientRect();
+});
+
+// The toolbox can be docked while the page is not fullscreen and become an
+// overlay when it enters fullscreen (the prop is bound to the page's
+// fullscreen state). Re-measure the palette when that happens: clampedPosition
+// needs a valid rect, and no mouseup ever fires on touch devices to refresh it.
+watch(() => props.overlayTools, (isOverlay) => {
+  if (!isOverlay) { return; }
+  requestAnimationFrame(() => {
+    toolsRect.value = tools.value.getBoundingClientRect();
+  });
 });
 
 onUnmounted(() => {
@@ -268,9 +323,24 @@ onUnmounted(() => {
   width: 28px;
 }
 
-.tools {
+/* Floating (overlay) mode: the palette is positioned over the content.
+   Docked mode (.area--docked) leaves it in normal flow instead. */
+.tools--overlay {
   position: absolute;
   z-index: 11;
+}
+
+/* Docked mode: the content shares the area with the toolbox below it, the
+   same column layout previous BrainBox used for its in-flow toolbar. */
+.area--docked {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+.area--docked .content-wrapper {
+  flex: 1 1 auto;
+  min-height: 0;
+  height: auto;
 }
 .tools .palette {
   display: flex;
@@ -279,9 +349,21 @@ onUnmounted(() => {
   height: 100%;
   min-width: fit-content;
   min-height: fit-content;
-  background-color: rgba(0, 0, 0, 0.7);
   box-shadow: 2px 2px 5px grey;
 }
+.tools--overlay .palette {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+/* In docked mode the palette header (close button, title, drag) and the
+   floating-palette shadow make no sense: the toolbox is in normal flow. */
+.tools--docked .palette {
+  box-shadow: none;
+}
+.tools--docked .palette .header {
+  display: none;
+}
+/* No min-height on the docked chat: it is resizable via the handle
+   (Chat.vue's own min-height: 60px is the floor). */
 
 .tools .palette .content :deep(button),
 .tools .palette .content :deep(.group) {
@@ -301,7 +383,7 @@ onUnmounted(() => {
 .tools .content {
   min-height: fit-content;
   flex-grow: 1;
-  padding: 5px 10px;
+  padding: 5px 10px 10px;
   display: flex;
   flex-direction: column;
 }
@@ -343,7 +425,10 @@ onUnmounted(() => {
     min-width: 275px;
 }
 
-.reduced .resizable {
+/* .reduced comes from the page as a class on the area; .tools--reduced is
+   the same state passed as a prop so it reaches a teleported toolbox. */
+.reduced .resizable,
+.tools--reduced .resizable {
   min-height: 190px;
   height: auto !important;
 }
@@ -352,11 +437,13 @@ onUnmounted(() => {
   min-height: 230px;
 }
 
-.reduced .resizable--two-cols {
+.reduced .resizable--two-cols,
+.tools--reduced .resizable--two-cols {
   min-height: 145px;
 }
 
-.reduced .resizable-handle {
+.reduced .resizable-handle,
+.tools--reduced .resizable-handle {
   display: none;
 }
 

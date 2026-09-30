@@ -28,20 +28,42 @@ const Template = (args) => ({
   },
   setup () {
     const fullscreen = ref(false);
+    // Target element for the docked toolbox (Editor's toolsTarget): the div
+    // above the file list in the left slot. Element ref, not a selector:
+    // same-tree selector targets cannot be resolved during the initial mount.
+    const toolsTarget = ref(null);
+    // Split-pane direction, owned by nwl ProjectPage (it emits the new value
+    // on every toggle; default matches its vertical default). In horizontal
+    // layout the left column becomes a top strip, so the toolbox floats over
+    // the content instead of docking there — same as BrainBox3's ProjectPage.
+    const vertical = ref(true);
     const ret = {
       ...args,
       handleFullscreen: () => {
         fullscreen.value = !fullscreen.value;
       },
+      handleLayoutChange: (value) => {
+        vertical.value = value;
+      },
       fullscreen,
+      toolsTarget,
+      vertical,
       value: ref(50)
     };
 
     return ret;
   },
   template: `
-    <ProjectPage :fullscreen="fullscreen" :project="project">
+    <ProjectPage
+      :fullscreen="fullscreen"
+      :project="project"
+      @layout-change="handleLayoutChange"
+    >
       <template v-slot:left>
+        <div
+          id="project-tools"
+          ref="toolsTarget"
+        />
         <TextAnnotations
           :projectName="project.shortname"
           :extractKeys="extractKeys"
@@ -51,7 +73,11 @@ const Template = (args) => ({
           :files="files" />
         </template>
         <template v-slot:right>
-          <Editor>
+          <Editor
+            title="Slice 180"
+            :overlay-tools="fullscreen || !vertical"
+            :tools-target="toolsTarget"
+          >
             <template v-slot:tools>
               <Row centered>
                 <RangeSlider :max="100" v-model="value" @input="sliceChange" />
