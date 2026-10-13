@@ -1,4 +1,5 @@
-import { expect, userEvent, waitFor } from '@storybook/test';
+import { expect, fn, userEvent, waitFor, within } from '@storybook/test';
+import { inject, provide } from 'vue';
 
 import SettingsPage from '@/components/pages/SettingsPage.vue';
 
@@ -137,4 +138,68 @@ TypeEmptyTitle.play = async ({ canvasElement }) => {
   await typeAtEnd(title, 'abc');
   await waitFor(() => expect(title.textContent).toBe('abc'));
   await waitFor(() => expect(title.classList.contains('empty')).toBe(false));
+};
+
+// Stories for the optional config settings (see README, "Configuration").
+// The decorator adds settings to the config provided by .storybook/preview.js.
+const withConfig = (extra) => () => ({
+  setup () {
+    provide('config', { ...inject('config'), ...extra });
+  },
+  template: '<story/>'
+});
+
+// Replace window.fetch while `run` executes, and return the mock.
+const withMockedFetch = async (run) => {
+  const originalFetch = window.fetch;
+  const mockFetch = fn(() => Promise.resolve(new Response(JSON.stringify({ success: true, message: 'Saved' }))));
+  window.fetch = mockFetch;
+  try {
+    await run();
+  } finally {
+    window.fetch = originalFetch;
+  }
+
+  return mockFetch;
+};
+
+export const WithoutEmbedButton = Template.bind({});
+WithoutEmbedButton.args = { name: 'test project' };
+WithoutEmbedButton.decorators = [withConfig({ showEmbedButton: false })];
+WithoutEmbedButton.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByText('Save Changes')).toBeTruthy();
+  await expect(canvas.queryByText('Embed Project')).toBeNull();
+};
+
+const cancelSave = fn(() => Promise.resolve(false));
+export const BeforeSaveCancels = Template.bind({});
+BeforeSaveCancels.args = { name: 'test project' };
+BeforeSaveCancels.decorators = [withConfig({ beforeSaveProject: cancelSave })];
+BeforeSaveCancels.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByText('Embed Project')).toBeTruthy();
+  cancelSave.mockClear();
+  const mockFetch = await withMockedFetch(async () => {
+    await userEvent.click(canvas.getByText('Save Changes'));
+    await waitFor(() => expect(cancelSave).toHaveBeenCalledTimes(1));
+  });
+  await expect(cancelSave.mock.calls[0][0].shortname).toBe('testproject');
+  await expect(mockFetch).not.toHaveBeenCalled();
+};
+
+const allowSave = fn(() => Promise.resolve(true));
+export const BeforeSaveAllows = Template.bind({});
+BeforeSaveAllows.args = { name: 'test project' };
+BeforeSaveAllows.decorators = [withConfig({ beforeSaveProject: allowSave })];
+BeforeSaveAllows.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  allowSave.mockClear();
+  const mockFetch = await withMockedFetch(async () => {
+    await userEvent.click(canvas.getByText('Save Changes'));
+    await waitFor(() => expect(canvas.getByText('Saved')).toBeTruthy());
+  });
+  await expect(allowSave).toHaveBeenCalledTimes(1);
+  await expect(mockFetch).toHaveBeenCalledTimes(1);
+  await expect(mockFetch.mock.calls[0][1].method).toBe('POST');
 };

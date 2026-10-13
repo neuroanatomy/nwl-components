@@ -41,6 +41,32 @@ The parent components are said to be container components (or sometimes _smart_ 
 This concept makes it possible to separate view and business logic. In the project, pure components are prefixed with _Pure_.
 
 
+## Configuration
+
+The apps give the components their settings through a `config` object, provided to the
+whole Vue app (`app.provide('config', config)`); see `.storybook/preview.js` for the
+usual keys (`baseURL`, `usernameField`, `fetchLabelSets`, ...). Optional settings, all
+off by default:
+
+| Key | Default | Effect |
+|---|---|---|
+| `showEmbedButton` | `true` | Set to `false` to hide the "Embed Project" button (and its dialog) in the project settings, for apps that have no `/project/:p/embed` page. |
+| `beforeSaveProject(project)` | none | Called when "Save Changes" is clicked in the project settings, before the project is sent to the server, with the project as edited. Return (or resolve to) `false` to cancel the save; any other value saves as before. If it throws or rejects, the project is not saved and the page shows "Changes not saved". |
+
+```js
+app.provide('config', {
+  baseURL: '',
+  // ...
+  showEmbedButton: false,
+  beforeSaveProject: async (project) => {
+    // e.g. check the project, ask the user to confirm
+    return confirm(`Save ${project.shortname}?`);
+  }
+});
+```
+
+Since 1.4.0.
+
 ## Storybook
 
 The components are documented through storybook, where you can see their props and see example use cases (for now we just have 'default' ones). Storybook stories are defined in files with the `.stories.js` extension. It's a quite handy tool to develop a component in isolation of other components.

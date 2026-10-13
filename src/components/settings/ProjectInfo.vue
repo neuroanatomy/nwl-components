@@ -38,6 +38,7 @@
     </p>
 
     <dialog
+      v-if="showEmbedButton"
       ref="embedDialog"
       class="embedDialog"
     >
@@ -88,6 +89,7 @@
         Go to Project
       </Button>
       <Button
+        v-if="showEmbedButton"
         class-name="push-button"
         @click="embedProject"
       >
@@ -114,11 +116,40 @@ import TextInput from '@/components/common/TextInput.vue';
 import useProject from '@/store/project.js';
 
 const { project, saveProject, deleteProject } = useProject();
-const { baseURL } = inject('config');
+const config = inject('config');
+const { baseURL } = config;
+// Optional app settings (see README, "Configuration"):
+// - showEmbedButton: false hides the "Embed Project" button
+// - beforeSaveProject(project): called before saving; resolve to false to cancel
+const showEmbedButton = config.showEmbedButton !== false;
 const feedbackVisible = ref(false);
 const feedback = ref('');
 
+const showFeedback = (message) => {
+  feedbackVisible.value = true;
+  feedback.value = message;
+  setTimeout(() => { feedbackVisible.value = false; }, 5000);
+  setTimeout(() => { feedback.value = ''; }, 5500);
+};
+
+const confirmSave = async () => {
+  if (typeof config.beforeSaveProject !== 'function') {
+    return true;
+  }
+  try {
+    return await config.beforeSaveProject(project.value) !== false;
+  } catch (err) {
+    console.error('beforeSaveProject failed, the project was not saved', err);
+    showFeedback('Changes not saved');
+
+    return false;
+  }
+};
+
 const handleProjectSave = async () => {
+  if (!await confirmSave()) {
+    return;
+  }
   feedbackVisible.value = true;
   const res = await saveProject(project.value);
   if (res.success) {
