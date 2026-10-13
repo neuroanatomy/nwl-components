@@ -5,6 +5,9 @@
     "type": "git",
     "url": "git+https://github.com/neuroanatomy/nwl-components.git"
   },
+  "engines": {
+    "node": ">=26"
+  },
   "files": [
     "dist"
   ],
