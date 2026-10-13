@@ -1,5 +1,3 @@
-import { get } from 'lodash';
-
 export default class ProjectService {
 
   constructor (baseURL) {
@@ -8,28 +6,31 @@ export default class ProjectService {
 
   // eslint-disable-next-line class-methods-use-this
   transformProjectFiles (project) {
-    if (get(project, 'files.list') !== null) {
-      return {
-        ...project,
-        files: {
-          ...project.files,
-          list: project.files.list.map((file) => {
-            if (typeof file === 'string') {
-              const splitAt = file.lastIndexOf('/');
-
-              return {
-                source: file,
-                name: splitAt > 0 ? file.substring(splitAt + 1) : ''
-              };
-            }
-
-            return file;
-          })
-        }
-      };
+    if (!project) {
+      return project;
     }
+    // files.list may be missing (e.g. a project created by an older app version):
+    // use an empty list, so that the settings page still renders
+    const list = Array.isArray(project.files?.list) ? project.files.list : [];
 
-    return project;
+    return {
+      ...project,
+      files: {
+        ...project.files,
+        list: list.map((file) => {
+          if (typeof file === 'string') {
+            const splitAt = file.lastIndexOf('/');
+
+            return {
+              source: file,
+              name: splitAt > 0 ? file.substring(splitAt + 1) : ''
+            };
+          }
+
+          return file;
+        })
+      }
+    };
   }
 
   async fetch (id) {

@@ -76,9 +76,12 @@ const makeProject = (name) => ({
 const Template = (args) => ({
   components: { SettingsPage },
   setup () {
-    return {
-      project: makeProject(args.name)
-    };
+    const project = makeProject(args.name);
+    if (args.withoutFiles) {
+      delete project.files;
+    }
+
+    return { project };
   },
   template: '<SettingsPage :project="project" />'
 });
@@ -102,6 +105,13 @@ Default.args = { name: 'test project' };
 
 export const EmptyName = Template.bind({});
 EmptyName.args = { name: '' };
+
+// A project document without `files` (older apps): the page must still render.
+export const WithoutFiles = Template.bind({});
+WithoutFiles.args = { name: 'test project', withoutFiles: true };
+WithoutFiles.play = async ({ canvasElement }) => {
+  await waitFor(() => expect(canvasElement.querySelector('#numFiles').textContent).toBe('0'));
+};
 
 // Interaction tests, run by `npm run test-storybook`.
 export const TypeTitle = Template.bind({});
