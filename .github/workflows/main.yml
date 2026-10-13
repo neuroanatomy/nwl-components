@@ -11,7 +11,8 @@ jobs:
           with:
             node-version-file: .nvmrc
         - run: npm ci
-        - run: npx playwright install --with-deps
+        - run: npx playwright install --with-deps chromium
+          timeout-minutes: 10
         - run: |
             npm run storybook &
             sleep 5
@@ -28,7 +29,8 @@ jobs:
           with:
             node-version: current
         - run: npm ci
-        - run: npx playwright install --with-deps
+        - run: npx playwright install --with-deps chromium
+          timeout-minutes: 10
         - run: |
             npm run storybook &
             sleep 5
