@@ -12,6 +12,9 @@ export default defineConfig({
     }
   },
   build: {
+    // es2015: BrainBox bundles dist/ with webpack 4, whose parser (acorn 6) fails on
+    // ?? and ?. (vite's default target emits them).
+    target: 'es2015',
     lib: {
       entry: path.resolve(__dirname, 'src/components/index.js'),
       name: 'nwl-components',

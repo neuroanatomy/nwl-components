@@ -1,3 +1,5 @@
+import { expect, userEvent, waitFor } from '@storybook/test';
+
 import SettingsPage from '@/components/pages/SettingsPage.vue';
 
 export default {
@@ -5,79 +7,124 @@ export default {
   component: SettingsPage
 };
 
+const makeProject = (name) => ({
+  name,
+  shortname: 'testproject',
+  url: '',
+  brainboxURL: '/project/testproject',
+  created: '2022-02-08T10:14:13.331Z',
+  owner: 'dhovart',
+  collaborators: {
+    list: [
+      {
+        userID: 'anyone',
+        access: {
+          collaborators: 'view',
+          annotations: 'edit',
+          files: 'none'
+        },
+        username: 'anyone',
+        name: 'Any User'
+      },
+      {
+        userID: 'some-collaborator',
+        access: {
+          collaborators: 'view',
+          annotations: 'add',
+          files: 'view'
+        },
+        name: 'Some collaborator',
+        username: 'some-collaborator'
+      }
+    ]
+  },
+  files: {
+    list: ['https://dl.dropbox.com/s/cny5b3so267bv94/p32-f18-uchar.nii.gz']
+  },
+  annotations: {
+    list: [
+      {
+        type: 'volume',
+        name: 'foo',
+        values: 'cerebrum.json',
+        display: true
+      },
+      {
+        type: 'volume',
+        name: 'blah',
+        values: 'nimhmacaque.json',
+        display: false
+      },
+      {
+        type: 'volume',
+        name: 'truc',
+        values: 'axolotl_labels.json',
+        display: true
+      },
+      {
+        type: 'text',
+        name: 'comment',
+        values: '',
+        display: true
+      }
+    ]
+  },
+  modified: '2022-02-20T19:18:15.829Z',
+  modifiedBy: 'dhovart'
+});
+
 const Template = (args) => ({
   components: { SettingsPage },
   setup () {
     return {
-      ...args,
-      project: {
-        name: 'test project',
-        shortname: 'testproject',
-        url: '',
-        brainboxURL: '/project/testproject',
-        created: '2022-02-08T10:14:13.331Z',
-        owner: 'dhovart',
-        collaborators: {
-          list: [
-            {
-              userID: 'anyone',
-              access: {
-                collaborators: 'view',
-                annotations: 'edit',
-                files: 'none'
-              },
-              username: 'anyone',
-              name: 'Any User'
-            },
-            {
-              userID: 'some-collaborator',
-              access: {
-                collaborators: 'view',
-                annotations: 'add',
-                files: 'view'
-              },
-              name: 'Some collaborator',
-              username: 'some-collaborator'
-            }
-          ]
-        },
-        files: {
-          list: ['https://dl.dropbox.com/s/cny5b3so267bv94/p32-f18-uchar.nii.gz']
-        },
-        annotations: {
-          list: [
-            {
-              type: 'volume',
-              name: 'foo',
-              values: 'cerebrum.json',
-              display: true
-            },
-            {
-              type: 'volume',
-              name: 'blah',
-              values: 'nimhmacaque.json',
-              display: false
-            },
-            {
-              type: 'volume',
-              name: 'truc',
-              values: 'axolotl_labels.json',
-              display: true
-            },
-            {
-              type: 'text',
-              name: 'comment',
-              values: '',
-              display: true
-            }
-          ]
-        },
-        modified: '2022-02-20T19:18:15.829Z',
-        modifiedBy: 'dhovart'
-      }
+      project: makeProject(args.name)
     };
   },
   template: '<SettingsPage :project="project" />'
 });
 
+const getTitle = (canvasElement) => canvasElement.querySelector('.title[contenteditable]');
+
+// Put the caret at the end of the title and type, the way a user does.
+const typeAtEnd = async (title, text) => {
+  title.focus();
+  const range = document.createRange();
+  range.selectNodeContents(title);
+  range.collapse(false);
+  const selection = window.getSelection();
+  selection.removeAllRanges();
+  selection.addRange(range);
+  await userEvent.keyboard(text);
+};
+
 export const Default = Template.bind({});
+Default.args = { name: 'test project' };
+
+export const EmptyName = Template.bind({});
+EmptyName.args = { name: '' };
+
+// Interaction tests, run by `npm run test-storybook`.
+export const TypeTitle = Template.bind({});
+TypeTitle.args = { name: 'test project' };
+TypeTitle.play = async ({ canvasElement }) => {
+  const title = getTitle(canvasElement);
+  // the initial name is rendered
+  await expect(title.textContent).toBe('test project');
+  await expect(title.classList.contains('empty')).toBe(false);
+  // typing appends in order (the title used to be written right to left)
+  await typeAtEnd(title, ' 2');
+  await waitFor(() => expect(title.textContent).toBe('test project 2'));
+};
+
+export const TypeEmptyTitle = Template.bind({});
+TypeEmptyTitle.args = { name: '' };
+TypeEmptyTitle.play = async ({ canvasElement }) => {
+  const title = getTitle(canvasElement);
+  // the placeholder shows while the name is empty...
+  await expect(title.textContent).toBe('');
+  await expect(title.classList.contains('empty')).toBe(true);
+  // ...and goes away once something is typed
+  await typeAtEnd(title, 'abc');
+  await waitFor(() => expect(title.textContent).toBe('abc'));
+  await waitFor(() => expect(title.classList.contains('empty')).toBe(false));
+};

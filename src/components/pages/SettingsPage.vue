@@ -2,11 +2,12 @@
   <Wrapper>
     <Header>
       <span
+        ref="titleRef"
         contenteditable="true"
         @input="onTitleInput"
         placeholder="Enter a project name"
         :class="{ title: true, empty: !content || content.trim().length === 0 }"
-      >{{ content }}</span>
+      />
     </Header>
     <main>
       <Settings v-if="project != null" />
@@ -15,7 +16,7 @@
   </Wrapper>
 </template>
 <script setup>
-import { ref, watch } from 'vue';
+import { ref, watch, onMounted } from 'vue';
 
 import Footer from '@/components/layout/Footer.vue';
 import Header from '@/components/layout/Header.vue';
@@ -44,9 +45,18 @@ if (props.files !== null) {
 }
 
 const content = ref(props.project.name);
+const titleRef = ref(null);
+
+onMounted(() => {
+  if (titleRef.value) {
+    titleRef.value.textContent = content.value || '';
+  }
+});
 
 const onTitleInput = (event) => {
-  updateProject({ name: event.currentTarget.textContent });
+  content.value = event.currentTarget.textContent;
+  updateProject({ name: content.value });
 };
+
 
 </script>
