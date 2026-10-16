@@ -133,4 +133,16 @@ h2 {
 #files {
   table-layout: fixed;
 }
+
+/* The URL cell fills its column, like the Name input, so it can be clicked
+   even when empty (an empty inline span is 0 px wide). */
+[contenteditable] {
+  display: block;
+  min-height: 1.2em;
+  padding: 5px 0;
+}
+[contenteditable]:empty::before {
+  content: attr(placeholder);
+  color: #ccc;
+}
 </style>
