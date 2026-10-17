@@ -3,6 +3,38 @@
 This project is a library of components to be used on the frontend of the Neuroweblab projects. 
 They are similar in style and behaviour to existing projects.
 
+## Scope
+
+nwl-components holds only **generic** components, which any NAAT app can use and
+customise through props, slots and the `config` object: the project-management pages,
+the project-page shell, and generic building blocks. Nothing tied to one app
+(BrainBox or microdraw) and none of a viewer's own logic belongs here; that stays in
+each app.
+
+Exports by group:
+
+| Group | Exports |
+|---|---|
+| Pages | `UserPage`, `NewProjectPage`, `SettingsPage`, `ProjectPage` (the project-page shell: header, resizable left/right split, fullscreen; the app fills the slots) |
+| Layout | `Wrapper`, `Header`, `Nav`, `Footer` |
+| Settings | `Settings`, `ProjectInfo`, `Files`, `Collaborators`, `Annotations`, `Access`, `ImportFilesDialog`, `PureFiles`, `PureCollaborators`, `PureAnnotations` |
+| Common widgets | `Button`, `Checkbox`, `Select`, `TextInput`, `TextArea`, `Autocomplete`, `Table`, `Tabs`, `Tab` |
+| Building blocks | `Editor` (floating/dockable tool window with content and tools slots), `Row`, `Col`, `ButtonsGroup`, `RangeSlider`, `AdjustSettings`, `Chat`, `ScriptConsole`, `TextAnnotations`, `VolumeAnnotations`, `AnnotationCell`, `OntologySelector` (label-set selector) |
+
+### To clean up
+
+App-specific content that should become neutral later (no component is deprecated):
+
+- the BrainBox stories `src/components/pages/BrainboxProjectPage.stories.js` and
+  `src/components/project/BrainboxProject.stories.js`;
+- the story data `TextAnnotations.brainbox.fixtures.json` and
+  `TextAnnotations.microdraw.fixtures.json`;
+- the BrainBox settings (site name, logo, URLs, label sets) in `.storybook/preview.js`;
+- `ScriptConsole`: it loads codeflask and consolita from fixed CDN URLs, and its CSS
+  targets the global id `#logScript`; both should become configurable;
+- `Chat` renders messages as raw HTML (`v-html`): they must be sanitised before an
+  app uses it.
+
 ## Single File Components
 
 This project makes use of Vue SFCs: _Single File Components_, that have the `.vue` extension.
