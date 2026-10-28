@@ -280,3 +280,79 @@ SortableColumnSpacing.play = async ({ canvasElement }) => {
   await frame();
   await expectSpacing(canvasElement);
 };
+
+// A private project with a long unbroken name (no spaces, no punctuation) in a 400 px wide
+// panel: the table is never wider than its panel, the long body cell wraps, and the header
+// cells, plain or sortable, stay on one line.
+const longName = 'PrivateProjectWithAVeryLongUnbrokenNameThatNeverEnds01234567';
+const longRows = [
+  { project: longName, owner: 'katja', modified: '2026-09-01' },
+  { project: 'axolotl', owner: 'roberto', modified: '2026-10-20' }
+];
+const narrow = (headers) => () => ({
+  components: { Table, SortableTh },
+  setup () {
+    const sort = useSortable(ref(longRows), {
+      Name: { key: 'project' }, Owner: { key: 'owner' }, 'Last modified': { key: 'modified', type: 'date' }
+    });
+
+    return { sort, rows: sort.sortedRows };
+  },
+  template: `
+  <div class="panel" style="width: 400px">
+    <Table>
+      <thead><tr>${headers}</tr></thead>
+      <tbody>
+        <tr v-for="p in rows" :key="p.project"><td>{{ p.project }}</td><td>{{ p.owner }}</td><td>{{ p.modified }}</td></tr>
+      </tbody>
+    </Table>
+  </div>`
+});
+// the distinct line tops of the text inside an element
+const lineCount = (el) => {
+  const tops = new Set();
+  const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+  while (walker.nextNode()) {
+    if (!walker.currentNode.textContent.trim()) { continue; }
+    const range = document.createRange();
+    range.selectNodeContents(walker.currentNode);
+    [...range.getClientRects()].forEach((r) => tops.add(Math.round(r.top)));
+  }
+
+  return tops.size;
+};
+const expectFitsPanel = async (canvasElement, { othersOneLine = true } = {}) => {
+  await expect(longName.length).toBe(60);
+  const panel = canvasElement.querySelector('.panel').getBoundingClientRect();
+  const table = canvasElement.querySelector('table').getBoundingClientRect();
+  await expect(Math.round(table.width)).toBeLessThanOrEqual(Math.round(panel.width));
+  const longCell = [...canvasElement.querySelectorAll('td')].find((td) => td.textContent.trim() === longName);
+  await expect(longCell.getBoundingClientRect().right).toBeLessThanOrEqual(table.right + 0.5);
+  await expect(lineCount(longCell)).toBeGreaterThan(1);
+  // every header stays on one line
+  await expect([...canvasElement.querySelectorAll('th')].map(lineCount)).toEqual([1, 1, 1]);
+  if (!othersOneLine) { return; }
+  // so do the other body cells when, as with sortable headers, each header is wider than its cells
+  await expect([...canvasElement.querySelectorAll('td')].filter((td) => td !== longCell).map(lineCount))
+    .toEqual([1, 1, 1, 1, 1]);
+};
+
+// With plain headers a short cell wider than its header ("roberto" under "Owner") can be
+// squeezed and wrap too: `overflow-wrap: anywhere` lets every cell shrink to one character.
+export const LongWordPlain = narrow('<th>Name</th><th>Owner</th><th>Last modified</th>');
+LongWordPlain.play = async ({ canvasElement }) => {
+  await expectFitsPanel(canvasElement, { othersOneLine: false });
+};
+
+export const LongWordSortable = narrow(`
+        <sortable-th :sort="sort" column="Name">Name</sortable-th>
+        <sortable-th :sort="sort" column="Owner">Owner</sortable-th>
+        <sortable-th :sort="sort" column="Last modified">Last modified</sortable-th>`);
+LongWordSortable.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expectFitsPanel(canvasElement);
+  // still fits after sorting
+  await userEvent.click(button(canvas, 'Name'));
+  await frame();
+  await expectFitsPanel(canvasElement);
+};
