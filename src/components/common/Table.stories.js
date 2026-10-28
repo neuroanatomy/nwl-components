@@ -283,16 +283,17 @@ SortableColumnSpacing.play = async ({ canvasElement }) => {
 
 // A private project with a long unbroken name (no spaces, no punctuation) in a 400 px wide
 // panel: the table is never wider than its panel, the long body cell wraps, and the header
-// cells, plain or sortable, stay on one line.
+// cells, plain or sortable, stay on one line. Only the Name cells opt in to breaking inside
+// a word, with `td.nwl-break-anywhere`; the other columns wrap at spaces only.
 const longName = 'PrivateProjectWithAVeryLongUnbrokenNameThatNeverEnds01234567';
 const longRows = [
   { project: longName, owner: 'katja', modified: '2026-09-01' },
   { project: 'axolotl', owner: 'roberto', modified: '2026-10-20' }
 ];
-const narrow = (headers) => () => ({
+const narrow = (headers, rowsData = longRows) => () => ({
   components: { Table, SortableTh },
   setup () {
-    const sort = useSortable(ref(longRows), {
+    const sort = useSortable(ref(rowsData), {
       Name: { key: 'project' }, Owner: { key: 'owner' }, 'Last modified': { key: 'modified', type: 'date' }
     });
 
@@ -303,7 +304,7 @@ const narrow = (headers) => () => ({
     <Table>
       <thead><tr>${headers}</tr></thead>
       <tbody>
-        <tr v-for="p in rows" :key="p.project"><td>{{ p.project }}</td><td>{{ p.owner }}</td><td>{{ p.modified }}</td></tr>
+        <tr v-for="p in rows" :key="p.project"><td class="nwl-break-anywhere">{{ p.project }}</td><td>{{ p.owner }}</td><td>{{ p.modified }}</td></tr>
       </tbody>
     </Table>
   </div>`
@@ -323,6 +324,9 @@ const lineCount = (el) => {
 };
 const expectFitsPanel = async (canvasElement, { othersOneLine = true } = {}) => {
   await expect(longName.length).toBe(60);
+  // only the opted-in Name cells may break inside a word
+  await expect([...canvasElement.querySelectorAll('tbody tr')].map((tr) => [...tr.cells].map((td) => getComputedStyle(td).overflowWrap)))
+    .toEqual([...canvasElement.querySelectorAll('tbody tr')].map(() => ['anywhere', 'normal', 'normal']));
   const panel = canvasElement.querySelector('.panel').getBoundingClientRect();
   const table = canvasElement.querySelector('table').getBoundingClientRect();
   await expect(Math.round(table.width)).toBeLessThanOrEqual(Math.round(panel.width));
@@ -337,11 +341,26 @@ const expectFitsPanel = async (canvasElement, { othersOneLine = true } = {}) => 
     .toEqual([1, 1, 1, 1, 1]);
 };
 
-// With plain headers a short cell wider than its header ("roberto" under "Owner") can be
-// squeezed and wrap too: `overflow-wrap: anywhere` lets every cell shrink to one character.
+// With plain headers a short cell wider than its header ("roberto" under "Owner") is not
+// broken either: only the Name column shrinks below its longest word.
 export const LongWordPlain = narrow('<th>Name</th><th>Owner</th><th>Last modified</th>');
 LongWordPlain.play = async ({ canvasElement }) => {
-  await expectFitsPanel(canvasElement, { othersOneLine: false });
+  await expectFitsPanel(canvasElement);
+};
+
+// BrainBox's user page: a 16-character owner name, much wider than its "Owner" header,
+// stays whole on one line; the long project name wraps instead.
+const longOwner = 'danielemarinazzo';
+export const LongWordOwner = narrow('<th>Name</th><th>Owner</th><th>Last modified</th>', [
+  { project: longName, owner: longOwner, modified: '2026-09-01' },
+  { project: 'axolotl', owner: longOwner, modified: '2026-10-20' }
+]);
+LongWordOwner.play = async ({ canvasElement }) => {
+  await expect(longOwner.length).toBe(16);
+  const ownerCells = [...canvasElement.querySelectorAll('td')].filter((td) => td.textContent.trim() === longOwner);
+  await expect(ownerCells.length).toBe(2);
+  await expect(ownerCells.map(lineCount)).toEqual([1, 1]);
+  await expectFitsPanel(canvasElement);
 };
 
 export const LongWordSortable = narrow(`

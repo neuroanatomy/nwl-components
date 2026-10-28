@@ -90,6 +90,19 @@ browser keeps it inside the table. `useSortable` also returns `sortBy(column)`,
 `sortColumn` and `sortAscending`; a third argument `{ column, ascending }` sets an initial
 sort. Story: `Common/Table` (`npm run storybook`). Since 1.5.0.
 
+Table cells wrap at spaces only, so a long word such as an owner's user name is never
+broken. A cell that may break inside a word, so that the table is never wider than its
+panel (for example a long project name with no spaces), opts in with the class
+`nwl-break-anywhere` (`overflow-wrap: anywhere`). It works on cells written in the
+`Table` slot. Since 1.5.3.
+
+```html
+<tr v-for="project in sortedProjects">
+  <td class="nwl-break-anywhere">{{ project.name }}</td>
+  <td>{{ project.owner }}</td>
+</tr>
+```
+
 ## Single File Components
 
 This project makes use of Vue SFCs: _Single File Components_, that have the `.vue` extension.

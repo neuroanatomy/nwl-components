@@ -38,9 +38,10 @@ table :deep(th) {
   font-weight: 700;
   white-space: nowrap;
 }
-/* long unbroken words (private project names) wrap, so the table is never wider than its
-   panel; `anywhere`, unlike `break-word`, also lowers the min-content width */
-table :deep(td) {
+/* opt-in: cells that may break inside a word (long private project names), so the table is
+   never wider than its panel; `anywhere`, unlike `break-word`, also lowers the min-content
+   width. Other cells wrap at spaces only. */
+table :deep(td.nwl-break-anywhere) {
   overflow-wrap: anywhere;
 }
 table :deep(thead), table :deep(tbody) {
