@@ -30,6 +30,10 @@ table :deep(th) {
   padding: 2px 0;
   vertical-align: middle;
 }
+/* a 1em gap between columns: every cell but the last of its row */
+table :deep(:is(td, th):not(:last-child)) {
+  padding-right: 1em;
+}
 table :deep(th) {
   font-weight: 700;
 }

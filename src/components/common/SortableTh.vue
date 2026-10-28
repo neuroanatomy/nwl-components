@@ -56,8 +56,12 @@ const props = defineProps({
 const dir = computed(() => props.sort.direction(props.column));
 </script>
 <style scoped>
+/* the button carries the vertical padding; the th keeps Table's 1em gap to the next column */
 th.nwl-sortable {
   padding: 0;
+}
+th.nwl-sortable:not(:last-child) {
+  padding-right: 1em;
 }
 th.nwl-sortable:hover {
   background: #444;

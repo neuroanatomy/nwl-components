@@ -220,3 +220,63 @@ NoLayoutShift.play = async ({ canvasElement }) => {
   await unchangedAfter(() => userEvent.unhover(button(canvas, 'Last modified')));
   await expect(header(canvas, 'Last modified').getAttribute('aria-sort')).toBe('descending');
 };
+
+// Column spacing: every cell but the last of its row has 1em of right padding (14px at the
+// default size), so columns never touch. The tables are given `width: auto` (shrink to fit)
+// so that each column is exactly as wide as its widest content plus that padding; the gap
+// between a column's widest content and the next column is then the padding itself.
+const contentRight = (cell) => {
+  const b = cell.querySelector('button');
+  if (b) { return b.getBoundingClientRect().right; }
+  const range = document.createRange();
+  range.selectNodeContents(cell);
+
+  return range.getBoundingClientRect().right;
+};
+const columnGaps = (canvasElement) => {
+  const rows = [...canvasElement.querySelectorAll('tr')];
+  const n = rows[0].cells.length;
+
+  return [...Array(n).keys()].map((i) => {
+    const widest = Math.max(...rows.map((tr) => contentRight(tr.cells[i])));
+    const end = i < n - 1 ? rows[0].cells[i + 1].getBoundingClientRect().left : rows[0].cells[i].getBoundingClientRect().right;
+
+    return Math.round(end - widest);
+  });
+};
+const paddings = (canvasElement) => [...canvasElement.querySelectorAll('tr')]
+  .map((tr) => [...tr.cells].map((c) => getComputedStyle(c).paddingRight));
+const expectSpacing = async (canvasElement) => {
+  const { fontSize } = getComputedStyle(canvasElement.querySelector('table'));
+  await expect(fontSize).toBe('14px');
+  await expect(columnGaps(canvasElement)).toEqual([14, 14, 14, 14, 0]);
+  const rows = paddings(canvasElement);
+  await expect(rows).toEqual(rows.map(() => ['14px', '14px', '14px', '14px', '0px']));
+};
+const shrinkToFit = (story) => () => {
+  const s = story();
+
+  return { ...s, template: s.template.replace('<Table>', '<Table style="width: auto">') };
+};
+
+export const ColumnSpacing = shrinkToFit(Plain);
+ColumnSpacing.play = async ({ canvasElement }) => {
+  await expectSpacing(canvasElement);
+  // the vertical padding is unchanged
+  const td = getComputedStyle(canvasElement.querySelector('td'));
+  await expect([td.paddingTop, td.paddingBottom, td.paddingLeft]).toEqual(['2px', '2px', '0px']);
+};
+
+export const SortableColumnSpacing = shrinkToFit(SortableTemplate);
+SortableColumnSpacing.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expectSpacing(canvasElement);
+  // the button fills the header's height and starts at its left edge, as in 1.5.0
+  const th = header(canvas, 'Name').getBoundingClientRect();
+  const b = button(canvas, 'Name').getBoundingClientRect();
+  await expect(Math.round(b.left - th.left)).toBe(0);
+  // still the same after sorting
+  await userEvent.click(button(canvas, 'Files'));
+  await frame();
+  await expectSpacing(canvasElement);
+};
