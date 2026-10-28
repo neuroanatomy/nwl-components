@@ -18,7 +18,7 @@ Exports by group:
 | Pages | `UserPage`, `NewProjectPage`, `SettingsPage`, `ProjectPage` (the project-page shell: header, resizable left/right split, fullscreen; the app fills the slots) |
 | Layout | `Wrapper`, `Header`, `Nav`, `Footer` |
 | Settings | `Settings`, `ProjectInfo`, `Files`, `Collaborators`, `Annotations`, `Access`, `ImportFilesDialog`, `PureFiles`, `PureCollaborators`, `PureAnnotations` |
-| Common widgets | `Button`, `Checkbox`, `Select`, `TextInput`, `TextArea`, `Autocomplete`, `Table`, `Tabs`, `Tab` |
+| Common widgets | `Button`, `Checkbox`, `Select`, `TextInput`, `TextArea`, `Autocomplete`, `Table`, `SortableTh` and `useSortable` (sortable table columns), `Tabs`, `Tab` |
 | Building blocks | `Editor` (floating/dockable tool window with content and tools slots), `Row`, `Col`, `ButtonsGroup`, `RangeSlider`, `AdjustSettings`, `Chat`, `ScriptConsole`, `TextAnnotations`, `VolumeAnnotations`, `AnnotationCell`, `OntologySelector` (label-set selector) |
 
 ### To clean up
@@ -34,6 +34,61 @@ App-specific content that should become neutral later (no component is deprecate
   targets the global id `#logScript`; both should become configurable;
 - `Chat` renders messages as raw HTML (`v-html`): they must be sanitised before an
   app uses it.
+
+## Sortable tables
+
+`useSortable(rows, columns)` keeps a table's sort state; `SortableTh` is a header cell
+that sorts by its column when clicked (or with Enter/Space). Every sortable header always
+shows an icon (a grey up/down "sort" icon when the column is not the sort column, one
+up or down arrow when it is; inline SVG from Tabler Icons, MIT) in a box of fixed size,
+so nothing moves when you click; `aria-sort` is set on the
+`<th>`. First click sorts ascending, a second click reverses, another column sorts
+ascending; missing values (`null`, `undefined`, `''`, not a number/date) are always last.
+The `rows` array is never mutated. Headers written as plain `<th>` look as before.
+
+```js
+import { SortableTh, Table, useSortable } from 'nwl-components';
+
+const PageContents = {
+  template: '#template',
+  setup () {
+    const projects = ref([]);
+    const sort = useSortable(projects, {
+      // column name: { key: row property (or row => value), type: 'string' (default) | 'number' | 'date' }
+      Name: { key: 'project' },
+      Files: { key: 'numFiles', type: 'number' },
+      'Last modified': { key: 'modified', type: 'date' }
+    });
+
+    return { projects, sort, sortedProjects: sort.sortedRows };
+  }
+};
+const app = createApp(PageContents);
+app.component('Table', Table);
+app.component('SortableTh', SortableTh);
+```
+
+```html
+<script type="text/html" id="template">
+  <Table>
+    <thead><tr>
+      <sortable-th :sort="sort" column="Name">Name</sortable-th>
+      <sortable-th :sort="sort" column="Files">Files</sortable-th>
+      <sortable-th :sort="sort" column="Last modified">Last modified</sortable-th>
+    </tr></thead>
+    <tbody>
+      <tr v-for="project in sortedProjects">...</tr>
+    </tbody>
+  </Table>
+</script>
+```
+
+In a template parsed by the browser (written directly in the page, not in a
+`<script type="text/html">`), write `<th is="vue:sortable-th" ...>` instead, so the
+browser keeps it inside the table. `useSortable` also returns `sortBy(column)`,
+`direction(column)` (`'ascending'`, `'descending'` or `'none'`), and the refs
+`sortColumn` and `sortAscending`; a third argument `{ column, ascending }` sets an initial
+sort. Story: `Common/Table` (`npm run storybook`). Since 1.5.0.
 
 ## Single File Components
 
