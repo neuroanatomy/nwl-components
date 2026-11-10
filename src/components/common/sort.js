@@ -36,7 +36,8 @@ export const sortValue = (row, { key, type = 'string' }) => {
 /**
  * The rows sorted by one column, as a new array (the input is never mutated).
  * Stable (equal values keep their order); missing values last in both directions;
- * strings compare with localeCompare, numbers and dates numerically.
+ * strings compare naturally (localeCompare with `numeric: true`: "E90" before "E120",
+ * "file2" before "file10"), numbers and dates numerically.
  *
  * @param {Array} rows The rows.
  * @param {Object} column `{ key, type }`, as for sortValue.
@@ -54,7 +55,8 @@ export const sortRows = (rows, column, ascending = true) => {
     .sort((a, b) => {
       const [ma, mb] = [a.value === null, b.value === null];
       if (ma || mb) { return ma - mb; }
-      if (type === 'string') { return dir * a.value.localeCompare(b.value); }
+      // [] = the default locale, as undefined (naat's no-undefined rule)
+      if (type === 'string') { return dir * a.value.localeCompare(b.value, [], { numeric: true }); }
 
       return dir * (a.value - b.value);
     })

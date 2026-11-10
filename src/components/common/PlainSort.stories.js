@@ -237,3 +237,53 @@ SameAsSortableTh.play = async ({ canvasElement }) => {
     .toEqual(['descending', 1, vue[1].paths]);
   await expect(describe(th).svg).toEqual(vue[1].svg);
 };
+
+// Natural order for strings (1.6.1): numbers inside names compare as numbers, in both
+// directions, in the plain table and in a Vue table with useSortable + SortableTh alike;
+// plain words keep their localeCompare order.
+const naturalItems = [
+  { id: 'n1', name: 'Macaque E120', size: 1, date: '2026-01-01' },
+  { id: 'n2', name: 'file10', size: 1, date: '2026-01-01' },
+  { id: 'n3', name: 'Macaque E70', size: 1, date: '2026-01-01' },
+  { id: 'n4', name: 'beta', size: 1, date: '2026-01-01' },
+  { id: 'n5', name: 'Macaque E90', size: 1, date: '2026-01-01' },
+  { id: 'n6', name: 'file2', size: 1, date: '2026-01-01' },
+  { id: 'n7', name: 'Alpha', size: 1, date: '2026-01-01' }
+];
+const naturalAscending = ['Alpha', 'beta', 'file2', 'file10', 'Macaque E70', 'Macaque E90', 'Macaque E120'];
+
+export const NaturalOrder = () => ({
+  components: { SortableTh },
+  setup () {
+    const host = ref(null);
+    const sort = useSortable(ref(naturalItems), columns);
+    onMounted(() => buildPlainTable(plainPage(host.value), naturalItems));
+
+    return { host, sort, rows: sort.sortedRows };
+  },
+  template: `
+  <table class="vue">
+    <thead><tr><th>Id</th><sortable-th :sort="sort" column="Name" /></tr></thead>
+    <tbody><tr v-for="r in rows" :key="r.id"><td>{{ r.id }}</td><td>{{ r.name }}</td></tr></tbody>
+  </table>
+  <div ref="host" class="plain-host"></div>`
+});
+const namesIn = (root) => [...root.querySelectorAll('tbody tr')].map((tr) => tr.cells[1].textContent);
+NaturalOrder.play = async ({ canvasElement }) => {
+  const root = shadowOf(canvasElement);
+  const vue = canvasElement.querySelector('table.vue');
+  const clickBoth = async () => {
+    await userEvent.click(within(vue).getByRole('button', { name: 'Name' }));
+    await userEvent.click(buttonOf(root)('Name'));
+  };
+  await clickBoth();
+  await waitFor(() => expect(namesIn(vue)).toEqual(naturalAscending));
+  await expect(namesIn(root)).toEqual(naturalAscending);
+  await clickBoth();
+  await waitFor(() => expect(namesIn(vue)).toEqual([...naturalAscending].reverse()));
+  await expect(namesIn(root)).toEqual([...naturalAscending].reverse());
+  // sortRows itself, with missing names still last both ways
+  const withMissing = [...naturalItems, { id: 'n8', name: '' }];
+  await expect(sortRows(withMissing, columns.Name).map((r) => r.name)).toEqual([...naturalAscending, '']);
+  await expect(sortRows(withMissing, columns.Name, false).map((r) => r.name)).toEqual([...naturalAscending].reverse().concat(''));
+};

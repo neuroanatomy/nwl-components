@@ -132,7 +132,8 @@ render();
 ```
 
 - `sortRows(rows, { key, type }, ascending = true)`: a new, sorted array (stable; missing
-  values last in both directions; `localeCompare` for strings). `sortValue(row, column)`
+  values last in both directions; strings in natural order, `localeCompare` with
+  `numeric: true`, so "E90" comes before "E120"; since 1.6.1). `sortValue(row, column)`
   is the value it compares.
 - `sortableHeader(th, { direction, onSort })` turns a `<th>` into SortableTh's markup
   (`class="nwl-sortable"`, `aria-sort`, a `<button type="button">` with the th's content

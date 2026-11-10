@@ -7,7 +7,7 @@ import { nextSort, sortRows } from './sort.js';
  *
  * @param {Array|Ref<Array>|Function} rows The rows (array, ref, computed or getter). Never mutated.
  * @param {Object} columns For each column name, `{ key, type }`: `key` is the row's property
- *   (or a function `row => value`), `type` is `'string'` (default, localeCompare), `'number'` or `'date'`.
+ *   (or a function `row => value`), `type` is `'string'` (default, natural order: "E90" before "E120"), `'number'` or `'date'`.
  * @param {Object} [options] `{ column, ascending }`: the initial sort (default: none, rows as given).
  * @returns {Object} `sortedRows` (computed), `sortColumn` and `sortAscending` (refs),
  *   `sortBy(column)`, and `direction(column)`: `'ascending'`, `'descending'` or `'none'`.

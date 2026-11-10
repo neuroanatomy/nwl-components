@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.6.1
+
+- String columns sort in natural order (`localeCompare` with `numeric: true`): "Macaque E70",
+  "E90", "E120", and "file2" before "file10" (before, "E120" came first). Applies to
+  `sortRows` and so to `useSortable`/`SortableTh`; missing values, stability, numbers and
+  dates are unchanged. Story `Common/PlainSort` NaturalOrder.
+
 ## 1.6.0
 
 - Sorting for tables built without Vue: `nwl-components/sort` (no Vue) exports `sortRows`,
