@@ -1,6 +1,6 @@
 {
   "name": "nwl-components",
-  "version": "1.5.3",
+  "version": "1.6.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/neuroanatomy/nwl-components.git"
@@ -9,7 +9,8 @@
     "node": ">=26"
   },
   "files": [
-    "dist"
+    "dist",
+    "sort"
   ],
   "main": "./dist/nwl-components.umd.js",
   "module": "./dist/nwl-components.es.js",
@@ -21,11 +22,19 @@
     ".": {
       "import": "./dist/nwl-components.es.js",
       "require": "./dist/nwl-components.umd.js"
+    },
+    "./sort": {
+      "import": "./dist/sort/nwl-components-sort.es.js",
+      "require": "./dist/sort/nwl-components-sort.umd.js"
+    },
+    "./sort/style.css": {
+      "import": "./dist/sort/style.css",
+      "require": "./dist/sort/style.css"
     }
   },
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && vite build -c vite.sort.config.js",
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",

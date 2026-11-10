@@ -1,27 +1,6 @@
 import { computed, ref, toValue } from 'vue';
 
-const isMissing = (v) => v === null || typeof v === 'undefined' || v === '' || Number.isNaN(v);
-
-// The value a column sorts by, as a number (numbers, dates) or a string.
-// Returns null when the value is missing or can't be read as the column's type.
-const sortValue = (row, { key, type = 'string' }) => {
-  const raw = typeof key === 'function' ? key(row) : row?.[key];
-  if (isMissing(raw)) { return null; }
-  switch (type) {
-  case 'number': {
-    const n = Number(raw);
-
-    return Number.isNaN(n) ? null : n;
-  }
-  case 'date': {
-    const t = (raw instanceof Date ? raw : new Date(raw)).getTime();
-
-    return Number.isNaN(t) ? null : t;
-  }
-  default:
-    return String(raw);
-  }
-};
+import { nextSort, sortRows } from './sort.js';
 
 /**
  * Sorting state for a table.
@@ -44,28 +23,14 @@ export const useSortable = (rows, columns, options = {}) => {
     const list = toValue(rows) || [];
     const column = columns[sortColumn.value];
     if (!column) { return list; }
-    const dir = sortAscending.value ? 1 : -1;
-    const type = column.type || 'string';
 
-    return list
-      .map((row) => ({ row, value: sortValue(row, column) }))
-      .sort((a, b) => {
-        const [ma, mb] = [a.value === null, b.value === null];
-        if (ma || mb) { return ma - mb; }
-        if (type === 'string') { return dir * a.value.localeCompare(b.value); }
-
-        return dir * (a.value - b.value);
-      })
-      .map(({ row }) => row);
+    return sortRows(list, column, sortAscending.value);
   });
 
   const sortBy = (column) => {
-    if (sortColumn.value === column) {
-      sortAscending.value = !sortAscending.value;
-    } else {
-      sortColumn.value = column;
-      sortAscending.value = true;
-    }
+    const next = nextSort({ column: sortColumn.value, ascending: sortAscending.value }, column);
+    sortColumn.value = next.column;
+    sortAscending.value = next.ascending;
   };
 
   const direction = (column) => {

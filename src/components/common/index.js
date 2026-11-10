@@ -8,3 +8,4 @@ export { default as Checkbox } from '@/components/common/Checkbox.vue';
 export * from '@/components/common/Tabs';
 export { default as SortableTh } from '@/components/common/SortableTh.vue';
 export { useSortable } from '@/components/common/useSortable.js';
+export { SORT_ICON_ATTRS, SORT_ICON_PATHS, ariaSort, nextSort, renderSortIcon, sortRows, sortValue, sortableHeader } from '@/components/common/sort.js';

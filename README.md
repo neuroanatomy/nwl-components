@@ -103,6 +103,52 @@ panel (for example a long project name with no spaces), opts in with the class
 </tr>
 ```
 
+### Tables without Vue
+
+Pages that build their tables with template strings and the DOM sort them the same way
+with `nwl-components/sort`, which has no Vue (about 3 kB). Importing these names from
+`nwl-components` itself also works, but bundles Vue and the whole library.
+`useSortable` and `SortableTh` use the same code, so the order and the header markup
+never differ.
+
+```js
+import { nextSort, sortRows, sortableHeader } from 'nwl-components/sort';
+
+const columns = { Name: { key: 'project' }, Files: { key: 'numFiles', type: 'number' } };
+let state = { column: null, ascending: true };
+const headers = {};
+const render = () => {
+  const rows = state.column ? sortRows(projects, columns[state.column], state.ascending) : projects;
+  tbody.innerHTML = rows.map((p) => `<tr><td>${p.project}</td><td>${p.numFiles}</td></tr>`).join('');
+  for (const [name, header] of Object.entries(headers)) {
+    header.setDirection(name !== state.column ? 'none' : state.ascending ? 'ascending' : 'descending');
+  }
+};
+for (const th of table.querySelectorAll('th')) {
+  const name = th.textContent;
+  headers[name] = sortableHeader(th, { onSort: () => { state = nextSort(state, name); render(); } });
+}
+render();
+```
+
+- `sortRows(rows, { key, type }, ascending = true)`: a new, sorted array (stable; missing
+  values last in both directions; `localeCompare` for strings). `sortValue(row, column)`
+  is the value it compares.
+- `sortableHeader(th, { direction, onSort })` turns a `<th>` into SortableTh's markup
+  (`class="nwl-sortable"`, `aria-sort`, a `<button type="button">` with the th's content
+  and the icon; Enter and Space work as on any button) and returns
+  `{ th, button, setDirection(direction) }`.
+- `nextSort(state, column)`: the sort after a click, as in `useSortable`.
+- For template strings: `renderSortIcon(direction)` (the SVG) and `ariaSort(direction)`.
+
+The headers' look is in `nwl-components/sort/style.css`, which has only the
+`th.nwl-sortable` and `.nwl-sort-*` rules (1 kB). Load that file, not `dist/style.css`, on a
+page not built with nwl-components: `dist/style.css` has global rules (`*` sets the font
+size and colour of every element). With a bundler, `import 'nwl-components/sort/style.css'`
+(webpack 4 included); otherwise link `node_modules/nwl-components/dist/sort/style.css`.
+`dist/style.css` keeps the same rules for `SortableTh`. Story: `Common/PlainSort`.
+Since 1.6.0.
+
 ## Single File Components
 
 This project makes use of Vue SFCs: _Single File Components_, that have the `.vue` extension.

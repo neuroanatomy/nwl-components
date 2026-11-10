@@ -9,6 +9,8 @@ lerna-debug.log*
 
 node_modules
 dist
+# copied by the build (vite.sort.config.js), for webpack 4
+sort/style.css
 dist-ssr
 *.local
 

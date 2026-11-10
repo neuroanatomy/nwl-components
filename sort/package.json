@@ -1,0 +1,6 @@
+{
+  "name": "nwl-components-sort",
+  "private": true,
+  "main": "../dist/sort/nwl-components-sort.umd.js",
+  "module": "../dist/sort/nwl-components-sort.es.js"
+}
