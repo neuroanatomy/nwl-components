@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.7.0
+
+- `PureCollaborators` (and so `Collaborators` and the settings pages): `anyone` is the minimum a
+  named collaborator has. Raising `anyone`'s level of one type (collaborators, annotations or
+  files) above that of named collaborators asks first, with `window.confirm`, naming them, the
+  type and the new level. On confirm, those collaborators are raised to the new level with
+  `anyone`, through `updateCollaborator` events (one per row); on cancel nothing changes.
+  Lowering `anyone`, or changing a named collaborator, works as before. The `anyone` row is
+  recognised by `username` or `userID`. Stories `Settings/Collaborators` RaiseAnyoneConfirmed,
+  RaiseAnyoneCancelled, RaiseAnyoneNoneBelow, LowerAnyone.
+
 ## 1.6.1
 
 - String columns sort in natural order (`localeCompare` with `numeric: true`): "Macaque E70",

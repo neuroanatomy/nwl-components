@@ -138,6 +138,31 @@ const emitCollaboratorUpdate = (idx, properties) => {
   });
 };
 
+const isAnyone = (c) => c.username === 'anyone' || c.userID === 'anyone';
+
+// `anyone` is the minimum a named collaborator has. When `anyone` (at idx) is raised to
+// requestedLevel for accessType, the indices of the named collaborators below it, once the
+// user confirms; null if the user cancels.
+const namedCollaboratorsToRaise = (idx, accessType, requestedLevel) => {
+  const below = props.collaborators
+    .map((c, i) => i)
+    .filter((i) => i !== idx && !isAnyone(props.collaborators[i]) &&
+      new AccessLevel(props.collaborators[i].access[accessType]).toInt() < requestedLevel);
+  if (below.length === 0) { return below; }
+  const newLevel = AccessLevel.fromInt(requestedLevel).toString();
+  const names = below
+    .map((i) => props.collaborators[i][usernameField] || props.collaborators[i].username ||
+      props.collaborators[i].name || props.collaborators[i].userID)
+    .join(', ');
+  // eslint-disable-next-line no-alert
+  const confirmation = confirm(
+    `Setting the ${accessType} access of anyone to "${newLevel}" will also raise ` +
+      `the ${accessType} access of these collaborators to "${newLevel}": ${names}. Continue?`
+  );
+
+  return confirmation ? below : null;
+};
+
 const handleAccessChange = (collaborator, accessType, level) => {
   const idx = props.collaborators.indexOf(collaborator);
   if (idx < 0) { return; }
@@ -150,12 +175,18 @@ const handleAccessChange = (collaborator, accessType, level) => {
     requestedLevel -= 1;
   }
 
-  emitCollaboratorUpdate(idx, {
+  let toRaise = [];
+  if (isAnyone(collaborator) && requestedLevel > existingAccessLevel) {
+    toRaise = namedCollaboratorsToRaise(idx, accessType, requestedLevel);
+    if (toRaise === null) { return; }
+  }
+
+  [...toRaise, idx].forEach((i) => emitCollaboratorUpdate(i, {
     access: {
-      ...props.collaborators[idx].access,
+      ...props.collaborators[i].access,
       [accessType]: AccessLevel.fromInt(requestedLevel).toString()
     }
-  });
+  }));
 };
 
 const handleNameChange = (collaborator, name) => {
