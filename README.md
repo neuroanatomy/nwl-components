@@ -193,6 +193,58 @@ Loading the tokens twice on a page (e.g. `tokens.css` and `dist/style.css`) is h
 `npm run lint` fails on a hex colour in `src/**/*.{vue,css}` outside `tokens.css`, and on a
 `var(--nwl-…)` that `tokens.css` doesn't define. Since 1.8.0.
 
+## Base styles and cascade layers
+
+Since 2.0.0 all the library's CSS is in three cascade layers, declared in this order at the
+top of each stylesheet it ships (`dist/style.css`, `nwl-components/base.css`,
+`nwl-components/sort/style.css`):
+
+```css
+@layer nwl.base, nwl.widgets, nwl.components;
+```
+
+- `nwl.base`: `src/styles/base.css` (below);
+- `nwl.widgets`: empty for now (plain-CSS widget classes, later);
+- `nwl.components`: the components' styles (scoped or not), `sortable.css`, and the CSS of
+  bundled dependencies (splitpanes).
+
+The tokens (`tokens.css`) stay outside the layers: they only define custom properties.
+**An app's own CSS, which is not in a layer, always wins over the library's**, whatever the
+load order or the selectors' specificity: `button { … }` in an app overrides `Button`'s scoped
+rules. No `!important` and no `html …` prefix are needed. (An app that puts its own CSS in
+layers must declare them after `nwl.components` to keep this.)
+
+`base.css` replaces 1.x's global `* { box-sizing: border-box; font-size: 14px; color: white }`
+rule, which is gone. Its selectors are wrapped in `:where()` (no specificity), and they apply
+inside the wrapper (`.app`, the root of `Wrapper`) only, except two:
+
+- `html`: `font-size: var(--nwl-text-md)` (1rem = 14px, as in 1.x), and `body`: `margin: 0`;
+- `.app`: font (`--nwl-font-body`, `--nwl-text-md`) and colour (`--nwl-text`), inherited by
+  everything inside; `box-sizing: border-box`, inherited by every element and pseudo-element;
+- headings, `small`, `sub`, `sup`, `code`, `pre` and form controls take their parent's font
+  size; form controls and `<dialog>` their parent's colour (the controls' font family stays
+  the browser's); links `--nwl-link`;
+- keyboard focus: `:focus-visible` gets a 2px solid `--nwl-focus` outline, 2px away
+  (`--nwl-focus` is `--nwl-text`, white). Mouse focus shows nothing on buttons; browsers
+  show it on text fields and Chromium on `<select>`, as they decide what is `:focus-visible`.
+
+`dist/style.css` includes `base.css`. A page without the Vue components (e.g. a Mustache page
+that wants the same font, colour and focus style) can load it alone, after the tokens:
+
+```js
+import 'nwl-components/tokens.css';
+import 'nwl-components/base.css'; // webpack 4 too (a copy at the package root)
+```
+
+```html
+<link rel="stylesheet" href="/lib/nwl-components/tokens.css">
+<link rel="stylesheet" href="/lib/nwl-components/base.css">
+<div class="app">…</div>
+```
+
+Outside `.app`, nothing sets font, colour or box-sizing any more: an app's own markup on a
+page that loads `dist/style.css` gets them from the app's CSS (or from being inside `.app`).
+
 ## Single File Components
 
 This project makes use of Vue SFCs: _Single File Components_, that have the `.vue` extension.

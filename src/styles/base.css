@@ -1,0 +1,55 @@
+/* nwl-components base styles: `import 'nwl-components/base.css'` (after `nwl-components/tokens.css`,
+   whose tokens it reads). dist/style.css includes it.
+
+   The build puts this file in `@layer nwl.base`, the lowest of the library's layers
+   (`@layer nwl.base, nwl.widgets, nwl.components`), so any app rule wins over it. Selectors are
+   wrapped in :where(), so they add no specificity.
+
+   Font and colour are set once, on the wrapper (`.app`, the root of `Wrapper`), and inherited:
+   there is no `*` rule setting them on every element. */
+
+/* 1rem = 14px, as in 1.x (where the `*` rule set it on <html>): the components' rem sizes */
+:where(html) {
+  font-size: var(--nwl-text-md);
+}
+
+:where(body) {
+  margin: 0;
+}
+
+:where(.app) {
+  box-sizing: border-box;
+  font-family: var(--nwl-font-body);
+  font-size: var(--nwl-text-md);
+  color: var(--nwl-text);
+}
+
+:where(.app) *,
+:where(.app) *::before,
+:where(.app) *::after {
+  box-sizing: inherit;
+}
+
+/* Elements the browser gives a size of their own (headings, small print, code, form controls)
+   take their parent's, as 1.x's `*` rule made them do. */
+:where(.app) :where(h1, h2, h3, h4, h5, h6, small, sub, sup, big, code, kbd, samp, pre, tt, button, input, select, textarea) {
+  font-size: inherit;
+}
+
+/* Form controls and dialogs don't inherit the colour by default either. The controls' font
+   family stays the browser's, as it was in 1.x. */
+:where(.app) :where(button, input, select, textarea, dialog) {
+  color: inherit;
+}
+
+/* links: the link colour, not the browser's blue */
+:where(.app a) {
+  color: var(--nwl-link);
+}
+
+/* Keyboard focus: a 2px outline in --nwl-focus. Mouse focus shows nothing (browsers match
+   :focus-visible on a mouse click only for text fields). */
+:where(.app :focus-visible) {
+  outline: 2px solid var(--nwl-focus);
+  outline-offset: 2px;
+}

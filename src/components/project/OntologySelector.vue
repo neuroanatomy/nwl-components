@@ -116,6 +116,11 @@ onUnmounted(() => {
     /* padding: 0 20px 20px; */
 }
 
+/* the panel's contents are 14px, as with 1.x's `*` rule (the panel's own 0.8rem doesn't reach them) */
+.labelset > * {
+    font-size: var(--nwl-text-md);
+}
+
 h3 {
     margin: 20px 0 0;
 }

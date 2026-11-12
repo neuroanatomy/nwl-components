@@ -73,6 +73,9 @@
   --nwl-accent-subtle: var(--nwl-cyan-15);
   --nwl-accent-fg: var(--nwl-cyan);
 
+  /* keyboard focus outline (base.css, :focus-visible); white for now, may become the accent */
+  --nwl-focus: var(--nwl-text);
+
   /* links and status colours */
   --nwl-link: var(--nwl-white);
   --nwl-link-hover: var(--nwl-white);

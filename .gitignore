@@ -13,6 +13,7 @@ dist
 sort/style.css
 # copied by the build (vite.config.js), for webpack 4
 /tokens.css
+/base.css
 dist-ssr
 *.local
 

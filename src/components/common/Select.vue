@@ -30,7 +30,6 @@ select {
   background: none;
   color: var(--nwl-text);
   appearance: none;
-  outline: none;
   cursor: pointer;
 }
 </style>

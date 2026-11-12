@@ -4,18 +4,29 @@ import path from 'path';
 import vue from '@vitejs/plugin-vue';
 import { defineConfig } from 'vite';
 
+import { cssLayers, inLayer, orderOnce } from './scripts/css-layers.js';
+
 // The design tokens alone (src/styles/tokens.css, only `:root` custom properties), for app CSS
 // and pages with no bundle: copied as they are to dist/tokens.css (`nwl-components/tokens.css`
 // through `exports`) and to tokens.css (the same path for webpack 4, which ignores `exports`).
-// dist/style.css carries them too (src/components/index.js imports them).
+// The base styles alone (src/styles/base.css), in `@layer nwl.base` after the layer order, the
+// same way: dist/base.css (`nwl-components/base.css`) and base.css.
+// dist/style.css carries both (src/components/index.js imports them); every stylesheet in it is
+// in its layer (cssLayers), and the layer order is declared once, at its top (orderOnce).
 const tokensCss = path.resolve(__dirname, 'src/styles/tokens.css');
-const copyTokensCss = {
-  name: 'copy-tokens-css',
+const baseCss = path.resolve(__dirname, 'src/styles/base.css');
+const baseStyle = async () => orderOnce(inLayer('nwl.base', await fs.readFile(baseCss, 'utf8')));
+const styleCss = path.resolve(__dirname, 'dist/style.css');
+const libraryCss = {
+  name: 'library-css',
   async generateBundle () {
     this.emitFile({ type: 'asset', fileName: 'tokens.css', source: await fs.readFile(tokensCss, 'utf8') });
+    this.emitFile({ type: 'asset', fileName: 'base.css', source: await baseStyle() });
   },
   async writeBundle () {
     await fs.copyFile(tokensCss, path.resolve(__dirname, 'tokens.css'));
+    await fs.writeFile(path.resolve(__dirname, 'base.css'), await baseStyle());
+    await fs.writeFile(styleCss, orderOnce(await fs.readFile(styleCss, 'utf8')));
   }
 };
 
@@ -25,6 +36,11 @@ export default defineConfig({
     alias: {
       '@': path.resolve(__dirname, '/src'),
       '~@': path.resolve(__dirname, '/src')
+    }
+  },
+  css: {
+    postcss: {
+      plugins: [cssLayers()]
     }
   },
   build: {
@@ -47,5 +63,5 @@ export default defineConfig({
       }
     }
   },
-  plugins: [vue(), copyTokensCss]
+  plugins: [vue(), libraryCss]
 });

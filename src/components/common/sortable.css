@@ -24,8 +24,8 @@ th.nwl-sortable:hover {
   user-select: none;
 }
 .nwl-sort-button:focus-visible {
-  outline: 1px solid currentColor;
-  outline-offset: 1px;
+  outline: 2px solid var(--nwl-focus);
+  outline-offset: 2px;
 }
 .nwl-sort-indicator {
   display: block;

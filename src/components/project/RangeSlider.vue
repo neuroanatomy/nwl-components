@@ -79,9 +79,6 @@ input[type=range] {
   width: 100%;
   background: transparent;
 }
-input[type=range]:focus {
-  outline: none;
-}
 input[type=range]::-webkit-slider-runnable-track {
   width: 100%;
   height: 1px;

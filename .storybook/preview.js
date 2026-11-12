@@ -2,6 +2,7 @@ import brainboxLogo from '@/assets/brainbox-logo-small_noFont.svg';
 import Wrapper from '@/components/layout/Wrapper.vue';
 import '@fontsource/roboto/100.css';
 import '@/styles/tokens.css';
+import '@/styles/base.css';
 
 export default {
   decorators: [

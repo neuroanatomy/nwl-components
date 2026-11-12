@@ -5,21 +5,9 @@
 </template>
 
 <style>
-* {
-  box-sizing: border-box;
-  font-size: var(--nwl-text-md);
-  color: var(--nwl-text);
-}
-
-body {
-  margin: 0;
-}
-
+/* font, colour, box-sizing and body margin: src/styles/base.css (no `*` rule since 2.0.0) */
 .app {
   background: var(--nwl-bg);
-  color: var(--nwl-text);
-  font-family: var(--nwl-font-body);
-  font-size: var(--nwl-text-md);
   display: block;
   min-height: 100vh;
 }

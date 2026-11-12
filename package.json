@@ -11,7 +11,8 @@
   "files": [
     "dist",
     "sort",
-    "tokens.css"
+    "tokens.css",
+    "base.css"
   ],
   "main": "./dist/nwl-components.umd.js",
   "module": "./dist/nwl-components.es.js",
@@ -27,6 +28,14 @@
     "./dist/tokens.css": {
       "import": "./dist/tokens.css",
       "require": "./dist/tokens.css"
+    },
+    "./base.css": {
+      "import": "./dist/base.css",
+      "require": "./dist/base.css"
+    },
+    "./dist/base.css": {
+      "import": "./dist/base.css",
+      "require": "./dist/base.css"
     },
     ".": {
       "import": "./dist/nwl-components.es.js",

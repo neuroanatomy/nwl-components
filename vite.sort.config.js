@@ -3,6 +3,8 @@ import path from 'path';
 
 import { defineConfig } from 'vite';
 
+import { inLayer, orderOnce } from './scripts/css-layers.js';
+
 // The Vue-free sorting helpers alone (src/components/common/sort.js), for pages built without
 // Vue: `import { sortRows, sortableHeader } from 'nwl-components/sort'`. Built after the main
 // library (npm run build) into dist/sort/; no Vue.
@@ -11,10 +13,12 @@ import { defineConfig } from 'vite';
 // .nwl-sort-* rules), after the design tokens they read (src/styles/tokens.css, only `:root`
 // custom properties), are written to dist/sort/style.css (`nwl-components/sort/style.css`
 // through `exports`) and to sort/style.css (the same path for webpack 4, which ignores
-// `exports`). Pages without Vue load only this file: dist/style.css has global rules.
+// `exports`). The layer order comes first, then the tokens (unlayered), then the header rules in
+// `@layer nwl.components`, as in dist/style.css.
 const tokensCss = path.resolve(__dirname, 'src/styles/tokens.css');
 const sortableCss = path.resolve(__dirname, 'src/components/common/sortable.css');
-const sortStyle = async () => (await fs.readFile(tokensCss, 'utf8')) + '\n' + (await fs.readFile(sortableCss, 'utf8'));
+const sortStyle = async () => orderOnce((await fs.readFile(tokensCss, 'utf8')) + '\n' +
+  inLayer('nwl.components', await fs.readFile(sortableCss, 'utf8')));
 const copySortableCss = {
   name: 'copy-sortable-css',
   async generateBundle () {

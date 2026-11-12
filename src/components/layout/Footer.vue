@@ -34,7 +34,9 @@ p {
   text-align: center;
 }
 
+/* 14px, as with 1.x's `*` rule (the paragraph's small size doesn't reach the links) */
 a {
+  font-size: var(--nwl-text-md);
   text-decoration: none;
   font-weight: lighter;
   color: var(--nwl-link);

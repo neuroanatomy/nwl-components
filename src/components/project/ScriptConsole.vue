@@ -33,13 +33,19 @@ onMounted(async () => {
     height: 100%;
     min-height: 60px;
 }
+/* codeflask injects its own CSS, unlayered, which wins over the library's layers: these
+   overrides need !important (an important declaration in a layer beats unlayered CSS) */
 #logScript .codeflask__flatten {
-    white-space: pre-wrap;
-    word-wrap: break-word;
-    caret-color: var(--nwl-white);
-    font-size: inherit;
+    white-space: pre-wrap !important;
+    word-wrap: break-word !important;
+    caret-color: var(--nwl-white) !important;
+    font-size: inherit !important;
 }
 #logScript .codeflask {
-    background: var(--nwl-black);
+    background: var(--nwl-black) !important;
+}
+#logScript .codeflask__pre,
+#logScript .codeflask__code {
+    color: var(--nwl-text) !important;
 }
 </style>
