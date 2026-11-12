@@ -11,6 +11,8 @@ jobs:
           with:
             node-version-file: .nvmrc
         - run: npm ci
+        # ESLint, then no hex colour outside src/styles/tokens.css
+        - run: npm run lint
         - run: npx playwright install --with-deps chromium
           timeout-minutes: 10
         - run: |
