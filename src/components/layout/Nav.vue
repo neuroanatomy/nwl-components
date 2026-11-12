@@ -99,6 +99,6 @@ nav {
 }
 
 a {
-  color: white;
+  color: var(--nwl-link);
 }
 </style>

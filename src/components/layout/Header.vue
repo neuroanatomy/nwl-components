@@ -40,13 +40,13 @@ header {
 }
 
 :deep(.title) {
-  color: white;
+  color: var(--nwl-text);
   display: inline-block;
   width: auto;
   text-align: left;
-  font-family: Roboto, sans-serif;
-  font-size: 36px;
-  font-weight: 100;
+  font-family: var(--nwl-font-display);
+  font-size: var(--nwl-text-3xl);
+  font-weight: var(--nwl-weight-thin);
   vertical-align: middle;
   background: none;
   margin-top: 14px;
@@ -54,6 +54,6 @@ header {
 }
 :deep(.title.empty:before) {
   content: attr(placeholder);
-  color: rgba(255, 255, 255, 0.4);
+  color: var(--nwl-text-3);
 }
 </style>

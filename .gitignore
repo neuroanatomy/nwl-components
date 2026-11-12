@@ -11,6 +11,8 @@ node_modules
 dist
 # copied by the build (vite.sort.config.js), for webpack 4
 sort/style.css
+# copied by the build (vite.config.js), for webpack 4
+/tokens.css
 dist-ssr
 *.local
 

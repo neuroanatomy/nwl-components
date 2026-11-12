@@ -122,7 +122,7 @@ const handleSourceChange = (file, source) => {
 </script>
 <style scoped>
 h2 {
-  font-size: 14px;
+  font-size: var(--nwl-text-md);
   padding-bottom: 4px;
 }
 .actions {
@@ -143,6 +143,6 @@ h2 {
 }
 [contenteditable]:empty::before {
   content: attr(placeholder);
-  color: #ccc;
+  color: var(--nwl-text-placeholder);
 }
 </style>

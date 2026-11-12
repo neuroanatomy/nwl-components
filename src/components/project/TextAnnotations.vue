@@ -93,6 +93,6 @@ td {
   hyphens: auto;
 }
 .selected {
-  background: #444;
+  background: var(--nwl-bg-elevated);
 }
 </style>

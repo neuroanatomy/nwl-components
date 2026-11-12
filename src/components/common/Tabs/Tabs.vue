@@ -49,6 +49,6 @@ li {
 }
 
 .selected {
-  background: #333;
+  background: var(--nwl-bg-surface);
 }
 </style>

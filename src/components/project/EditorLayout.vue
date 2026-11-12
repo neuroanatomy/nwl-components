@@ -53,7 +53,7 @@ const rightSize = ref(60);
 .left-header {
     padding: 5px 0;
     display: flex;
-    border-bottom: 1px solid #333;
+    border-bottom: 1px solid var(--nwl-grey-33);
     margin-bottom: 10px;
 }
 
@@ -105,7 +105,7 @@ const rightSize = ref(60);
 </style>
 <style>
 .splitpanes__splitter {
-  background-color: #444;
+  background-color: var(--nwl-grey-44);
   box-sizing: border-box;
   position: relative;
   flex-shrink: 0;
@@ -126,7 +126,7 @@ const rightSize = ref(60);
   position: absolute;
   top: 50%;
   left: 50%;
-  background-color: #ffffff40;
+  background-color: var(--nwl-white-25);
   transition: background-color 0.3s;
 }
 

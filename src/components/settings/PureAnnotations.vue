@@ -158,7 +158,7 @@ const handleDisplayChange = (annotation, display) => {
 </script>
 <style scoped>
 h2 {
-  font-size: 14px;
+  font-size: var(--nwl-text-md);
   padding-bottom: 4px;
 }
 .actions {

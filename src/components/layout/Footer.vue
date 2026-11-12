@@ -24,7 +24,7 @@
 <style scoped>
 footer {
   height: 100px;
-  background-color: #000;
+  background-color: var(--nwl-black);
   padding: 13px 0;
 }
 
@@ -37,7 +37,7 @@ p {
 a {
   text-decoration: none;
   font-weight: lighter;
-  color: white;
+  color: var(--nwl-link);
 }
 
 img {

@@ -69,17 +69,17 @@ const filesToImport = ref(props.files);
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: var(--nwl-bg-overlay);
   z-index: 100;
 }
 .contents {
   position: relative;
   padding: 1rem;
   margin: 2rem auto;
-  background-color: #333;
+  background-color: var(--nwl-bg-surface);
   max-width: 600px;
   text-align: center;
-  border: 1px solid #777;
+  border: 1px solid var(--nwl-border);
   height: calc(100% - 4rem);
   box-sizing: border-box;
 }

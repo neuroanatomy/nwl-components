@@ -26,8 +26,8 @@ onMounted(async () => {
 </script>
 <style>
 #logScript {
-    border: thin solid #777;
-    border-radius: 3px;
+    border: thin solid var(--nwl-border);
+    border-radius: var(--nwl-radius-sm);
     width: 100%;
     position: relative;
     height: 100%;
@@ -36,10 +36,10 @@ onMounted(async () => {
 #logScript .codeflask__flatten {
     white-space: pre-wrap;
     word-wrap: break-word;
-    caret-color: white;
+    caret-color: var(--nwl-white);
     font-size: inherit;
 }
 #logScript .codeflask {
-    background: rgba(0,0,0,1);
+    background: var(--nwl-black);
 }
 </style>

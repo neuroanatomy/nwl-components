@@ -30,9 +30,9 @@ if (props.className !== null) {
 <style scoped>
 button {
   background: transparent;
-  color: white;
-  border: 1px solid #777;
-  border-radius: 3px;
+  color: var(--nwl-text);
+  border: 1px solid var(--nwl-border);
+  border-radius: var(--nwl-radius-sm);
   margin-right: 5px;
   cursor: pointer;
   padding: 10px;
@@ -45,15 +45,15 @@ button {
 }
 
 .push-button {
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  color: #ddd;
+  border: 1px solid var(--nwl-border-strong);
+  border-radius: var(--nwl-radius-md);
+  color: var(--nwl-grey-dd);
   text-align: center;
   -webkit-appearance: none;
   appearance: none;
   cursor: pointer;
   padding: 5px 0;
-  font-weight: bold;
+  font-weight: var(--nwl-weight-bold);
 }
 
 .small {
@@ -62,7 +62,7 @@ button {
 }
 
 button:hover {
-  background: #555;
+  background: var(--nwl-bg-pressed);
 }
 
 button:disabled {

@@ -87,7 +87,7 @@ const inputEl = ref(null);
   width: 600px;
   margin: 0 auto;
   padding: 20px;
-  background: #333;
+  background: var(--nwl-bg-surface);
 }
 .inner {
   max-width: 480px;
@@ -96,11 +96,11 @@ const inputEl = ref(null);
 }
 
 h1 {
-  font-size: 16px;
+  font-size: var(--nwl-text-lg);
   text-align: center;
 }
 p {
-  font-family: sans-serif;
+  font-family: var(--nwl-sans-serif);
   text-align: center;
   line-height: 20px;
 }
@@ -111,7 +111,7 @@ p {
 }
 
 .input {
-  color: black;
+  color: var(--nwl-text-inverse);
   width: 100%;
   margin-bottom: 10px;
 }

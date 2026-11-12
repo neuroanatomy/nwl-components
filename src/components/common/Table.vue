@@ -22,7 +22,7 @@ table {
 }
 
 table :deep(.selected) {
-  background: #444;
+  background: var(--nwl-bg-elevated);
 }
 
 table :deep(td),
@@ -35,7 +35,7 @@ table :deep(:is(td, th):not(:last-child)) {
   padding-right: 1em;
 }
 table :deep(th) {
-  font-weight: 700;
+  font-weight: var(--nwl-weight-bold);
   white-space: nowrap;
 }
 /* opt-in: cells that may break inside a word (long private project names), so the table is
@@ -45,9 +45,9 @@ table :deep(td.nwl-break-anywhere) {
   overflow-wrap: anywhere;
 }
 table :deep(thead), table :deep(tbody) {
-  border-bottom: 1px solid #fff;
+  border-bottom: 1px solid var(--nwl-white);
 }
 table :deep(tbody tr:hover) {
-  background: #444;
+  background: var(--nwl-bg-elevated);
 }
 </style>

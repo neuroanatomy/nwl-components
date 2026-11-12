@@ -25,17 +25,17 @@ const handleInput = (event) => {
 </script>
 <style scoped>
 input[type="text"] {
-  color: white;
+  color: var(--nwl-text);
   width: 100%;
-  background: transparent;
+  background: var(--nwl-bg-input);
   padding: 5px 0;
   border: none;
   box-sizing: border-box;
 }
 input[type="text"][disabled] {
-  color: #bbb;
+  color: var(--nwl-grey-bb);
 }
 ::placeholder {
-  color: #ccc;
+  color: var(--nwl-text-placeholder);
 }
 </style>

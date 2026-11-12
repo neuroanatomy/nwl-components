@@ -33,7 +33,7 @@ const toggleCheckbox = (key) => {
   text-decoration: none;
   width: 9px;
   height: 9px;
-  border-radius: 50%;
+  border-radius: var(--nwl-radius-round);
   position: relative;
   display: inline-block;
 }
@@ -44,12 +44,12 @@ const toggleCheckbox = (key) => {
     height: 11px;
     top: -2px;
     left: -2px;
-    border: 1px solid white;
-    border-radius: 50%;
+    border: 1px solid var(--nwl-white);
+    border-radius: var(--nwl-radius-round);
 }
 
 [aria-checked="true"] {
-  background: white;
+  background: var(--nwl-white);
 }
 
 [aria-checked="false"] {

@@ -71,7 +71,7 @@ button:disabled {
   display: flex;
 }
 .access button:hover {
-  background: #666;
+  background: var(--nwl-grey-66);
 }
 
 .access button:before {
@@ -88,7 +88,7 @@ button {
   border: none;
   background: transparent;
   padding: 2px;
-  border-radius: 50%;
+  border-radius: var(--nwl-radius-round);
   width: 20px;
   height: 20px;
   display: inline-flex;

@@ -7,7 +7,7 @@ th.nwl-sortable:not(:last-child) {
   padding-right: 1em;
 }
 th.nwl-sortable:hover {
-  background: #444;
+  background: var(--nwl-bg-elevated);
 }
 .nwl-sort-button {
   all: unset;
@@ -36,9 +36,9 @@ th.nwl-sortable:hover {
 /* not the sort column: a neutral grey "sort" icon, brighter on hover;
    the sort column: one arrow in the header's text colour */
 .nwl-sort-indicator[data-state="none"] {
-  color: #7a7a7a;
+  color: var(--nwl-grey-7a);
 }
 .nwl-sort-button:hover .nwl-sort-indicator[data-state="none"],
 .nwl-sort-button:focus-visible .nwl-sort-indicator[data-state="none"] {
-  color: #bbb;
+  color: var(--nwl-grey-bb);
 }

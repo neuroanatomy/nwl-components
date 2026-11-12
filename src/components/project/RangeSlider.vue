@@ -86,7 +86,7 @@ input[type=range]::-webkit-slider-runnable-track {
   width: 100%;
   height: 1px;
   cursor: pointer;
-  background: white;
+  background: var(--nwl-white);
   border: 0;
 }
 input[type=range]::-webkit-slider-thumb {
@@ -94,20 +94,20 @@ input[type=range]::-webkit-slider-thumb {
   border: none;
   height: 20px;
   width: 20px;
-  border-radius: 50%;
-  background: #ffffff;
+  border-radius: var(--nwl-radius-round);
+  background: var(--nwl-white);
   cursor: pointer;
   -webkit-appearance: none;
   appearance: none;
   margin-top: -10px;
 }
 input[type=range]:focus::-webkit-slider-runnable-track {
-  background: white;
+  background: var(--nwl-white);
 }
 input[type=range]::-moz-range-track {
   width: 100%;
   height: 1px;
-  background: #ffffff;
+  background: var(--nwl-white);
   cursor: pointer;
   box-shadow: none;
   border: none;
@@ -117,8 +117,8 @@ input[type=range]::-moz-range-thumb {
   border: none;
   height: 20px;
   width: 20px;
-  border-radius: 50%;
-  background: white;
+  border-radius: var(--nwl-radius-round);
+  background: var(--nwl-white);
   cursor: pointer;
 }
 input[type=range]::-ms-track {
@@ -135,14 +135,14 @@ input[type=range]::-ms-thumb {
   border: none;
   height: 20px;
   width: 20px;
-  border-radius: 50%;
-  background: #ffffff;
+  border-radius: var(--nwl-radius-round);
+  background: var(--nwl-white);
   cursor: pointer;
 }
 input[type=range]:focus::-ms-fill-lower {
-  background: white;
+  background: var(--nwl-white);
 }
 input[type=range]:focus::-ms-fill-upper {
-  background: white;
+  background: var(--nwl-white);
 }
 </style>

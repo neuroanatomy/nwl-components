@@ -61,6 +61,6 @@ watch(formattedValue, () => {
 <style scoped>
 .noEmpty:empty:before {
   content: "Empty";
-  color: rgba(255, 255, 255, 0.4);
+  color: var(--nwl-text-3);
 }
 </style>

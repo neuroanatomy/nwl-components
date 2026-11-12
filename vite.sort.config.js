@@ -8,17 +8,20 @@ import { defineConfig } from 'vite';
 // library (npm run build) into dist/sort/; no Vue.
 //
 // The header styles alone (src/components/common/sortable.css, only th.nwl-sortable and
-// .nwl-sort-* rules) are copied as they are to dist/sort/style.css (`nwl-components/sort/style.css`
+// .nwl-sort-* rules), after the design tokens they read (src/styles/tokens.css, only `:root`
+// custom properties), are written to dist/sort/style.css (`nwl-components/sort/style.css`
 // through `exports`) and to sort/style.css (the same path for webpack 4, which ignores
 // `exports`). Pages without Vue load only this file: dist/style.css has global rules.
+const tokensCss = path.resolve(__dirname, 'src/styles/tokens.css');
 const sortableCss = path.resolve(__dirname, 'src/components/common/sortable.css');
+const sortStyle = async () => (await fs.readFile(tokensCss, 'utf8')) + '\n' + (await fs.readFile(sortableCss, 'utf8'));
 const copySortableCss = {
   name: 'copy-sortable-css',
   async generateBundle () {
-    this.emitFile({ type: 'asset', fileName: 'style.css', source: await fs.readFile(sortableCss, 'utf8') });
+    this.emitFile({ type: 'asset', fileName: 'style.css', source: await sortStyle() });
   },
   async writeBundle () {
-    await fs.copyFile(sortableCss, path.resolve(__dirname, 'sort/style.css'));
+    await fs.writeFile(path.resolve(__dirname, 'sort/style.css'), await sortStyle());
   }
 };
 

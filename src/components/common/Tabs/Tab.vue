@@ -15,7 +15,7 @@ defineProps({
 <style scoped>
 .content {
     min-height: 400px;
-    background: rgb(51, 51, 51);
+    background: var(--nwl-bg-surface);
     padding: 20px;
 }
 </style>

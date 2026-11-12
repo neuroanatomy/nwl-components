@@ -143,12 +143,55 @@ render();
 - For template strings: `renderSortIcon(direction)` (the SVG) and `ariaSort(direction)`.
 
 The headers' look is in `nwl-components/sort/style.css`, which has only the
-`th.nwl-sortable` and `.nwl-sort-*` rules (1 kB). Load that file, not `dist/style.css`, on a
+`th.nwl-sortable` and `.nwl-sort-*` rules, after the design tokens they read (`:root` custom
+properties, see "Design tokens"; 6 kB in all). Load that file, not `dist/style.css`, on a
 page not built with nwl-components: `dist/style.css` has global rules (`*` sets the font
 size and colour of every element). With a bundler, `import 'nwl-components/sort/style.css'`
 (webpack 4 included); otherwise link `node_modules/nwl-components/dist/sort/style.css`.
 `dist/style.css` keeps the same rules for `SortableTh`. Story: `Common/PlainSort`.
 Since 1.6.0.
+
+## Design tokens
+
+The library's colours, fonts, font sizes and corner radii are CSS custom properties, defined
+in `src/styles/tokens.css` (`:root` rules only) in two tiers:
+
+- the raw palette (`--nwl-grey-44`, `--nwl-white`, `--nwl-cyan`, …): the only place with hex
+  values;
+- the semantic tokens, to use in components and app CSS: backgrounds (`--nwl-bg`,
+  `--nwl-bg-surface`, `--nwl-bg-elevated`, …), borders (`--nwl-border`, …), text
+  (`--nwl-text`, `--nwl-text-2`, `--nwl-text-3`, …), accent, links and status colours
+  (`--nwl-danger`, `--nwl-success`, `--nwl-warning`), font families (`--nwl-font-body`,
+  `--nwl-font-display`, `--nwl-font-mono`), sizes (`--nwl-text-xs` … `--nwl-text-hero`;
+  body text is `--nwl-text-md`), weights, line heights, spacing (`--nwl-space-1` …
+  `--nwl-space-16`), radii (`--nwl-radius-sm`, `--nwl-radius-md`) and shadows.
+
+Their values are those the NAAT apps have today, so loading them changes nothing on screen.
+Storybook's `Library/Tokens` page lists every token with a sample.
+
+`dist/style.css` and `nwl-components/sort/style.css` each include the tokens, so a page that
+loads either needs nothing else. To use the tokens in an app's own CSS without those files:
+
+```js
+import 'nwl-components/tokens.css'; // with a bundler (webpack 4 included)
+```
+
+```html
+<!-- a page with no bundle: serve or copy node_modules/nwl-components/dist/tokens.css -->
+<link rel="stylesheet" href="/lib/nwl-components/tokens.css">
+```
+
+```css
+.my-panel {
+  background: var(--nwl-bg-surface);
+  border: 1px solid var(--nwl-border);
+  border-radius: var(--nwl-radius-sm);
+}
+```
+
+Loading the tokens twice on a page (e.g. `tokens.css` and `dist/style.css`) is harmless.
+`npm run lint` fails on a hex colour in `src/**/*.{vue,css}` outside `tokens.css`, and on a
+`var(--nwl-…)` that `tokens.css` doesn't define. Since 1.8.0.
 
 ## Single File Components
 

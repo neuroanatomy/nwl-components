@@ -311,9 +311,9 @@ onUnmounted(() => {
 .show-tools {
   width: 32px;
   height: 32px;
-  border: thin solid #777;
-  border-radius: 50%;
-  background-color: #333;
+  border: thin solid var(--nwl-border);
+  border-radius: var(--nwl-radius-round);
+  background-color: var(--nwl-bg-surface);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -349,10 +349,10 @@ onUnmounted(() => {
   height: 100%;
   min-width: fit-content;
   min-height: fit-content;
-  box-shadow: 2px 2px 5px grey;
+  box-shadow: var(--nwl-shadow-sm);
 }
 .tools--overlay .palette {
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: var(--nwl-black-70);
 }
 /* In docked mode the palette header (close button, title, drag) and the
    floating-palette shadow make no sense: the toolbox is in normal flow. */
@@ -390,7 +390,7 @@ onUnmounted(() => {
 
 .header {
   display: flex;
-  background: #333;
+  background: var(--nwl-bg-surface);
   user-select: none;
   align-items: center;
 }

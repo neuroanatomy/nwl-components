@@ -12,9 +12,9 @@ defineProps({
 .group {
   display: flex;
   align-items: center;
-  border-left: 1px solid #777;
-  border-right: 1px solid #777;
-  border-radius: 3px;
+  border-left: 1px solid var(--nwl-border);
+  border-right: 1px solid var(--nwl-border);
+  border-radius: var(--nwl-radius-sm);
 }
 
 .full-width {

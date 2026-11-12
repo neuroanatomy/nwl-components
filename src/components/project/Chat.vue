@@ -69,10 +69,10 @@ const handleEnter = (event) => {
 }
 
 .messages {
-    border: thin solid #777;
-    background: #000;
+    border: thin solid var(--nwl-border);
+    background: var(--nwl-black);
     opacity: 0.5;
-    border-radius: 3px;
+    border-radius: var(--nwl-radius-sm);
     margin: 1px 0px;
     user-select: text;
     overflow: auto;
@@ -82,7 +82,7 @@ const handleEnter = (event) => {
 }
 
 input {
-    color: black;
+    color: var(--nwl-text-inverse);
     height: 22px;
 }
 </style>

@@ -28,7 +28,7 @@ const handleInput = (event) => {
 select {
   border: none;
   background: none;
-  color: white;
+  color: var(--nwl-text);
   appearance: none;
   outline: none;
   cursor: pointer;

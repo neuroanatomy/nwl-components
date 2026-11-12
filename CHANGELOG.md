@@ -1,5 +1,21 @@
 # Changelog
 
+## 1.8.0
+
+- Design tokens: `src/styles/tokens.css`, `:root` custom properties in two tiers (a raw
+  palette, the only place with hex values, and semantic tokens for backgrounds, borders,
+  text, accent, links, status colours, fonts, sizes, weights, line heights, spacing, radii and
+  shadows), with today's values. Exported as `nwl-components/tokens.css` (`dist/tokens.css`;
+  also `tokens.css` at the package root for webpack 4), importable on its own.
+- `dist/style.css` and `sort/style.css` each include the tokens, and the library's CSS reads
+  them (`var(--nwl-…)`) instead of colour, font, font-size and radius literals. No visual
+  change: the computed styles are the same as in 1.7.1 (stories `Library/Look`, which check
+  Button, Table, an Access cell, SortableTh, OntologySelector, Header and Footer).
+- Storybook page `Library/Tokens`: every token with a sample; its test checks that every
+  token is defined.
+- `npm run lint`: eslint, then `scripts/check-tokens.js`, which fails on a hex colour in
+  `src/**/*.{vue,css}` outside `tokens.css` or on an undefined `--nwl-` token.
+
 ## 1.7.1
 
 - `NewProjectPage`: the invalid-name warning says short names can contain "letters, numbers and

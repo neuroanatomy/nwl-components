@@ -181,7 +181,7 @@ onUnmounted(() => {
   position: absolute;
   top: 30px;
   z-index: 10;
-  background: #222;
+  background: var(--nwl-bg);
   width: auto;
   box-sizing: border-box;
   margin: 0;
@@ -190,12 +190,12 @@ onUnmounted(() => {
 }
 .autocomplete-results li {
   padding: 10px;
-  border-bottom: 1px solid #333;
+  border-bottom: 1px solid var(--nwl-grey-33);
   cursor: pointer;
 }
 .autocomplete-results li:hover,
 .is-active {
-  background: #444;
-  color: #fff;
+  background: var(--nwl-bg-elevated);
+  color: var(--nwl-text);
 }
 </style>

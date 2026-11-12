@@ -24,19 +24,19 @@ const handleInput = (event) => {
 </script>
 <style scoped>
 textarea {
-  background: transparent;
-  color: white;
+  background: var(--nwl-bg-input);
+  color: var(--nwl-text);
   font-family: inherit;
-  font-size: 12px;
+  font-size: var(--nwl-text-sm);
   padding: 0;
   border: none;
   box-sizing: border-box;
 }
 textarea[disabled] {
-  background: #555;
-  color: #bbb;
+  background: var(--nwl-bg-pressed);
+  color: var(--nwl-grey-bb);
 }
 ::placeholder {
-  color: #ccc;
+  color: var(--nwl-text-placeholder);
 }
 </style>

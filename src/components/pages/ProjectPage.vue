@@ -80,7 +80,7 @@ main {
   width: 100vw;
   max-width: 100%;
   overflow: hidden;
-  border: 1px solid #444;
+  border: 1px solid var(--nwl-grey-44);
 }
 
 .editor:not(.fullscreen) {
@@ -90,7 +90,7 @@ main {
 .left-header {
   padding: 5px 0;
   display: flex;
-  border-bottom: 1px solid #333;
+  border-bottom: 1px solid var(--nwl-grey-33);
   margin-bottom: 10px;
 }
 
@@ -155,7 +155,7 @@ main {
 </style>
 <style>
 .splitpanes__splitter {
-  background-color: #444;
+  background-color: var(--nwl-grey-44);
   box-sizing: border-box;
   position: relative;
   flex-shrink: 0;
@@ -176,7 +176,7 @@ main {
   position: absolute;
   top: 50%;
   left: 50%;
-  background-color: #ffffff40;
+  background-color: var(--nwl-white-25);
   transition: background-color 0.3s;
 }
 

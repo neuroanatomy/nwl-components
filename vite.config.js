@@ -1,7 +1,23 @@
+import fs from 'fs/promises';
 import path from 'path';
 
 import vue from '@vitejs/plugin-vue';
 import { defineConfig } from 'vite';
+
+// The design tokens alone (src/styles/tokens.css, only `:root` custom properties), for app CSS
+// and pages with no bundle: copied as they are to dist/tokens.css (`nwl-components/tokens.css`
+// through `exports`) and to tokens.css (the same path for webpack 4, which ignores `exports`).
+// dist/style.css carries them too (src/components/index.js imports them).
+const tokensCss = path.resolve(__dirname, 'src/styles/tokens.css');
+const copyTokensCss = {
+  name: 'copy-tokens-css',
+  async generateBundle () {
+    this.emitFile({ type: 'asset', fileName: 'tokens.css', source: await fs.readFile(tokensCss, 'utf8') });
+  },
+  async writeBundle () {
+    await fs.copyFile(tokensCss, path.resolve(__dirname, 'tokens.css'));
+  }
+};
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -31,5 +47,5 @@ export default defineConfig({
       }
     }
   },
-  plugins: [vue()]
+  plugins: [vue(), copyTokensCss]
 });

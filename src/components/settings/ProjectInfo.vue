@@ -211,19 +211,19 @@ h1 {
   margin: 0 0 20px;
 }
 a {
-  color: white;
+  color: var(--nwl-link);
 }
 
 :deep(input),
 :deep(textarea) {
   text-align: center;
   font-family: inherit;
-  font-size: 14px;
-  color: white;
+  font-size: var(--nwl-text-md);
+  color: var(--nwl-text);
   padding: 3px 0 0;
 }
 :deep(::placeholder) {
-  color: rgba(255, 255, 255, 0.4);
+  color: var(--nwl-text-3);
 }
 p {
   margin: 0 0 5px;
@@ -236,7 +236,7 @@ p {
 .image {
   width: 200px;
   height: 200px;
-  background: #333;
+  background: var(--nwl-bg-surface);
   margin: 0 auto 20px;
 }
 
@@ -266,8 +266,8 @@ p {
 }
 
 .embedDialog {
-  background: #222;
-  border: 1px solid #333;
+  background: var(--nwl-bg);
+  border: 1px solid var(--nwl-grey-33);
   width: 300px;
   height: 300px;
   padding: 20px;
@@ -280,7 +280,7 @@ p {
 
 .embedDialog textarea {
   margin: 10px 0;
-  background: #000;
+  background: var(--nwl-black);
   height: 150px;
 }
 

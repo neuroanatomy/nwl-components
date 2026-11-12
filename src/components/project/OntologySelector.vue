@@ -106,9 +106,8 @@ onUnmounted(() => {
     transform: translate( -50%, -50%);
     text-align: left;
 
-    background-color: rgba(0, 0, 0, 0.8);
-    /* background-color: #333; */
-    border: thin solid #777;
+    background-color: var(--nwl-black-80);
+    border: thin solid var(--nwl-border);
     padding: 10px;
     text-align: left;
     z-index: 21;
@@ -129,7 +128,7 @@ h3 {
 
 .header {
     height: 36px;
-    background-color: #666;
+    background-color: var(--nwl-grey-66);
     padding: 0 5px 0 10px;
     margin: -10px -10px 5px -10px;
 }
@@ -155,7 +154,7 @@ h3 {
     display:inline-block;
     width:40px;
     height:30px;
-    background-color:rgb(0,0,0);
+    background-color: var(--nwl-black);
 }
 .label-list {
     display:flex;

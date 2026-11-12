@@ -21,7 +21,7 @@ import ProjectInfo from '@/components/settings/ProjectInfo.vue';
 </script>
 <style scoped>
 .content {
-  background: #333;
+  background: var(--nwl-bg-surface);
   padding: 20px;
 }
 </style>

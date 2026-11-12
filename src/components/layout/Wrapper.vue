@@ -7,8 +7,8 @@
 <style>
 * {
   box-sizing: border-box;
-  font-size: 14px;
-  color: white;
+  font-size: var(--nwl-text-md);
+  color: var(--nwl-text);
 }
 
 body {
@@ -16,11 +16,10 @@ body {
 }
 
 .app {
-  background: #222;
-  color: white;
-  font-family: "Lucida Grande", "Lucida Sans Unicode", Helvetica, Arial, Verdana,
-    sans-serif;
-  font-size: 14px;
+  background: var(--nwl-bg);
+  color: var(--nwl-text);
+  font-family: var(--nwl-font-body);
+  font-size: var(--nwl-text-md);
   display: block;
   min-height: 100vh;
 }
