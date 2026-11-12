@@ -1,3 +1,4 @@
+import { expect, userEvent, within } from '@storybook/test';
 import { ref } from 'vue';
 
 import NewProjectPage from '@/components/pages/NewProjectPage.vue';
@@ -21,7 +22,8 @@ const Template = (args) => ({
         // if a project with the name 'existing' already exists
         existingProject.value = event.target.value === 'existing';
         // if valid input
-        validInput.value = (/^[a-zA-Z0-9]*$/).test(event.target.value);
+        // as both apps' pages: letters, numbers and hyphens (decided 2026-11-11)
+        validInput.value = (/^[a-zA-Z0-9-]*$/).test(event.target.value);
       }
     };
   },
@@ -32,3 +34,16 @@ const Template = (args) => ({
 });
 
 export const Default = Template.bind({});
+
+// the warning names the characters allowed, hyphens included (both apps accept them since 2026-11-11)
+export const InvalidName = Template.bind({});
+InvalidName.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  const input = canvas.getByPlaceholderText('Enter the project short name');
+  const [, warning] = canvasElement.querySelectorAll('.warning');
+  await userEvent.type(input, 'my-project');
+  await expect(warning).not.toBeVisible();
+  await userEvent.type(input, '_2');
+  await expect(warning).toBeVisible();
+  await expect(warning).toHaveTextContent('letters, numbers and hyphens');
+};

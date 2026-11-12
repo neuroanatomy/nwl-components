@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.7.1
+
+- `NewProjectPage`: the invalid-name warning says short names can contain "letters, numbers and
+  hyphens" (was "letters and numbers"): both apps accept hyphens in new shortnames since
+  2026-11-11. The story's check allows hyphens too; new story `Pages/New Project` InvalidName.
+
 ## 1.7.0
 
 - `PureCollaborators` (and so `Collaborators` and the settings pages): `anyone` is the minimum a

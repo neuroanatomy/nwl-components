@@ -33,7 +33,7 @@
             v-show="!validInput"
           >
             This name is not allowed. Project short names can only contain
-            letters and numbers
+            letters, numbers and hyphens
           </div>
         </div>
 
