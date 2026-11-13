@@ -65,6 +65,9 @@ jobs:
         with:
           node-version-file: .nvmrc
       - run: npm ci
+      # the library first: vite.config.js's CSS plugin reads dist/style.css, and Storybook's
+      # build runs the same Vite config
+      - run: npm run build
       - run: npm run build-storybook
       - uses: actions/configure-pages@v6
       - uses: actions/upload-pages-artifact@v5
