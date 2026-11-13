@@ -1,5 +1,18 @@
 # Changelog
 
+## 2.2.0
+
+New: `useProject` is exported from the library entry (`import { useProject } from
+'nwl-components'`). Added export only; nothing else changes.
+
+- It is the same store `Nav` and the settings pages use (one state in `dist/`, es and umd), so an
+  app can set the project with `setProject(project)` and the `Header` shows the settings link
+  (`/project/<shortname>/settings`) when the app also provides `displaySettings: true`. Call it
+  inside a component's `setup` or the app's `runWithContext`: it injects `config`. See the
+  README ("Store").
+- Stories `Layout/Header` `WithProjectSettings` (link present, a project without `files` is
+  accepted) and `WithoutProject` (no link), with `play` tests.
+
 ## 2.1.1
 
 - `Footer`: the text link ("groupe de neuroanatomie appliquée et théorique") shows an underline

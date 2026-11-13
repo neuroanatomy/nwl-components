@@ -354,6 +354,26 @@ They contain [reactive](https://vuejs.org/guide/extras/reactivity-in-depth.html#
 
 The idea is to have a centralized way of performing CRUD updates on the stateful slices of data on which rely other components.
 
+### `useProject`
+
+`useProject` (`src/store/project.js`) holds the current project. Since 2.2.0 it is exported
+from the library entry, `import { useProject } from 'nwl-components'`, and it shares its
+state with the library's components: the project an app sets is the one `Nav` (in `Header`)
+and the settings pages read. `setProject(project)` replaces the current project (`null`
+clears it); a project without `files` gets an empty `files.list`.
+
+To show the settings link (`/project/<shortname>/settings`) in the `Header`, provide `config`
+and `displaySettings`, then set the project:
+
+```js
+app.provide('config', config);
+app.provide('displaySettings', true);
+app.runWithContext(() => useProject().setProject(project));
+```
+
+`useProject` injects `config`, so call it inside a component's `setup` or inside the app's
+`runWithContext` (after `config` is provided), not at module level.
+
 ## _Pure_ components
 
 Pure components, also sometimes called _dumb_ components, doesn't have any logic tied to them: they're just taking care of how the component look and behave according to props. They can emit events, but the listeners should be plugged in the parent components.
