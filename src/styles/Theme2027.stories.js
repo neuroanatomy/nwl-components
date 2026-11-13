@@ -2,6 +2,7 @@ import { expect } from '@storybook/test';
 
 import { loadFonts, setTheme } from '../../.storybook/theme.js';
 
+import TwoCols from '@/components/layout/TwoCols.vue';
 import tokensCss from '@/styles/tokens.css?raw';
 
 // The 2027 theme (2.4.0, decisions U11–U17): every tier 2 token in both themes side by side, the
@@ -240,7 +241,10 @@ const values230 = [
   ['--nwl-radius-md', '6px'],
   ['--nwl-radius-round', '50%'],
   ['--nwl-shadow-sm', '2px 2px 5px #808080'],
-  ['--nwl-shadow-md', '0 4px 12px rgba(0, 0, 0, 0.7)']
+  ['--nwl-shadow-md', '0 4px 12px rgba(0, 0, 0, 0.7)'],
+  // TwoCols' widths, tokens since 2.4.1 (684 and 984px were in TwoCols.vue)
+  ['--nwl-content-max', '684px'],
+  ['--nwl-container-max', '984px']
 ];
 export const DefaultUnchanged = () => ({
   template: '<main><p>Without <code>data-nwl-theme</code>, every tier 2 token keeps its 2.3.0 value (play test).</p></main>'
@@ -346,6 +350,33 @@ Fonts.play = async ({ canvasElement, globals }) => {
       `${base}source-sans-3-latin-400-normal.woff2`,
       `${base}ibm-plex-mono-latin-400-normal.woff2`
     ]));
+  } finally {
+    await setTheme(globals.theme);
+  }
+};
+
+// TwoCols' widths on a wide screen (1023px and up): the content column is 684px today and 800px
+// in the 2027 theme (2.4.1), with its container 984px and 1020px. A long paragraph fills the
+// column, so its rendered width is the maximum.
+export const Widths = () => ({
+  components: { TwoCols },
+  template: `
+  <TwoCols>
+    <template #side><p>Side</p></template>
+    <template #content><p>${'Content that fills the column. '.repeat(60)}</p></template>
+  </TwoCols>`
+});
+Widths.parameters = { viewport: { defaultViewport: 'responsive' } };
+Widths.play = async ({ canvasElement, globals }) => {
+  const content = canvasElement.querySelector('.content');
+  const container = canvasElement.querySelector('.container');
+  // the widths apply from 1023px; a narrower preview has nothing to check
+  if (window.innerWidth < 1080) { return; }
+  try {
+    await setTheme('today');
+    await expect([content.getBoundingClientRect().width, container.getBoundingClientRect().width]).toEqual([684, 984]);
+    await setTheme('2027');
+    await expect([content.getBoundingClientRect().width, container.getBoundingClientRect().width]).toEqual([800, 1020]);
   } finally {
     await setTheme(globals.theme);
   }

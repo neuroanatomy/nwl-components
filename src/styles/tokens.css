@@ -156,6 +156,11 @@
   /* shadows: floating tool palettes, menus */
   --nwl-shadow-sm: 2px 2px 5px var(--nwl-grey-80);
   --nwl-shadow-md: 0 4px 12px var(--nwl-black-70);
+
+  /* layout widths on wide screens (TwoCols, 1023px and up): the content column, and the
+     container that holds it with the 200px side column and its 20px gap */
+  --nwl-content-max: 684px;
+  --nwl-container-max: 984px;
 }
 
 /* The 2027 theme (decisions U11–U17): opt-in, with `<html data-nwl-theme="2027">`, plus a
@@ -193,4 +198,8 @@
      components read them as var(--nwl-shadow-1, <today's shadow>) */
   --nwl-shadow-1: 0 2px 8px var(--nwl-black-40);
   --nwl-shadow-2: 0 8px 24px var(--nwl-black-50);
+
+  /* a wider content column (2.4.1): 800px, so the container is 200 + 20 + 800 */
+  --nwl-content-max: 800px;
+  --nwl-container-max: 1020px;
 }

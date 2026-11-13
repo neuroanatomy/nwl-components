@@ -382,7 +382,10 @@ What changes under `[data-nwl-theme="2027"]`:
 - two shadows, `--nwl-shadow-1` (menus) and `--nwl-shadow-2` (floating panels), defined in the
   theme only. The kit uses them, with today's value as the `var()` fallback, on the
   `Autocomplete` results (1), the editor's floating tool palette, the `OntologySelector` panel
-  and the `ImportFilesDialog` box (2).
+  and the `ImportFilesDialog` box (2);
+- a wider content column (2.4.1): `TwoCols` (the user and settings pages) on screens of
+  1023px and up uses `--nwl-content-max` 800px and `--nwl-container-max` 1020px, instead of
+  today's 684 and 984px.
 
 | Token | Today | 2027 |
 |---|---|---|

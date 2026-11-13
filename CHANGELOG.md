@@ -14,6 +14,13 @@ Storybook only (stories aren't published to npm; no version bump).
   the search, the count, no match, the keyboard and the copy. The map is parsed once in
   `src/icons/map.js`, shared with `Icons/All`.
 
+## 2.4.1
+
+- 2027 theme: a wider content column. `TwoCols` (user and settings pages) reads its widths on
+  screens of 1023px and up from two new tokens, `--nwl-content-max` and `--nwl-container-max`:
+  684 and 984px by default (unchanged), 800 and 1020px under `data-nwl-theme="2027"`.
+- Story `Styles/Theme 2027` Widths: the rendered widths in both themes (play test).
+
 ## 2.4.0
 
 New: the opt-in 2027 theme (UI kit step 12, decisions U11–U17). Nothing changes on a page that
