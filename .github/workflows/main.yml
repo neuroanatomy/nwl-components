@@ -38,6 +38,41 @@ jobs:
             sleep 5
             npm run test-storybook
 
+  # The Storybook (components, widgets, Icons/Finder) as a static site on GitHub Pages:
+  # https://neuroanatomy.github.io/nwl-components/
+  # Needs Settings → Pages → Source: "GitHub Actions" once.
+  storybook-pages:
+    needs: test
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    # one deployment at a time; a newer push replaces a queued one
+    concurrency:
+      group: pages
+      cancel-in-progress: true
+
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: .nvmrc
+      - run: npm ci
+      - run: npm run build-storybook
+      - uses: actions/configure-pages@v6
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: storybook-static
+      - id: deployment
+        uses: actions/deploy-pages@v5
+
   publish:
     needs: test
     runs-on: ubuntu-latest

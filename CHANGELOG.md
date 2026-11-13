@@ -2,7 +2,10 @@
 
 ## Unreleased
 
-Storybook only (stories aren't published; no version bump).
+Storybook only (stories aren't published to npm; no version bump).
+
+- CI publishes the Storybook on GitHub Pages after the tests pass on `main`:
+  <https://neuroanatomy.github.io/nwl-components/> (job `storybook-pages`).
 
 - Story `Icons/Finder`: search the icons by name, meaning or the app file names they replaced
   ("floppy" finds `save`), at 24, 32 or 48 px on the dark or a light background; pick one for a

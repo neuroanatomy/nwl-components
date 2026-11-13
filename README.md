@@ -347,7 +347,8 @@ The library's own components (`Nav`, `Access`, `PureFiles`, the editor component
 same files. Storybook's `Icons/All` shows them all.
 
 To find one to reuse, search by name, meaning or old file name and copy its path: Storybook's
-`Icons/Finder` (`npm run storybook`).
+`Icons/Finder`, online at <https://neuroanatomy.github.io/nwl-components/?path=/story/icons--finder>
+(or locally with `npm run storybook`).
 
 ## Single File Components
 
@@ -439,7 +440,7 @@ The components are documented through storybook, where you can see their props a
 
 Run `npm run storybook` to launch storybook.
 
-To have a documentation always accessible, it could be possible to build storybook and publish it on Chromatic, for example through this [Github Action](https://github.com/chromaui/action).
+CI builds it on every push to `main` (after the tests pass) and publishes it on GitHub Pages: <https://neuroanatomy.github.io/nwl-components/> (job `storybook-pages` in `.github/workflows/main.yml`).
 
 ## Recommended IDE Setup
 
