@@ -3,6 +3,7 @@ import Wrapper from '@/components/layout/Wrapper.vue';
 import '@fontsource/roboto/100.css';
 import '@/styles/tokens.css';
 import '@/styles/base.css';
+import '@/styles/widgets.css';
 
 export default {
   decorators: [

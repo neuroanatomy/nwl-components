@@ -11,21 +11,27 @@ import { cssLayers, inLayer, orderOnce } from './scripts/css-layers.js';
 // through `exports`) and to tokens.css (the same path for webpack 4, which ignores `exports`).
 // The base styles alone (src/styles/base.css), in `@layer nwl.base` after the layer order, the
 // same way: dist/base.css (`nwl-components/base.css`) and base.css.
-// dist/style.css carries both (src/components/index.js imports them); every stylesheet in it is
+// The widgets alone (src/styles/widgets.css), in `@layer nwl.widgets` after the layer order, the
+// same way: dist/widgets.css (`nwl-components/widgets.css`) and widgets.css.
+// dist/style.css carries all three (src/components/index.js imports them); every stylesheet in it is
 // in its layer (cssLayers), and the layer order is declared once, at its top (orderOnce).
 const tokensCss = path.resolve(__dirname, 'src/styles/tokens.css');
 const baseCss = path.resolve(__dirname, 'src/styles/base.css');
 const baseStyle = async () => orderOnce(inLayer('nwl.base', await fs.readFile(baseCss, 'utf8')));
+const widgetsCss = path.resolve(__dirname, 'src/styles/widgets.css');
+const widgetsStyle = async () => orderOnce(inLayer('nwl.widgets', await fs.readFile(widgetsCss, 'utf8')));
 const styleCss = path.resolve(__dirname, 'dist/style.css');
 const libraryCss = {
   name: 'library-css',
   async generateBundle () {
     this.emitFile({ type: 'asset', fileName: 'tokens.css', source: await fs.readFile(tokensCss, 'utf8') });
     this.emitFile({ type: 'asset', fileName: 'base.css', source: await baseStyle() });
+    this.emitFile({ type: 'asset', fileName: 'widgets.css', source: await widgetsStyle() });
   },
   async writeBundle () {
     await fs.copyFile(tokensCss, path.resolve(__dirname, 'tokens.css'));
     await fs.writeFile(path.resolve(__dirname, 'base.css'), await baseStyle());
+    await fs.writeFile(path.resolve(__dirname, 'widgets.css'), await widgetsStyle());
     await fs.writeFile(styleCss, orderOnce(await fs.readFile(styleCss, 'utf8')));
   }
 };

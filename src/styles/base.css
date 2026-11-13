@@ -42,9 +42,14 @@
   color: inherit;
 }
 
-/* links: the link colour, not the browser's blue */
+/* links: the link colour, not the browser's blue. The browser's underline stays: links are
+   the text colour (--nwl-link), so the underline is what tells them apart (WCAG 1.4.1). */
 :where(.app a) {
   color: var(--nwl-link);
+}
+
+:where(.app a:hover) {
+  color: var(--nwl-link-hover);
 }
 
 /* Keyboard focus: a 2px outline in --nwl-focus. Mouse focus shows nothing (browsers match

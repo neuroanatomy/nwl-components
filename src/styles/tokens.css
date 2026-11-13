@@ -66,6 +66,8 @@
   --nwl-text-3: var(--nwl-white-40);
   --nwl-text-placeholder: var(--nwl-grey-cc);
   --nwl-text-inverse: var(--nwl-black);
+  /* the text of push buttons (nwl-components/widgets.css), a little dimmer than --nwl-text */
+  --nwl-text-button: var(--nwl-grey-dd);
 
   /* accent (selection, focus): the colour, hover or pressed, a tinted background, as text */
   --nwl-accent: var(--nwl-cyan);
@@ -76,9 +78,10 @@
   /* keyboard focus outline (base.css, :focus-visible); white for now, may become the accent */
   --nwl-focus: var(--nwl-text);
 
-  /* links and status colours */
-  --nwl-link: var(--nwl-white);
-  --nwl-link-hover: var(--nwl-white);
+  /* links and status colours. Links are the text colour (decision U8): they must stay
+     distinguishable without colour, by an underline (the browser's default) */
+  --nwl-link: var(--nwl-text);
+  --nwl-link-hover: var(--nwl-text);
   --nwl-danger: var(--nwl-red);
   --nwl-success: var(--nwl-green);
   --nwl-warning: var(--nwl-amber);

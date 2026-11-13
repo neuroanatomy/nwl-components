@@ -13,6 +13,7 @@
           v-for="(file, idx) in files"
           :key="file.source"
           :class="{ selected: selected === idx }"
+          :aria-selected="selected === idx"
           @click="handleRowClick($event, idx)"
         >
           <td>

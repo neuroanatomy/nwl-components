@@ -41,12 +41,12 @@
           <Button
             :disabled="!validInput || existingProject"
             @click="createProject(inputEl?.value)"
-            class="push-button"
+            class-name="push-button"
           >
             Create Project
           </Button>
           <Button
-            class="push-button"
+            class-name="push-button"
             @click="cancel"
           >
             Cancel

@@ -13,6 +13,7 @@
     <tbody>
       <tr
         :class="{ selected: index === selectedIndex }"
+        :aria-selected="index === selectedIndex"
         @click="emit('selectAnnotation', atlas); selectedIndex = index"
         v-for="(atlas, index) in annotations"
         :key="`annotation_${index}`"

@@ -56,6 +56,16 @@ Buttons.play = async ({ canvasElement }) => {
   });
 };
 
+// hovered (the real mouse, .storybook/test-runner.js), as recorded on 2.0.0 (be3bbf0): the plain
+// Button and the push variant (since 2.1.0 the .nwl-push-button widget) both get --nwl-bg-pressed
+const hovered = 'rgb(85, 85, 85)';
+Buttons.parameters = {
+  hoverStyles: [
+    { selector: '.app button:not(.push-button)', styles: { backgroundColor: hovered, color: white, borderTopColor: 'rgb(119, 119, 119)', borderRadius: '3px', fontWeight: '400', opacity: '1' } },
+    { selector: '.app button.push-button', styles: { backgroundColor: hovered, color: 'rgb(221, 221, 221)', borderTopColor: 'rgb(221, 221, 221)', borderRadius: '6px', fontWeight: '700', opacity: '1' } }
+  ]
+};
+
 const rows = [
   { name: 'Brain atlas', owner: 'katja' },
   { name: 'axolotl', owner: 'roberto' }
@@ -88,6 +98,10 @@ TableCells.play = async ({ canvasElement }) => {
   });
   // the line under the header and under the body
   await expect(getComputedStyle(canvasElement.querySelector('tbody')).borderBottomColor).toBe(white);
+};
+// a hovered row: --nwl-bg-elevated, as recorded on 2.0.0 (be3bbf0)
+TableCells.parameters = {
+  hoverStyles: [{ selector: '.app tbody tr:not(.selected)', styles: { backgroundColor: 'rgb(68, 68, 68)', color: white } }]
 };
 
 // an access cell as on the settings page: a collaborator's row in a Table

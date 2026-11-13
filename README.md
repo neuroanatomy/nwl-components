@@ -204,7 +204,7 @@ top of each stylesheet it ships (`dist/style.css`, `nwl-components/base.css`,
 ```
 
 - `nwl.base`: `src/styles/base.css` (below);
-- `nwl.widgets`: empty for now (plain-CSS widget classes, later);
+- `nwl.widgets`: `src/styles/widgets.css`, the widget classes (see "Widgets");
 - `nwl.components`: the components' styles (scoped or not), `sortable.css`, and the CSS of
   bundled dependencies (splitpanes).
 
@@ -244,6 +244,86 @@ import 'nwl-components/base.css'; // webpack 4 too (a copy at the package root)
 
 Outside `.app`, nothing sets font, colour or box-sizing any more: an app's own markup on a
 page that loads `dist/style.css` gets them from the app's CSS (or from being inside `.app`).
+
+## Widgets
+
+Since 2.1.0, `src/styles/widgets.css` holds class-based widgets for markup that isn't Vue
+(Mustache pages, the viewers' tool panels); the library's `Button` uses them too. They are in
+`@layer nwl.widgets` and every selector is wrapped in `:where()`, so **an app rule with one
+class wins** over them. Colours, borders and radii come from the semantic tokens.
+
+State is an ARIA attribute, not a class, so screen readers get it too: `aria-pressed="true"` on
+a tool button that is on, `aria-selected="true"` on a selected table row, `disabled` (or
+`aria-disabled="true"` on a link) on a button. The apps' classes (`.pressed`, `.mui-pressed`,
+`.selected`) don't style the widgets.
+
+Push button (Save, Cancel): 1px `--nwl-border-strong` outline, `--nwl-radius-md`, bold, on a
+`<button>`, `<a>`, `<select>` or `<input type="button|submit">`. Hover: `--nwl-bg-pressed`;
+disabled: opacity .4.
+
+```html
+<button class="nwl-push-button">Save</button>
+```
+
+Tool button (a viewer's tool panel): 24px high, 1px `--nwl-border`, `--nwl-radius-sm`; it fills
+its container's width, less its 1px margins, as the apps' div tools did. On a native `<button>`
+it is in the tab order with no script. Pressed: `aria-pressed="true"` gives `--nwl-bg-pressed`.
+Hover: `--nwl-bg-pressed` on a text button, opacity .5 on a button whose only element is an
+icon (`img`, `svg` or `.nwl-icon`; CSS can't see text, so a button with an icon and text counts
+as an icon button). `.nwl-tool-button--sub`: a tool inside a group (no border, 22px).
+
+```html
+<div style="flex: 1"><button class="nwl-tool-button" aria-pressed="true">Sag</button></div>
+<div style="flex: 1">
+  <button class="nwl-tool-button" aria-pressed="false" aria-label="Full screen">
+    <img class="nwl-icon" src="/img/fullscreen.svg" alt="">
+  </button>
+</div>
+```
+
+Icon button: an icon with no border; opacity .5 on hover. It shows no text, so give it an
+accessible name with `aria-label`, and an empty `alt` to its image.
+
+```html
+<button class="nwl-icon-button" aria-label="Zoom in"><img class="nwl-icon" src="/img/zoomIn.svg" alt=""></button>
+```
+
+Icon: 16px, aligned with the text (`vertical-align: middle`), not selectable.
+
+```html
+<img class="nwl-icon" src="/img/home.svg" alt="Home">
+```
+
+Text field (`<input>`, `<textarea>`): its parent's font size and colour, `--nwl-bg-input`, 1px
+`--nwl-border`, `--nwl-radius-sm`, no padding (as the apps' `.text`), placeholder in
+`--nwl-text-placeholder`.
+
+```html
+<input class="nwl-text-field" placeholder="Project name">
+```
+
+Selected row: `aria-selected="true"` on a `<tr>` gives `--nwl-bg-elevated`.
+
+```html
+<tr aria-selected="true"><td>axolotl</td></tr>
+```
+
+Keyboard focus on the widgets shows `base.css`'s outline (2px `--nwl-focus`), also outside
+`.app`. Links take `--nwl-link` (hover `--nwl-link-hover`), both the text colour: keep their
+underline (the browser's) where they sit in text, so they don't depend on colour alone.
+
+`dist/style.css` includes the widgets. A page with no bundle links the three files, in this
+order (microdraw serves `node_modules/nwl-components/dist/` as `/lib/nwl-components/`):
+
+```html
+<link rel="stylesheet" href="/lib/nwl-components/tokens.css">
+<link rel="stylesheet" href="/lib/nwl-components/base.css">
+<link rel="stylesheet" href="/lib/nwl-components/widgets.css">
+```
+
+With a bundler: `import 'nwl-components/widgets.css'` after the tokens and base (webpack 4 too:
+a copy at the package root). Storybook's `Library/Widgets` shows each widget in plain HTML, with
+its states.
 
 ## Single File Components
 

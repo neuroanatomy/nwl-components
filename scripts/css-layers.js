@@ -2,9 +2,9 @@
 //
 // All the library's CSS is in `@layer nwl.base, nwl.widgets, nwl.components`, so unlayered app
 // CSS always wins over it, whatever the load order or specificity. src/styles/base.css goes into
-// nwl.base; every other stylesheet (the SFCs' <style> blocks, scoped or not, sortable.css and
-// the CSS of bundled dependencies) into nwl.components. src/styles/tokens.css stays unlayered:
-// it only defines custom properties.
+// nwl.base, src/styles/widgets.css into nwl.widgets; every other stylesheet (the SFCs' <style>
+// blocks, scoped or not, sortable.css and the CSS of bundled dependencies) into nwl.components.
+// src/styles/tokens.css stays unlayered: it only defines custom properties.
 import path from 'path';
 
 export const LAYER_NAMES = 'nwl.base, nwl.widgets, nwl.components';
@@ -15,6 +15,7 @@ const styles = path.resolve(__dirname, '../src/styles');
 const layerOf = (file) => {
   if (file === path.join(styles, 'tokens.css')) { return null; }
   if (file === path.join(styles, 'base.css')) { return 'nwl.base'; }
+  if (file === path.join(styles, 'widgets.css')) { return 'nwl.widgets'; }
 
   return 'nwl.components';
 };

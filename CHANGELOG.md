@@ -1,5 +1,43 @@
 # Changelog
 
+## 2.1.0
+
+New: widget classes for markup that isn't Vue. Nothing existing changes on screen: the library's
+components look the same (computed styles of every story, hover included, are those of 2.0.0).
+
+- **`widgets.css`** (`src/styles/widgets.css`, in `@layer nwl.widgets`, selectors in
+  `:where()`, semantic tokens only), exported as `nwl-components/widgets.css` (`dist/widgets.css`;
+  also `widgets.css` at the package root for webpack 4) and included in `dist/style.css`. It
+  works on its own after `tokens.css` and `base.css`. Classes:
+  - `.nwl-push-button`: `Button`'s push look (1px `--nwl-border-strong`, `--nwl-radius-md`,
+    bold, `padding: 5px 0`, centred); hover `--nwl-bg-pressed`, disabled opacity .4; on
+    `<button>`, `<a>`, `<select>`, `<input type="button|submit">`, browser look reset.
+  - `.nwl-tool-button`: the viewers' tool button (BrainBox `.a`, microdraw `.mui`): 24px,
+    1px `--nwl-border`, `--nwl-radius-sm`, 1px margin, fills its container; on a native
+    `<button>`, browser look reset. Hover: `--nwl-bg-pressed` with text, opacity .5 with only
+    an icon. `.nwl-tool-button--sub`: no border, 22px.
+  - `.nwl-icon-button` (no border, opacity .5 on hover; needs `aria-label`), `.nwl-icon` (16px,
+    middle-aligned, not selectable), `.nwl-text-field` (input, textarea: inherited size and
+    colour, `--nwl-bg-input`, 1px `--nwl-border`, `--nwl-radius-sm`, placeholder
+    `--nwl-text-placeholder`).
+  - Keyboard focus on the widgets: the 2px `--nwl-focus` outline, also outside `.app`.
+- **ARIA state contract**: the state is an attribute, not a class. `aria-pressed="true"` on a
+  `.nwl-tool-button` gives `--nwl-bg-pressed`; `aria-selected="true"` on a `<tr>` gives
+  `--nwl-bg-elevated`; `disabled` or `aria-disabled="true"` dims a button.
+- `Button`'s push variant (`class-name="push-button"`) renders `.nwl-push-button` (and keeps
+  `push-button`); its look now comes from `widgets.css`. `NewProjectPage` passes it as
+  `class-name`. The selectable rows of `PureFiles`, `PureAnnotations`, `PureCollaborators`,
+  `TextAnnotations` and `VolumeAnnotations` carry `aria-selected` beside their `.selected`
+  class; `Tabs` is a `tablist` of `tab`s with `aria-selected`.
+- Tokens: new `--nwl-text-button` (push buttons' text, `#ddd`); `--nwl-link` and
+  `--nwl-link-hover` are now `var(--nwl-text)` (same value, white). `base.css` gives hovered
+  links `--nwl-link-hover`.
+- Stories `Library/Widgets` (plain HTML; play tests read computed styles: pressed state follows
+  `aria-pressed`, icon versus text hover, Tab reaches a native tool button and shows the
+  outline, an unlayered one-class app rule beats a widget). `.storybook/test-runner.js`
+  checks hovered styles with the real mouse (`parameters.hoverStyles`); `Library/Look` checks
+  `Button` and table-row hover with it.
+
 ## 2.0.0
 
 Breaking: the library's CSS changes priority, and the global `*` rule is gone. No visual change

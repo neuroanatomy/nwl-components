@@ -16,6 +16,7 @@
           v-for="(collaborator, idx) in collaborators"
           :key="collaborator.userID"
           :class="{ selected: selected === idx }"
+          :aria-selected="selected === idx"
           @click="handleRowClick($event, idx)"
         >
           <td style="position: relative">

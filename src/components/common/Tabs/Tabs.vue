@@ -1,12 +1,14 @@
 <template>
   <div class="tabs">
-    <ul>
+    <ul role="tablist">
       <template v-for="(tab, index) in children">
         <template v-if="tab && tab.props">
           <li
             :key="tab.props.title"
             @click="selectTab(index)"
             :class="{&quot;selected&quot;: (index == selectedIndex)}"
+            role="tab"
+            :aria-selected="index == selectedIndex"
           >
             {{ tab.props.title }}
           </li>

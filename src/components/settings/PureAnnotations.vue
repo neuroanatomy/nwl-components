@@ -15,6 +15,7 @@
           v-for="(annotation, idx) in annotations"
           :key="idx"
           :class="{ selected: selected === idx }"
+          :aria-selected="selected === idx"
           @click="handleRowClick($event, idx)"
         >
           <td>

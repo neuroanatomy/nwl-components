@@ -22,18 +22,26 @@ const props = defineProps({
   small: Boolean
 });
 
-const classes = { small: props.small === true };
+// The push variant (className "push-button") is the .nwl-push-button widget of
+// nwl-components/widgets.css; the `push-button` class stays, for the apps' own CSS.
+const push = props.className === 'push-button';
+const classes = { small: props.small === true, 'nwl-push-button': push };
 if (props.className !== null) {
   classes[props.className] = true;
 }
 </script>
 <style scoped>
+/* the push variant's look is .nwl-push-button (widgets.css); these rules are the other
+   variants' (a bordered button, or a 20px square with `small`) */
 button {
+  margin-right: 5px;
+}
+
+button:where(:not(.nwl-push-button)) {
   background: transparent;
   color: var(--nwl-text);
   border: 1px solid var(--nwl-border);
   border-radius: var(--nwl-radius-sm);
-  margin-right: 5px;
   cursor: pointer;
   padding: 10px;
   box-sizing: border-box;
@@ -43,28 +51,16 @@ button {
   vertical-align: middle;
 }
 
-.push-button {
-  border: 1px solid var(--nwl-border-strong);
-  border-radius: var(--nwl-radius-md);
-  color: var(--nwl-grey-dd);
-  text-align: center;
-  -webkit-appearance: none;
-  appearance: none;
-  cursor: pointer;
-  padding: 5px 0;
-  font-weight: var(--nwl-weight-bold);
-}
-
 .small {
   width: 20px;
   height: 20px;
 }
 
-button:hover {
+button:where(:not(.nwl-push-button)):hover {
   background: var(--nwl-bg-pressed);
 }
 
-button:disabled {
+button:where(:not(.nwl-push-button)):disabled {
   opacity: 0.4;
   cursor: default;
 }

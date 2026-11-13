@@ -1,0 +1,169 @@
+/* nwl-components widgets: `import 'nwl-components/widgets.css'` (after `nwl-components/tokens.css`
+   and `nwl-components/base.css`), or `<link>` the three files on a page with no bundle.
+   dist/style.css includes it.
+
+   Class-based widgets for markup that isn't Vue (Mustache pages, viewer tool panels), also used by
+   the library's own components. The build puts this file in `@layer nwl.widgets`, above
+   nwl.base and below nwl.components, and every selector is wrapped in :where(), so an app rule
+   with a single class (outside any layer) always wins.
+
+   State is carried by ARIA attributes, not classes, so screen readers get it too:
+   `aria-pressed="true"` on a tool button, `aria-selected="true"` on a table row,
+   `disabled` (or `aria-disabled="true"` on a link) on a button. */
+
+/* Push button: a text button with a light outline (Save, Cancel, Create Project). Works on
+   <button>, <a>, <select> and <input type="button|submit">. */
+:where(.nwl-push-button) {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0;
+  padding: 5px 0;
+  border: 1px solid var(--nwl-border-strong);
+  border-radius: var(--nwl-radius-md);
+  background: transparent;
+  color: var(--nwl-text-button);
+  font-size: inherit;
+  font-weight: var(--nwl-weight-bold);
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* hover on a text button: a lighter background, so the text keeps its contrast */
+:where(.nwl-push-button:hover) {
+  background: var(--nwl-bg-pressed);
+}
+
+:where(.nwl-push-button:disabled, .nwl-push-button[aria-disabled="true"]) {
+  opacity: 0.4;
+  cursor: default;
+}
+
+/* the options of a <select class="nwl-push-button"> keep the text colour */
+:where(.nwl-push-button) :where(option) {
+  color: var(--nwl-text);
+}
+
+/* Tool button: a button of a viewer's tool panel, holding a short text or one icon. Like the
+   apps' div tools it replaces, it fills its container's width (the panel's layout sets it),
+   less its 1px margins, and is 24px high. */
+:where(.nwl-tool-button) {
+  box-sizing: border-box;
+  display: block;
+  position: relative;
+  width: calc(100% - 2px);
+  height: 24px;
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 1px;
+  padding: 0;
+  border: 1px solid var(--nwl-border);
+  border-radius: var(--nwl-radius-sm);
+  background: transparent;
+  color: var(--nwl-text);
+  font-size: inherit;
+  text-align: center;
+  user-select: none;
+  cursor: pointer;
+}
+
+/* in a group of tools (BrainBox `.a.sub`): no border, 22px */
+:where(.nwl-tool-button--sub) {
+  width: 100%;
+  height: 22px;
+  margin: 0;
+  border: none;
+}
+
+/* hover: a lighter background on a text button; half opacity on a button holding only an icon
+   (an img, svg or .nwl-icon as its only element) */
+:where(.nwl-tool-button:hover) {
+  background: var(--nwl-bg-pressed);
+}
+
+:where(.nwl-tool-button:has(> :is(img, svg, .nwl-icon):only-child):hover) {
+  background: transparent;
+  opacity: 0.5;
+}
+
+/* the tool that is on: aria-pressed="true" (a toggle, or the current tool of a group) */
+:where(.nwl-tool-button[aria-pressed="true"]) {
+  background: var(--nwl-bg-pressed);
+}
+
+:where(.nwl-tool-button:disabled, .nwl-tool-button[aria-disabled="true"]) {
+  opacity: 0.4;
+  cursor: default;
+}
+
+/* Icon button: a button showing only an icon, with no border. It has no visible text, so it
+   needs an accessible name: aria-label="…" (or the icon's alt text). */
+:where(.nwl-icon-button) {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: inherit;
+  font-size: inherit;
+  cursor: pointer;
+}
+
+:where(.nwl-icon-button:hover) {
+  opacity: 0.5;
+}
+
+:where(.nwl-icon-button:disabled, .nwl-icon-button[aria-disabled="true"]) {
+  opacity: 0.4;
+  cursor: default;
+}
+
+/* Icon: a 16px image (img or svg) aligned with the text */
+:where(.nwl-icon) {
+  width: 16px;
+  height: 16px;
+  vertical-align: middle;
+  user-select: none;
+}
+
+/* Text field: <input> and <textarea>. Size and colour come from the parent. */
+:where(.nwl-text-field) {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--nwl-border);
+  border-radius: var(--nwl-radius-sm);
+  background: var(--nwl-bg-input);
+  color: inherit;
+  font-size: inherit;
+}
+
+:where(.nwl-text-field)::placeholder {
+  color: var(--nwl-text-placeholder);
+}
+
+:where(.nwl-text-field:disabled) {
+  color: var(--nwl-text-3);
+}
+
+/* Keyboard focus on the widgets, also on pages without base.css's `.app`: as base.css */
+:where(:is(.nwl-push-button, .nwl-tool-button, .nwl-icon-button, .nwl-text-field):focus-visible) {
+  outline: 2px solid var(--nwl-focus);
+  outline-offset: 2px;
+}
+
+/* Selected table row: aria-selected="true" on the <tr> */
+:where(tr[aria-selected="true"]) {
+  background: var(--nwl-bg-elevated);
+}

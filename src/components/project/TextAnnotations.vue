@@ -13,6 +13,7 @@
     <tbody>
       <tr
         :class="{ selected: index === selectedIndex }"
+        :aria-selected="index === selectedIndex"
         @click="emit('selectFile', file); selectedIndex = index"
         v-for="(file, index) in files"
         :key="`file_${index}`"
