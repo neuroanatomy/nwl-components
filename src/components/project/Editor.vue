@@ -349,7 +349,8 @@ onUnmounted(() => {
   height: 100%;
   min-width: fit-content;
   min-height: fit-content;
-  box-shadow: var(--nwl-shadow-sm);
+  /* a floating panel: --nwl-shadow-2 in the 2027 theme, today's shadow otherwise */
+  box-shadow: var(--nwl-shadow-2, var(--nwl-shadow-sm));
 }
 .tools--overlay .palette {
   background-color: var(--nwl-black-70);

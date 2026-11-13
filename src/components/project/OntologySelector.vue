@@ -111,6 +111,8 @@ onUnmounted(() => {
     padding: 10px;
     text-align: left;
     z-index: 21;
+    /* a floating panel: --nwl-shadow-2 in the 2027 theme, none otherwise */
+    box-shadow: var(--nwl-shadow-2, none);
     font-size: 0.8rem;
     resize: both;
     /* padding: 0 20px 20px; */

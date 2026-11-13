@@ -350,6 +350,83 @@ To find one to reuse, search by name, meaning or old file name and copy its path
 `Icons/Finder`, online at <https://neuroanatomy.github.io/nwl-components/?path=/story/icons--finder>
 (or locally with `npm run storybook`).
 
+## Themes
+
+Since 2.4.0 the tokens carry a second look, the **2027 theme** (softer greys, off-white text,
+Source Sans 3 and IBM Plex Mono; no accent colour: focus and links stay the text colour). It is opt-in, page
+by page: nothing changes on a page that doesn't ask for it. To opt in, set the attribute on
+`<html>` and link the fonts:
+
+```html
+<html data-nwl-theme="2027">
+  <head>
+    <!-- after the page's tokens (dist/style.css, tokens.css or sort/style.css) -->
+    <link rel="stylesheet" href="/lib/nwl-components/fonts.css">
+```
+
+`fonts.css` is a separate stylesheet (`nwl-components/fonts.css`, `dist/fonts.css`), not part of
+`dist/style.css`. Link it from where it is served (here `node_modules/nwl-components/dist/` at
+`/lib/nwl-components/`): its font URLs (`fonts/<file>.woff2`) are relative to it. Don't import it
+through a bundler that leaves `url()` alone (webpack 4's css-loader with `url: false`): the
+browser would then look for the fonts next to the page.
+
+What changes under `[data-nwl-theme="2027"]`:
+
+- tier 2 tokens only (below); components and app CSS keep using the same names;
+- `base.css`: `h1`–`h3` inside `.app` are `h1`/`h2` semibold (600), `h3` medium (500); their
+  size and alignment stay as they are.
+  Form controls (`button`, `input`, `select`, `textarea`) inherit the font family, so the whole
+  page is Source Sans 3 (today they keep the browser's);
+- selected rows and pressed tool buttons look as today (`--nwl-bg-elevated`,
+  `--nwl-bg-pressed`, with the theme's greys);
+- two shadows, `--nwl-shadow-1` (menus) and `--nwl-shadow-2` (floating panels), defined in the
+  theme only. The kit uses them, with today's value as the `var()` fallback, on the
+  `Autocomplete` results (1), the editor's floating tool palette, the `OntologySelector` panel
+  and the `ImportFilesDialog` box (2).
+
+| Token | Today | 2027 |
+|---|---|---|
+| `--nwl-bg-canvas` | #000 | #000 |
+| `--nwl-bg-nav` | #111 | #111 |
+| `--nwl-bg` | #222 | #1a1a1a |
+| `--nwl-bg-surface` | #333 | #252525 |
+| `--nwl-bg-elevated` | #444 | #2e2e2e |
+| `--nwl-bg-pressed` | #555 | #404040 |
+| `--nwl-border-subtle` | #555 | #383838 (dividers only) |
+| `--nwl-border` | #777 | #777 (3.9 / 3.4 / 3.0:1 on bg / surface / elevated) |
+| `--nwl-border-strong` | #ddd | #999 |
+| `--nwl-text` | #fff | #e8e8e8 |
+| `--nwl-text-2` | rgba(255,255,255,.75) | #c0c0c0 |
+| `--nwl-text-3` | rgba(255,255,255,.4) | #999 |
+| `--nwl-text-placeholder` | #ccc | #999 |
+| `--nwl-text-button` | #ddd | #ddd |
+| `--nwl-focus`, `--nwl-link`, `--nwl-link-hover` | `--nwl-text` (#fff) | `--nwl-text` (#e8e8e8) |
+| `--nwl-font-body` | Lucida Grande stack | "Source Sans 3", then the Lucida Grande stack |
+| `--nwl-font-mono` | ui-monospace, Menlo, Consolas, monospace | "IBM Plex Mono", then the same |
+| `--nwl-shadow-1` | (not defined) | 0 2px 8px rgba(0,0,0,.4) |
+| `--nwl-shadow-2` | (not defined) | 0 8px 24px rgba(0,0,0,.5) |
+
+The accent tokens (defined, unused), status colours, `--nwl-font-display` (Roboto 100), sizes (body 14px), weights,
+spacing and radii are the same in both. No text is darker than #999 (≥ 4.7:1 on every
+background up to `--nwl-bg-elevated`). Links stay underlined in running text.
+
+Storybook: the toolbar's **Theme** switch shows every story in either theme; `Styles/Theme 2027`
+shows every tier 2 token in both themes side by side with the contrast of each text/background
+pair, and the type scale in the three fonts. Its play tests check the 2027 contrasts (text 4.5:1,
+borders and focus 3:1, links 4.5:1; focus and links equal to the text colour), that every token keeps its 2.3.0 value without the
+attribute, and that the fonts load from `fonts/`.
+
+### Fonts
+
+`dist/fonts/` holds the theme's fonts as woff2, Latin subset, only the weights used: Source Sans 3
+400, 400 italic and 600; IBM Plex Mono 400; Roboto 100 (the wordmark). They are copied at build
+from the `@fontsource/source-sans-3`, `@fontsource/ibm-plex-mono` and `@fontsource/roboto`
+packages (devDependencies). The pages make no request to Google Fonts or any other third party.
+
+All three are under the SIL Open Font License 1.1; the licences ship next to the files
+(`dist/fonts/LICENSE-source-sans-3.txt`, `LICENSE-ibm-plex-mono.txt`, `LICENSE-roboto.txt`, each
+the `LICENSE` of its @fontsource package).
+
 ## Single File Components
 
 This project makes use of Vue SFCs: _Single File Components_, that have the `.vue` extension.

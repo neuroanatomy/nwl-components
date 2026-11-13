@@ -182,6 +182,8 @@ onUnmounted(() => {
   top: 30px;
   z-index: 10;
   background: var(--nwl-bg);
+  /* a menu: --nwl-shadow-1 in the 2027 theme, none otherwise */
+  box-shadow: var(--nwl-shadow-1, none);
   width: auto;
   box-sizing: border-box;
   margin: 0;

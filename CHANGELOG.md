@@ -14,6 +14,37 @@ Storybook only (stories aren't published to npm; no version bump).
   the search, the count, no match, the keyboard and the copy. The map is parsed once in
   `src/icons/map.js`, shared with `Icons/All`.
 
+## 2.4.0
+
+New: the opt-in 2027 theme (UI kit step 12, decisions U11–U17). Nothing changes on a page that
+doesn't set `data-nwl-theme="2027"` on `<html>`: every token keeps its 2.3.0 value.
+
+- **`tokens.css`**: new raw values in tier 1 (greys `--nwl-grey-1a` … `--nwl-grey-e8`,
+  `--nwl-black-40/-50`, the font names); a third block,
+  `:root[data-nwl-theme="2027"]`, remaps tier 2: softer greys (page #1a1a1a, panels #252525,
+  menus and selected rows #2e2e2e, canvas still #000), off-white text #e8e8e8, no text darker
+  than #999, control borders ≥ 3:1, no accent (focus and links stay the text colour; the
+  `--nwl-accent*` tokens are unchanged and unused),
+  Source Sans 3 and IBM Plex Mono before today's stacks, and two shadows `--nwl-shadow-1`
+  (menus) and `--nwl-shadow-2` (floating panels). See the README ("Themes") for the table.
+- **`nwl-components/fonts.css`** (`dist/fonts.css`, not in `dist/style.css`): `@font-face` for
+  Source Sans 3 (400, 400 italic, 600), IBM Plex Mono (400) and Roboto (100), `font-display:
+  swap`, URLs relative to the file. The woff2 files (Latin subset) and their SIL OFL 1.1
+  licences are in `dist/fonts/`, copied at build from `@fontsource/*` devDependencies.
+- **`base.css`**, under the theme only: `h1`–`h3` in `.app` weight 600/600/500 (alignment unchanged);
+  form controls inherit the font family (today they keep the browser's).
+- **Fix, visible in both themes: `Checkbox`**'s ring is 13px (was 11px), so it is centred on the
+  9px disc again: since 2.0.0's inherited `box-sizing: border-box` it sat 1px up and left. Its
+  story checks both centres within 0.5px.
+- Shadows, under the theme only (today's value as the `var()` fallback): `Autocomplete`
+  results, the editor's floating tool palette, the `OntologySelector` panel, the
+  `ImportFilesDialog` box.
+- Storybook: a toolbar **Theme** switch (today / 2027; default today) and the `Styles/Theme 2027`
+  stories (swatches of every tier 2 token in both themes with computed contrast ratios, the
+  type scale in the three fonts) with play tests: 2027 contrasts, 2.3.0 values without the
+  attribute, fonts loaded from `fonts/`, controls' font; `Pages/Settings` Default checks the
+  project name stays centred in both themes.
+
 ## 2.3.0
 
 New: the shared icon set (UI kit step 11c). Added files, plus one changed drawing.

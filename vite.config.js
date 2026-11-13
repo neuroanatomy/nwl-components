@@ -5,6 +5,7 @@ import vue from '@vitejs/plugin-vue';
 import { defineConfig } from 'vite';
 
 import { cssLayers, inLayer, orderOnce } from './scripts/css-layers.js';
+import { libraryFonts } from './scripts/fonts.js';
 
 // The design tokens alone (src/styles/tokens.css, only `:root` custom properties), for app CSS
 // and pages with no bundle: copied as they are to dist/tokens.css (`nwl-components/tokens.css`
@@ -15,6 +16,8 @@ import { cssLayers, inLayer, orderOnce } from './scripts/css-layers.js';
 // same way: dist/widgets.css (`nwl-components/widgets.css`) and widgets.css.
 // dist/style.css carries all three (src/components/index.js imports them); every stylesheet in it is
 // in its layer (cssLayers), and the layer order is declared once, at its top (orderOnce).
+// The fonts of the 2027 theme (dist/fonts.css and dist/fonts/, `nwl-components/fonts.css`), opt-in
+// and not in dist/style.css: see scripts/fonts.js.
 const tokensCss = path.resolve(__dirname, 'src/styles/tokens.css');
 const baseCss = path.resolve(__dirname, 'src/styles/base.css');
 const baseStyle = async () => orderOnce(inLayer('nwl.base', await fs.readFile(baseCss, 'utf8')));
@@ -81,5 +84,5 @@ export default defineConfig({
       }
     }
   },
-  plugins: [vue(), libraryCss, libraryIcons]
+  plugins: [vue(), libraryCss, libraryIcons, libraryFonts]
 });

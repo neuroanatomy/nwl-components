@@ -37,11 +37,13 @@ const toggleCheckbox = (key) => {
   position: relative;
   display: inline-block;
 }
+/* the ring: 13px outside (border-box, inherited since 2.0.0), 2px around the 9px disc, so both
+   centres coincide */
 [role="checkbox"]:before {
     content: "";
     position: absolute;
-    width: 11px;
-    height: 11px;
+    width: 13px;
+    height: 13px;
     top: -2px;
     left: -2px;
     border: 1px solid var(--nwl-white);

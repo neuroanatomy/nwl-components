@@ -1,6 +1,8 @@
 import { expect, fn, userEvent, waitFor, within } from '@storybook/test';
 import { inject, provide } from 'vue';
 
+import { setTheme } from '../../../.storybook/theme.js';
+
 import SettingsPage from '@/components/pages/SettingsPage.vue';
 
 export default {
@@ -103,6 +105,20 @@ const typeAtEnd = async (title, text) => {
 
 export const Default = Template.bind({});
 Default.args = { name: 'test project' };
+// the project name under the mandala is centred, today and in the 2027 theme (which changes the
+// headings' weight, not their alignment)
+Default.play = async ({ canvasElement, globals }) => {
+  const title = canvasElement.querySelector('.description h1');
+  try {
+    await setTheme('today');
+    await expect(getComputedStyle(title).textAlign).toBe('center');
+    await setTheme('2027');
+    await expect(getComputedStyle(title).textAlign).toBe('center');
+    await expect(getComputedStyle(title).fontWeight).toBe('600');
+  } finally {
+    await setTheme(globals.theme);
+  }
+};
 
 export const EmptyName = Template.bind({});
 EmptyName.args = { name: '' };
