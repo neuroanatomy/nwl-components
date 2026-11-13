@@ -47,7 +47,7 @@ const checkHoverStyles = async (page, hovers) => {
 };
 
 // only these stories: other stories' contexts can't all be serialised
-const withMouseChecks = ['library-base--', 'library-look--', 'library-widgets--'];
+const withMouseChecks = ['library-base--', 'library-look--', 'library-widgets--', 'layout-footer--'];
 
 module.exports = {
   async postVisit (page, context) {

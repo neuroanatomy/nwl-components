@@ -11,6 +11,7 @@
         >
       </a>
       <a
+        class="text-link"
         target="_blank"
         href="http://neuroanatomy.github.io"
       >
@@ -40,6 +41,11 @@ a {
   text-decoration: none;
   font-weight: lighter;
   color: var(--nwl-link);
+}
+
+/* no underline at rest, so it shows on hover (WCAG 1.4.1: links are the text colour) */
+.text-link:hover {
+  text-decoration: underline;
 }
 
 img {

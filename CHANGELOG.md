@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.1.1
+
+- `Footer`: the text link ("groupe de neuroanatomie appliquée et théorique") shows an underline
+  on hover. It has none at rest and is the text colour, so the hover underline is what marks it
+  as a link (WCAG 1.4.1), as the apps do for their own bare links since step 9a. The logo link,
+  an image, is unchanged. The `Layout/Footer` story checks both states.
+
 ## 2.1.0
 
 New: widget classes for markup that isn't Vue. Nothing existing changes on screen: the library's
