@@ -1,5 +1,16 @@
 # Changelog
 
+## Unreleased
+
+Storybook only (stories aren't published; no version bump).
+
+- Story `Icons/Finder`: search the icons by name, meaning or the app file names they replaced
+  ("floppy" finds `save`), at 24, 32 or 48 px on the dark or a light background; pick one for a
+  large preview, what it replaced, and copy buttons for its three paths (`@/icons/`, webpack 4
+  `~nwl-components/dist/icons/`, served `/lib/nwl-components/icons/`). Its `play` test covers
+  the search, the count, no match, the keyboard and the copy. The map is parsed once in
+  `src/icons/map.js`, shared with `Icons/All`.
+
 ## 2.3.0
 
 New: the shared icon set (UI kit step 11c). Added files, plus one changed drawing.

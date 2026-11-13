@@ -346,6 +346,9 @@ accents), for dark backgrounds. They don't follow the text colour, and many have
 The library's own components (`Nav`, `Access`, `PureFiles`, the editor components) inline the
 same files. Storybook's `Icons/All` shows them all.
 
+To find one to reuse, search by name, meaning or old file name and copy its path: Storybook's
+`Icons/Finder` (`npm run storybook`).
+
 ## Single File Components
 
 This project makes use of Vue SFCs: _Single File Components_, that have the `.vue` extension.
