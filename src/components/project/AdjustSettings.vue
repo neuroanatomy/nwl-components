@@ -3,7 +3,7 @@
     <!-- Transparency -->
     <div class="setting">
       <img
-        src="@/assets/alpha.svg"
+        src="@/icons/alpha.svg"
         class="icon"
       >
       <RangeSlider
@@ -16,7 +16,7 @@
     <!-- Brightness -->
     <div class="setting">
       <img
-        src="@/assets/sun-o.svg"
+        src="@/icons/sun-o.svg"
         class="icon"
       >
       <RangeSlider
@@ -29,7 +29,7 @@
     <!-- Contrast -->
     <div class="setting">
       <img
-        src="@/assets/adjust.svg"
+        src="@/icons/adjust.svg"
         class="icon"
       >
       <RangeSlider

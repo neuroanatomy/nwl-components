@@ -12,7 +12,7 @@
       <img
         class="close"
         alt="close"
-        src="@/assets/times-circle.svg"
+        src="@/icons/times-circle.svg"
         @click="emit('onClose')"
       ><!--<br>
       <b>Labels</b>-->

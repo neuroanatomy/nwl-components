@@ -27,7 +27,7 @@
           @click="toggled = true"
         >
           <img
-            src="@/assets/bars.svg"
+            src="@/icons/bars.svg"
             alt="show tools"
           >
         </button>
@@ -58,7 +58,7 @@
                 @touchstart.stop="hideTools"
               >
                 <img
-                  src="@/assets/times-circle.svg"
+                  src="@/icons/times-circle.svg"
                   alt="hide tools"
                 >
               </button>
@@ -70,7 +70,7 @@
                 @touchstart.stop="placeLeft"
               >
                 <img
-                  src="@/assets/caret-square-o-left.svg"
+                  src="@/icons/caret-square-o-left.svg"
                   alt="place tools left"
                 >
               </button>
@@ -81,7 +81,7 @@
                 @touchstart.stop="placeRight"
               >
                 <img
-                  src="@/assets/caret-square-o-right.svg"
+                  src="@/icons/caret-square-o-right.svg"
                   alt="place tools right"
                 >
               </button>

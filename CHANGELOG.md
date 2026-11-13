@@ -1,5 +1,22 @@
 # Changelog
 
+## 2.3.0
+
+New: the shared icon set (UI kit step 11c). Added files, plus one changed drawing.
+
+- **`dist/icons/<name>.svg`**: every UI icon of nwl-components, BrainBox and microdraw, one file
+  per meaning (73), copied byte for byte from the repos (no redraw). Exported as
+  `nwl-components/icons/*` (`exports`); `nwl-components/dist/icons/*` for webpack 4. The sources
+  are in `src/icons/`, and `src/icons/README.md` maps each name to the file it came from and the
+  app copies it replaces. Merged copies are byte-identical or render the same (0 differing
+  pixels at 48 px). One rename: BrainBox's `floppy` is `save`. See the README ("Icons").
+- The components take their icons from `src/icons/` instead of `src/assets/` (which keeps the
+  logos). `Nav`, `Access` and the editor components look the same.
+- **`PureFiles`** (the settings page's Files list): the download and upload icons are now
+  BrainBox's drawing, larger and bolder, the one the BrainBox viewer uses.
+- Story `Icons/All`: every icon with its name; its `play` test checks one file per row of the
+  map, that every image loads, and that no name is used twice.
+
 ## 2.2.0
 
 New: `useProject` is exported from the library entry (`import { useProject } from

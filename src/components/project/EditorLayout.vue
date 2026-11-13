@@ -19,7 +19,7 @@
             "
           >
             <img
-              src="@/assets/caret-square-o-right.svg"
+              src="@/icons/caret-square-o-right.svg"
               alt=""
             >
           </button>

@@ -1,6 +1,6 @@
 {
   "name": "nwl-components",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/neuroanatomy/nwl-components.git"
@@ -46,6 +46,8 @@
       "import": "./dist/widgets.css",
       "require": "./dist/widgets.css"
     },
+    "./icons/*": "./dist/icons/*",
+    "./dist/icons/*": "./dist/icons/*",
     ".": {
       "import": "./dist/nwl-components.es.js",
       "require": "./dist/nwl-components.umd.js"

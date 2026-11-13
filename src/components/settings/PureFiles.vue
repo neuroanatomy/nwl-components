@@ -42,7 +42,7 @@
         title="Upload CSV"
       >
         <img
-          src="@/assets/upload.svg"
+          src="@/icons/upload.svg"
           alt="Import CSV"
         >
       </Button>
@@ -52,7 +52,7 @@
         title="Download CSV"
       >
         <img
-          src="@/assets/download.svg"
+          src="@/icons/download.svg"
           alt="Download CSV"
         >
       </Button>

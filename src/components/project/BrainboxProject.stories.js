@@ -1,9 +1,6 @@
 import { action } from '@storybook/addon-actions';
 import { ref, inject } from 'vue';
 
-import alpha from '@/assets/alpha.svg';
-import chat from '@/assets/chat.svg';
-import scroll from '@/assets/scroll.svg';
 import Button from '@/components/common/Button.vue';
 import ButtonsGroup from '@/components/project/ButtonsGroup.vue';
 import Chat from '@/components/project/Chat.vue';
@@ -15,6 +12,9 @@ import Row from '@/components/project/Row.vue';
 import ScriptConsole from '@/components/project/ScriptConsole.vue';
 import brainboxProject from '@/components/project/TextAnnotations.brainbox.fixtures.json';
 import TextAnnotations from '@/components/project/TextAnnotations.vue';
+import alpha from '@/icons/alpha.svg';
+import chat from '@/icons/chat.svg';
+import scroll from '@/icons/scroll.svg';
 
 export default {
   title: 'Project/Brainbox Editor'

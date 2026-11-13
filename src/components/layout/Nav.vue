@@ -5,7 +5,7 @@
         class="button"
         title="add project"
         alt="add project"
-        src="@/assets/plus.svg"
+        src="@/icons/plus.svg"
       >
     </a>
     <a
@@ -16,7 +16,7 @@
         class="button"
         title="settings"
         alt="settings"
-        src="@/assets/settings.svg"
+        src="@/icons/settings.svg"
       >
     </a>
     <a
@@ -27,14 +27,14 @@
         class="button"
         title="search"
         alt="search"
-        src="@/assets/search.svg"
+        src="@/icons/search.svg"
       ></a>
     <a :href="docURL">
       <img
         class="button"
         title="documentation"
         alt="documentation"
-        src="@/assets/doc.svg"
+        src="@/icons/doc.svg"
       >
     </a>
     <a
@@ -45,7 +45,7 @@
         class="button"
         title="report a bug"
         alt="report a bug"
-        src="@/assets/bug.svg"
+        src="@/icons/bug.svg"
       ></a>
     <a
       :href="githubURL"
@@ -56,7 +56,7 @@
         title="join our github project"
         alt="join our github project"
         style="width: 15px; height: 15px"
-        src="@/assets/github.svg"
+        src="@/icons/github.svg"
       ></a>
     <div class="login">
       <span v-if="user != null && user.username !== 'anyone'">

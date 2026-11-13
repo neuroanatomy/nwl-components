@@ -21,6 +21,18 @@ const baseStyle = async () => orderOnce(inLayer('nwl.base', await fs.readFile(ba
 const widgetsCss = path.resolve(__dirname, 'src/styles/widgets.css');
 const widgetsStyle = async () => orderOnce(inLayer('nwl.widgets', await fs.readFile(widgetsCss, 'utf8')));
 const styleCss = path.resolve(__dirname, 'dist/style.css');
+// The icons (src/icons/*.svg, one per meaning, see src/icons/README.md), copied as they are to
+// dist/icons/ for the apps' <img> and CSS URLs (`nwl-components/icons/<name>.svg` through `exports`,
+// `nwl-components/dist/icons/<name>.svg` for webpack 4). The components still inline theirs.
+const iconsDir = path.resolve(__dirname, 'src/icons');
+const libraryIcons = {
+  name: 'library-icons',
+  async generateBundle () {
+    const names = (await fs.readdir(iconsDir)).filter((name) => name.endsWith('.svg'));
+    const sources = await Promise.all(names.map((name) => fs.readFile(path.join(iconsDir, name))));
+    names.forEach((name, i) => this.emitFile({ type: 'asset', fileName: `icons/${name}`, source: sources[i] }));
+  }
+};
 const libraryCss = {
   name: 'library-css',
   async generateBundle () {
@@ -69,5 +81,5 @@ export default defineConfig({
       }
     }
   },
-  plugins: [vue(), libraryCss]
+  plugins: [vue(), libraryCss, libraryIcons]
 });

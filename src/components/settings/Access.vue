@@ -98,42 +98,42 @@ button {
 
 /* view */
 [data-level="0"] .view:before {
-  background-image: url("~@/assets/eye.svg");
+  background-image: url("~@/icons/eye.svg");
 }
 [data-level="1"] .view:before,
 [data-level="2"] .view:before,
 [data-level="3"] .view:before,
 [data-level="4"] .view:before {
-  background-image: url("~@/assets/eye-circle.svg");
+  background-image: url("~@/icons/eye-circle.svg");
 }
 /* edit */
 [data-level="0"] .edit:before,
 [data-level="1"] .edit:before {
-  background-image: url("~@/assets/pencil.svg");
+  background-image: url("~@/icons/pencil.svg");
 }
 [data-level="2"] .edit:before,
 [data-level="3"] .edit:before,
 [data-level="4"] .edit:before {
-  background-image: url("~@/assets/pencil-circle.svg");
+  background-image: url("~@/icons/pencil-circle.svg");
 }
 /* add */
 [data-level="0"] .add:before,
 [data-level="1"] .add:before,
 [data-level="2"] .add:before {
-  background-image: url("~@/assets/plus-small.svg");
+  background-image: url("~@/icons/plus-small.svg");
 }
 [data-level="3"] .add:before,
 [data-level="4"] .add:before {
-  background-image: url("~@/assets/plus-small-circle.svg");
+  background-image: url("~@/icons/plus-small-circle.svg");
 }
 /* remove */
 [data-level="0"] .remove:before,
 [data-level="1"] .remove:before,
 [data-level="2"] .remove:before,
 [data-level="3"] .remove:before {
-  background-image: url("~@/assets/minus-small.svg");
+  background-image: url("~@/icons/minus-small.svg");
 }
 [data-level="4"] .remove:before {
-  background-image: url("~@/assets/minus-small-circle.svg");
+  background-image: url("~@/icons/minus-small-circle.svg");
 }
 </style>

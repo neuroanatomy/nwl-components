@@ -325,6 +325,27 @@ With a bundler: `import 'nwl-components/widgets.css'` after the tokens and base 
 a copy at the package root). Storybook's `Library/Widgets` shows each widget in plain HTML, with
 its states.
 
+## Icons
+
+Every UI icon of nwl-components, BrainBox and microdraw, one SVG file per meaning (73), in
+`dist/icons/<name>.svg`. The map in [`src/icons/README.md`](src/icons/README.md) lists each name,
+its meaning, the file it came from and the app copies it replaces.
+
+- In a page or app CSS: `/lib/nwl-components/icons/<name>.svg` where the app serves
+  `node_modules/nwl-components/dist/` at `/lib/nwl-components/` (microdraw does).
+- With a bundler: `nwl-components/dist/icons/<name>.svg` (webpack 4, which ignores `exports`;
+  html-loader takes `~nwl-components/dist/icons/<name>.svg`), or `nwl-components/icons/<name>.svg`
+  through `exports`.
+
+```html
+<img class="nwl-icon" alt="undo" src="/lib/nwl-components/icons/undo.svg">
+```
+
+The drawings are the apps' files as they were: fixed white (some with black cut-outs or grey
+accents), for dark backgrounds. They don't follow the text colour, and many have no `viewBox`.
+The library's own components (`Nav`, `Access`, `PureFiles`, the editor components) inline the
+same files. Storybook's `Icons/All` shows them all.
+
 ## Single File Components
 
 This project makes use of Vue SFCs: _Single File Components_, that have the `.vue` extension.

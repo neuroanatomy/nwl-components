@@ -1,6 +1,6 @@
 import { expect, userEvent, within } from '@storybook/test';
 
-import searchIcon from '@/assets/search.svg';
+import searchIcon from '@/icons/search.svg';
 
 // src/styles/widgets.css (2.1.0): the class-based widgets, as an app's Mustache page or a viewer's
 // tool panel writes them, in plain HTML (no Vue component: Vue only hosts the markup, through
