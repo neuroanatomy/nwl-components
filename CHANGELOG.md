@@ -14,6 +14,14 @@ Storybook only (stories aren't published to npm; no version bump).
   the search, the count, no match, the keyboard and the copy. The map is parsed once in
   `src/icons/map.js`, shared with `Icons/All`.
 
+## 2.4.2
+
+- 2027 theme: Source Sans 3 sits its letters where Lucida Grande did in a centred line. Its own
+  metrics leave more room under the letters, so in table cells, buttons and the slider's − and +
+  the text sat about 1px higher than today. `fonts.css` gives the three Source Sans 3 faces
+  `ascent-override: 109%` and `descent-override: 33.4%`: the same line height, the letters
+  0.068em lower. The `Styles/Theme 2027` Fonts test checks the overrides.
+
 ## 2.4.1
 
 - 2027 theme: a wider content column. `TwoCols` (user and settings pages) reads its widths on

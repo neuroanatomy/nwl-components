@@ -341,6 +341,11 @@ Fonts.play = async ({ canvasElement, globals }) => {
     const loaded = [...document.fonts].filter((face) => face.status === 'loaded')
       .map((face) => face.family.replace(/"/gu, ''));
     await expect(loaded).toEqual(expect.arrayContaining(['Source Sans 3', 'IBM Plex Mono']));
+    // Source Sans 3 sits its letters where Lucida Grande did in a centred line (2.4.2): every
+    // face has the ascent and descent overrides of fonts.css
+    const sourceSans = [...document.fonts].filter((face) => face.family.replace(/"/gu, '') === 'Source Sans 3');
+    await expect(sourceSans.map((face) => [face.ascentOverride, face.descentOverride]))
+      .toEqual([['109%', '33.4%'], ['109%', '33.4%'], ['109%', '33.4%']]);
     // from fonts/ beside the page, on the page's own origin
     const fontUrls = performance.getEntriesByType('resource').map((entry) => entry.name)
       .filter((url) => (/\.woff2?(?:\?|$)/u).test(url));
