@@ -1,11 +1,11 @@
-// The self-hosted fonts of the 2027 theme (used by vite.config.js).
+// The self-hosted fonts of the kit (used by vite.config.js).
 //
 // src/styles/fonts.css declares the faces with URLs relative to itself (`fonts/<file>.woff2`).
 // The library build copies it to dist/fonts.css (`nwl-components/fonts.css` through `exports`)
 // and each woff2 file it names, from its @fontsource package (devDependencies, SIL OFL 1.1), to
 // dist/fonts/, with each package's licence as dist/fonts/LICENSE-<package>.txt. Storybook's
 // build (same Vite config) emits the same files next to iframe.html, and its dev server serves
-// them from node_modules, so the theme switch works with or without a built dist/.
+// them from node_modules, so the preview has its fonts with or without a built dist/.
 import fs from 'fs/promises';
 import path from 'path';
 

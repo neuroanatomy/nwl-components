@@ -1,5 +1,3 @@
-import { setTheme } from './theme.js';
-
 import brainboxLogo from '@/assets/brainbox-logo-small_noFont.svg';
 import Wrapper from '@/components/layout/Wrapper.vue';
 import '@fontsource/roboto/100.css';
@@ -7,31 +5,8 @@ import '@/styles/tokens.css';
 import '@/styles/base.css';
 import '@/styles/widgets.css';
 
-// The toolbar's theme switch: today's look (the default, so every story and its play test runs as
-// before) or the 2027 theme (data-nwl-theme="2027" on the preview's <html>, and fonts.css).
-export const globalTypes = {
-  theme: {
-    description: 'nwl-components theme',
-    defaultValue: 'today',
-    toolbar: {
-      title: 'Theme',
-      icon: 'paintbrush',
-      items: [
-        { value: 'today', title: 'Theme: today' },
-        { value: '2027', title: 'Theme: 2027' }
-      ],
-      dynamicTitle: true
-    }
-  }
-};
-
 export default {
   decorators: [
-    (story, context) => {
-      setTheme(context.globals.theme).catch((error) => console.error(error));
-
-      return { template: '<story/>' };
-    },
     () => ({
       components: { Wrapper },
       template: '<Wrapper><story/></Wrapper>',
@@ -72,7 +47,7 @@ export const parameters = {
     values: [
       {
         name: 'black',
-        value: '#222'
+        value: '#1a1a1a'
       }
     ]
   }

@@ -12,8 +12,9 @@ import Access from '@/components/settings/Access.vue';
 
 // The look of a few representative components, read with getComputedStyle (no screenshots).
 // The expected values were recorded on 1.7.1 (78fce04), before the library's CSS read the
-// design tokens (src/styles/tokens.css): moving the literals into tokens must change none of
-// them. A wrong token value, or a var() whose token is missing, fails these checks.
+// design tokens (src/styles/tokens.css), and moved to the values of 3.0.0 (the look of the 2.4
+// opt-in theme) where a token's value changed. A wrong token value, or a var() whose token is
+// missing, fails these checks.
 export default {
   title: 'Library/Look'
 };
@@ -29,12 +30,13 @@ const checkLook = async (elements, expected) => {
   await expect(diff.join('; ')).toBe('');
 };
 
-// the font stacks and colours of 1.7.1
-const body = '"Lucida Grande", "Lucida Sans Unicode", Helvetica, Arial, Verdana, sans-serif';
+// the body font and the text colour of 3.0.0 (--nwl-font-body, --nwl-text); text is --nwl-text
+const body = '"Source Sans 3", "Lucida Grande", "Lucida Sans Unicode", Helvetica, Arial, Verdana, sans-serif';
+const text = 'rgb(232, 232, 232)';
 const white = 'rgb(255, 255, 255)';
 const none = 'rgba(0, 0, 0, 0)';
 
-// buttons keep the browser's font family (they don't inherit it): Arial in the test browser
+// buttons inherit the body font (since 3.0.0; before, the browser's: Arial in the test browser)
 export const Buttons = () => ({
   components: { Button },
   template: `
@@ -50,19 +52,19 @@ Buttons.play = async ({ canvasElement }) => {
     button: canvas.getByRole('button', { name: 'Plain' }),
     pushButton: canvas.getByRole('button', { name: 'Push' })
   }, {
-    app: { backgroundColor: 'rgb(34, 34, 34)', color: white, borderTopColor: white, borderRadius: '0px', fontFamily: body, fontSize: '14px', fontWeight: '400' },
-    button: { backgroundColor: none, color: white, borderTopColor: 'rgb(119, 119, 119)', borderRadius: '3px', fontFamily: 'Arial', fontSize: '14px', fontWeight: '400' },
-    pushButton: { backgroundColor: none, color: 'rgb(221, 221, 221)', borderTopColor: 'rgb(221, 221, 221)', borderRadius: '6px', fontFamily: 'Arial', fontSize: '14px', fontWeight: '700' }
+    app: { backgroundColor: 'rgb(26, 26, 26)', color: text, borderTopColor: text, borderRadius: '0px', fontFamily: body, fontSize: '14px', fontWeight: '400' },
+    button: { backgroundColor: none, color: text, borderTopColor: 'rgb(119, 119, 119)', borderRadius: '3px', fontFamily: body, fontSize: '14px', fontWeight: '400' },
+    pushButton: { backgroundColor: none, color: 'rgb(221, 221, 221)', borderTopColor: 'rgb(153, 153, 153)', borderRadius: '6px', fontFamily: body, fontSize: '14px', fontWeight: '700' }
   });
 };
 
 // hovered (the real mouse, .storybook/test-runner.js), as recorded on 2.0.0 (be3bbf0): the plain
 // Button and the push variant (since 2.1.0 the .nwl-push-button widget) both get --nwl-bg-pressed
-const hovered = 'rgb(85, 85, 85)';
+const hovered = 'rgb(64, 64, 64)';
 Buttons.parameters = {
   hoverStyles: [
-    { selector: '.app button:not(.push-button)', styles: { backgroundColor: hovered, color: white, borderTopColor: 'rgb(119, 119, 119)', borderRadius: '3px', fontWeight: '400', opacity: '1' } },
-    { selector: '.app button.push-button', styles: { backgroundColor: hovered, color: 'rgb(221, 221, 221)', borderTopColor: 'rgb(221, 221, 221)', borderRadius: '6px', fontWeight: '700', opacity: '1' } }
+    { selector: '.app button:not(.push-button)', styles: { backgroundColor: hovered, color: text, borderTopColor: 'rgb(119, 119, 119)', borderRadius: '3px', fontWeight: '400', opacity: '1' } },
+    { selector: '.app button.push-button', styles: { backgroundColor: hovered, color: 'rgb(221, 221, 221)', borderTopColor: 'rgb(153, 153, 153)', borderRadius: '6px', fontWeight: '700', opacity: '1' } }
   ]
 };
 
@@ -91,17 +93,17 @@ TableCells.play = async ({ canvasElement }) => {
     tbody: canvasElement.querySelector('tbody'),
     selectedRow: canvasElement.querySelector('tr.selected')
   }, {
-    th: { backgroundColor: none, color: white, borderTopColor: white, borderRadius: '0px', fontFamily: body, fontSize: '14px', fontWeight: '700' },
-    td: { backgroundColor: none, color: white, borderTopColor: white, borderRadius: '0px', fontFamily: body, fontSize: '14px', fontWeight: '400' },
-    tbody: { backgroundColor: none, color: white, borderTopColor: white, borderRadius: '0px', fontFamily: body, fontSize: '14px', fontWeight: '400' },
-    selectedRow: { backgroundColor: 'rgb(68, 68, 68)', color: white, borderTopColor: white, borderRadius: '0px', fontFamily: body, fontSize: '14px', fontWeight: '400' }
+    th: { backgroundColor: none, color: text, borderTopColor: text, borderRadius: '0px', fontFamily: body, fontSize: '14px', fontWeight: '700' },
+    td: { backgroundColor: none, color: text, borderTopColor: text, borderRadius: '0px', fontFamily: body, fontSize: '14px', fontWeight: '400' },
+    tbody: { backgroundColor: none, color: text, borderTopColor: text, borderRadius: '0px', fontFamily: body, fontSize: '14px', fontWeight: '400' },
+    selectedRow: { backgroundColor: 'rgb(46, 46, 46)', color: text, borderTopColor: text, borderRadius: '0px', fontFamily: body, fontSize: '14px', fontWeight: '400' }
   });
   // the line under the header and under the body
   await expect(getComputedStyle(canvasElement.querySelector('tbody')).borderBottomColor).toBe(white);
 };
 // a hovered row: --nwl-bg-elevated, as recorded on 2.0.0 (be3bbf0)
 TableCells.parameters = {
-  hoverStyles: [{ selector: '.app tbody tr:not(.selected)', styles: { backgroundColor: 'rgb(68, 68, 68)', color: white } }]
+  hoverStyles: [{ selector: '.app tbody tr:not(.selected)', styles: { backgroundColor: 'rgb(46, 46, 46)', color: text } }]
 };
 
 // an access cell as on the settings page: a collaborator's row in a Table
@@ -127,8 +129,8 @@ AccessCell.play = async ({ canvasElement }) => {
     cell: canvasElement.querySelector('.access').closest('td'),
     button: canvas.getByTitle('edit annotations')
   }, {
-    cell: { backgroundColor: none, color: white, borderTopColor: white, borderRadius: '0px', fontFamily: body, fontSize: '14px', fontWeight: '400' },
-    button: { backgroundColor: none, color: white, borderTopColor: white, borderRadius: '50%', fontFamily: 'Arial', fontSize: '14px', fontWeight: '400' }
+    cell: { backgroundColor: none, color: text, borderTopColor: text, borderRadius: '0px', fontFamily: body, fontSize: '14px', fontWeight: '400' },
+    button: { backgroundColor: none, color: text, borderTopColor: text, borderRadius: '50%', fontFamily: body, fontSize: '14px', fontWeight: '400' }
   });
 };
 
@@ -160,9 +162,9 @@ SortableHeader.play = async ({ canvasElement }) => {
     sortedIcon: indicator(nameButton),
     focusedIcon: indicator(ownerButton)
   }, {
-    th: { backgroundColor: none, color: white, borderTopColor: white, borderRadius: '0px', fontFamily: body, fontSize: '14px', fontWeight: '700' },
-    button: { backgroundColor: none, color: white, borderTopColor: white, borderRadius: '0px', fontFamily: body, fontSize: '14px', fontWeight: '700' },
-    sortedIcon: { backgroundColor: none, color: white, borderTopColor: white, borderRadius: '0px', fontFamily: body, fontSize: '14px', fontWeight: '700' },
+    th: { backgroundColor: none, color: text, borderTopColor: text, borderRadius: '0px', fontFamily: body, fontSize: '14px', fontWeight: '700' },
+    button: { backgroundColor: none, color: text, borderTopColor: text, borderRadius: '0px', fontFamily: body, fontSize: '14px', fontWeight: '700' },
+    sortedIcon: { backgroundColor: none, color: text, borderTopColor: text, borderRadius: '0px', fontFamily: body, fontSize: '14px', fontWeight: '700' },
     focusedIcon: { backgroundColor: none, color: 'rgb(187, 187, 187)', borderTopColor: 'rgb(187, 187, 187)', borderRadius: '0px', fontFamily: body, fontSize: '14px', fontWeight: '700' }
   });
   await userEvent.tab();
@@ -191,9 +193,9 @@ OntologyPanel.play = async ({ canvasElement }) => {
     header: panel.querySelector('.header'),
     labelName: panel.querySelector('.label-name')
   }, {
-    panel: { backgroundColor: 'rgba(0, 0, 0, 0.8)', color: white, borderTopColor: 'rgb(119, 119, 119)', borderRadius: '0px', fontFamily: body, fontSize: '11.2px', fontWeight: '400' },
-    header: { backgroundColor: 'rgb(102, 102, 102)', color: white, borderTopColor: white, borderRadius: '0px', fontFamily: body, fontSize: '14px', fontWeight: '400' },
-    labelName: { backgroundColor: none, color: white, borderTopColor: white, borderRadius: '0px', fontFamily: body, fontSize: '14px', fontWeight: '400' }
+    panel: { backgroundColor: 'rgba(0, 0, 0, 0.8)', color: text, borderTopColor: 'rgb(119, 119, 119)', borderRadius: '0px', fontFamily: body, fontSize: '11.2px', fontWeight: '400' },
+    header: { backgroundColor: 'rgb(102, 102, 102)', color: text, borderTopColor: text, borderRadius: '0px', fontFamily: body, fontSize: '14px', fontWeight: '400' },
+    labelName: { backgroundColor: none, color: text, borderTopColor: text, borderRadius: '0px', fontFamily: body, fontSize: '14px', fontWeight: '400' }
   });
 };
 
@@ -212,8 +214,8 @@ HeaderAndFooter.play = async ({ canvasElement }) => {
     title,
     footer: canvasElement.querySelector('footer')
   }, {
-    title: { backgroundColor: none, color: white, borderTopColor: white, borderRadius: '0px', fontFamily: 'Roboto, sans-serif', fontSize: '36px', fontWeight: '100' },
-    footer: { backgroundColor: 'rgb(0, 0, 0)', color: white, borderTopColor: white, borderRadius: '0px', fontFamily: body, fontSize: '14px', fontWeight: '400' }
+    title: { backgroundColor: none, color: text, borderTopColor: text, borderRadius: '0px', fontFamily: 'Roboto, sans-serif', fontSize: '36px', fontWeight: '100' },
+    footer: { backgroundColor: 'rgb(0, 0, 0)', color: text, borderTopColor: text, borderRadius: '0px', fontFamily: body, fontSize: '14px', fontWeight: '400' }
   });
-  await expect(getComputedStyle(empty, '::before').color).toBe('rgba(255, 255, 255, 0.4)');
+  await expect(getComputedStyle(empty, '::before').color).toBe('rgb(153, 153, 153)');
 };

@@ -16,7 +16,7 @@ import { libraryFonts } from './scripts/fonts.js';
 // same way: dist/widgets.css (`nwl-components/widgets.css`) and widgets.css.
 // dist/style.css carries all three (src/components/index.js imports them); every stylesheet in it is
 // in its layer (cssLayers), and the layer order is declared once, at its top (orderOnce).
-// The fonts of the 2027 theme (dist/fonts.css and dist/fonts/, `nwl-components/fonts.css`), opt-in
+// The fonts (dist/fonts.css and dist/fonts/, `nwl-components/fonts.css`), linked by each page
 // and not in dist/style.css: see scripts/fonts.js.
 const tokensCss = path.resolve(__dirname, 'src/styles/tokens.css');
 const baseCss = path.resolve(__dirname, 'src/styles/base.css');

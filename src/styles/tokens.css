@@ -1,44 +1,38 @@
 /* nwl-components design tokens: `import 'nwl-components/tokens.css'`.
    Two tiers. Tier 1 is the raw palette: the only place where hex values appear. Tier 2 is the
-   semantic tokens: what components and app CSS use. The values are those the NAAT apps have
-   today, so loading this file changes nothing on screen; a later visual refresh only changes
-   values here. Dark theme only.
+   semantic tokens: what components and app CSS use. Dark theme only.
 
-   A page opts in to the refreshed look of 2027 by setting `data-nwl-theme="2027"` on <html> (and
-   linking `nwl-components/fonts.css` for its fonts). The third block below remaps tier 2 under
-   that attribute only: without it, every token keeps the value above. */
+   Since 3.0.0 the values are the look first shipped in 2.4 as the opt-in 2027 theme (decisions
+   U11–U17): softer greys, Source Sans 3 and IBM Plex Mono, shadows on menus and floating panels.
+   Every page using the kit links `nwl-components/fonts.css` for those fonts. The
+   `data-nwl-theme` attribute of 2.4 does nothing any more. */
 
 /* Tier 1: raw palette. Use a raw name directly only for a value with no role of its own. */
 :root {
   /* greys, named by their channel value in hex: --nwl-grey-44 is #444 */
   --nwl-black: #000;
   --nwl-grey-11: #111;
-  --nwl-grey-22: #222;
+  --nwl-grey-1a: #1a1a1a;
+  --nwl-grey-25: #252525;
+  --nwl-grey-2e: #2e2e2e;
   --nwl-grey-33: #333;
+  --nwl-grey-38: #383838;
+  --nwl-grey-40: #404040;
   --nwl-grey-44: #444;
-  --nwl-grey-55: #555;
   --nwl-grey-66: #666;
   --nwl-grey-77: #777;
   --nwl-grey-7a: #7a7a7a;
   --nwl-grey-80: #808080;
+  --nwl-grey-99: #999;
   --nwl-grey-bb: #bbb;
+  --nwl-grey-c0: #c0c0c0;
   --nwl-grey-cc: #ccc;
   --nwl-grey-dd: #ddd;
-  --nwl-white: #fff;
-
-  /* the softer greys of the 2027 theme */
-  --nwl-grey-1a: #1a1a1a;
-  --nwl-grey-25: #252525;
-  --nwl-grey-2e: #2e2e2e;
-  --nwl-grey-38: #383838;
-  --nwl-grey-40: #404040;
-  --nwl-grey-99: #999;
-  --nwl-grey-c0: #c0c0c0;
   --nwl-grey-e8: #e8e8e8;
+  --nwl-white: #fff;
 
   /* white and black with transparency, named by their opacity in percent */
   --nwl-white-25: #ffffff40;
-  --nwl-white-40: rgba(255, 255, 255, 0.4);
   --nwl-white-75: rgba(255, 255, 255, 0.75);
   --nwl-black-70: rgba(0, 0, 0, 0.7);
   --nwl-black-80: rgba(0, 0, 0, 0.8);
@@ -57,7 +51,7 @@
   --nwl-sans-serif: sans-serif;
   --nwl-monospace: ui-monospace, Menlo, Consolas, monospace;
 
-  /* the fonts of the 2027 theme, self-hosted by nwl-components/fonts.css */
+  /* the kit's fonts, self-hosted by nwl-components/fonts.css */
   --nwl-source-sans-3: "Source Sans 3";
   --nwl-plex-mono: "IBM Plex Mono";
 }
@@ -68,34 +62,37 @@
      menus, pressed or hovered controls, text fields; the overlay behind dialogs */
   --nwl-bg-canvas: var(--nwl-black);
   --nwl-bg-nav: var(--nwl-grey-11);
-  --nwl-bg: var(--nwl-grey-22);
-  --nwl-bg-surface: var(--nwl-grey-33);
-  --nwl-bg-elevated: var(--nwl-grey-44);
-  --nwl-bg-pressed: var(--nwl-grey-55);
+  --nwl-bg: var(--nwl-grey-1a);
+  --nwl-bg-surface: var(--nwl-grey-25);
+  --nwl-bg-elevated: var(--nwl-grey-2e);
+  --nwl-bg-pressed: var(--nwl-grey-40);
   --nwl-bg-input: transparent;
   --nwl-bg-overlay: var(--nwl-black-70);
 
-  /* borders: dividers, controls and panels, push buttons */
-  --nwl-border-subtle: var(--nwl-grey-55);
+  /* borders: dividers, controls and panels, push buttons. Control borders keep 3:1 against
+     bg, surface and elevated (WCAG 1.4.11) */
+  --nwl-border-subtle: var(--nwl-grey-38);
   --nwl-border: var(--nwl-grey-77);
-  --nwl-border-strong: var(--nwl-grey-dd);
+  --nwl-border-strong: var(--nwl-grey-99);
 
-  /* text: main, secondary, muted or empty, placeholders, text on a light or accent background */
-  --nwl-text: var(--nwl-white);
-  --nwl-text-2: var(--nwl-white-75);
-  --nwl-text-3: var(--nwl-white-40);
-  --nwl-text-placeholder: var(--nwl-grey-cc);
+  /* text: main, secondary, muted or empty, placeholders, text on a light or accent background.
+     Off-white; no text darker than grey 99 (U14) */
+  --nwl-text: var(--nwl-grey-e8);
+  --nwl-text-2: var(--nwl-grey-c0);
+  --nwl-text-3: var(--nwl-grey-99);
+  --nwl-text-placeholder: var(--nwl-grey-99);
   --nwl-text-inverse: var(--nwl-black);
   /* the text of push buttons (nwl-components/widgets.css), a little dimmer than --nwl-text */
   --nwl-text-button: var(--nwl-grey-dd);
 
-  /* accent (selection, focus): the colour, hover or pressed, a tinted background, as text */
+  /* accent: the colour, hover or pressed, a tinted background, as text. Defined, used by
+     nothing: focus and links stay the text colour (U12, revised) */
   --nwl-accent: var(--nwl-cyan);
   --nwl-accent-dim: var(--nwl-cyan-50);
   --nwl-accent-subtle: var(--nwl-cyan-15);
   --nwl-accent-fg: var(--nwl-cyan);
 
-  /* keyboard focus outline (base.css, :focus-visible); white for now, may become the accent */
+  /* keyboard focus outline (base.css, :focus-visible): the text colour */
   --nwl-focus: var(--nwl-text);
 
   /* links and status colours. Links are the text colour (decision U8): they must stay
@@ -106,10 +103,12 @@
   --nwl-success: var(--nwl-green);
   --nwl-warning: var(--nwl-amber);
 
-  /* font families: the wordmark, everything else, data (file names, coordinates, IDs) */
+  /* font families: the wordmark (Roboto 100), everything else, data (file names, coordinates,
+     IDs). Source Sans 3 and IBM Plex Mono come from fonts.css (U11); the stacks after them are
+     those of 2.x, so a page without fonts.css still renders in Lucida Grande or Helvetica */
   --nwl-font-display: Roboto, var(--nwl-sans-serif);
-  --nwl-font-body: "Lucida Grande", "Lucida Sans Unicode", Helvetica, Arial, Verdana, var(--nwl-sans-serif);
-  --nwl-font-mono: var(--nwl-monospace);
+  --nwl-font-body: var(--nwl-source-sans-3), "Lucida Grande", "Lucida Sans Unicode", Helvetica, Arial, Verdana, var(--nwl-sans-serif);
+  --nwl-font-mono: var(--nwl-plex-mono), var(--nwl-monospace);
 
   /* font sizes; the body text is --nwl-text-md */
   --nwl-text-xs: 11px;
@@ -153,53 +152,14 @@
   --nwl-radius-md: 6px;
   --nwl-radius-round: 50%;
 
-  /* shadows: floating tool palettes, menus */
+  /* elevation (U16): menus, floating panels. --nwl-shadow-sm is the shadow of 2.x, kept
+     for the apps' CSS that still reads it */
+  --nwl-shadow-1: 0 2px 8px var(--nwl-black-40);
+  --nwl-shadow-2: 0 8px 24px var(--nwl-black-50);
   --nwl-shadow-sm: 2px 2px 5px var(--nwl-grey-80);
-  --nwl-shadow-md: 0 4px 12px var(--nwl-black-70);
 
   /* layout widths on wide screens (TwoCols, 1023px and up): the content column, and the
      container that holds it with the 200px side column and its 20px gap */
-  --nwl-content-max: 684px;
-  --nwl-container-max: 984px;
-}
-
-/* The 2027 theme (decisions U11–U17): opt-in, with `<html data-nwl-theme="2027">`, plus a
-   `<link rel="stylesheet">` to `nwl-components/fonts.css` for Source Sans 3 and IBM Plex Mono.
-   Only tier 2 changes; components and app CSS keep the same names. */
-:root[data-nwl-theme="2027"] {
-  /* softer greys (U13); the viewer canvas stays black */
-  --nwl-bg-nav: var(--nwl-grey-11);
-  --nwl-bg: var(--nwl-grey-1a);
-  --nwl-bg-surface: var(--nwl-grey-25);
-  --nwl-bg-elevated: var(--nwl-grey-2e);
-  --nwl-bg-pressed: var(--nwl-grey-40);
-
-  /* dividers only; control borders keep 3:1 against bg, surface and elevated (WCAG 1.4.11) */
-  --nwl-border-subtle: var(--nwl-grey-38);
-  --nwl-border: var(--nwl-grey-77);
-  --nwl-border-strong: var(--nwl-grey-99);
-
-  /* off-white text; no text darker than #999 (U14) */
-  --nwl-text: var(--nwl-grey-e8);
-  --nwl-text-2: var(--nwl-grey-c0);
-  --nwl-text-3: var(--nwl-grey-99);
-  --nwl-text-placeholder: var(--nwl-grey-99);
-  --nwl-text-button: var(--nwl-grey-dd);
-
-  /* no accent (U12, revised): focus and links stay the text colour, as today, through the
-     unchanged --nwl-focus, --nwl-link and --nwl-link-hover (var(--nwl-text)) */
-
-  /* fonts (U11): Source Sans 3 and IBM Plex Mono, each before today's stack; the wordmark
-     stays Roboto 100 */
-  --nwl-font-body: var(--nwl-source-sans-3), "Lucida Grande", "Lucida Sans Unicode", Helvetica, Arial, Verdana, var(--nwl-sans-serif);
-  --nwl-font-mono: var(--nwl-plex-mono), var(--nwl-monospace);
-
-  /* elevation (U16), for menus and floating panels only. Defined in this theme only: the
-     components read them as var(--nwl-shadow-1, <today's shadow>) */
-  --nwl-shadow-1: 0 2px 8px var(--nwl-black-40);
-  --nwl-shadow-2: 0 8px 24px var(--nwl-black-50);
-
-  /* a wider content column (2.4.1): 800px, so the container is 200 + 20 + 800 */
   --nwl-content-max: 800px;
   --nwl-container-max: 1020px;
 }

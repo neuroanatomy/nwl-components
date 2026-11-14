@@ -14,6 +14,38 @@ Storybook only (stories aren't published to npm; no version bump).
   the search, the count, no match, the keyboard and the copy. The map is parsed once in
   `src/icons/map.js`, shared with `Icons/All`.
 
+## 3.0.0
+
+Breaking: the look of the 2.4 opt-in 2027 theme is now the only look (UI kit step 14). Apps whose
+pages all set `data-nwl-theme="2027"` and link `fonts.css` on 2.4.x see no change. See the
+README's "Look" and "Upgrading from 2.x".
+
+- **`tokens.css`**: the values of `:root[data-nwl-theme="2027"]` are the tier 2 defaults, and
+  that block is gone: page #1a1a1a, panels #252525, menus and selected rows #2e2e2e, pressed
+  #404040, dividers #383838, strong borders #999, text #e8e8e8 / #c0c0c0 / #999, placeholders
+  #999, `--nwl-font-body` "Source Sans 3" then the 2.x stack, `--nwl-font-mono` "IBM Plex Mono"
+  then the 2.x stack, `--nwl-shadow-1` and `--nwl-shadow-2` always defined, content column 800px
+  (container 1020px).
+- **Removed tokens**: `--nwl-grey-22`, `--nwl-grey-55`, `--nwl-white-40` (raw palette entries
+  nothing uses any more) and `--nwl-shadow-md` (unused). `--nwl-shadow-sm` stays (microdraw's
+  CSS reads it); the cyan entries and `--nwl-accent*` stay, defined and unused.
+- **Removed: the `data-nwl-theme` attribute.** Nothing in the library reads it; a page that
+  still sets it is unaffected.
+- **`base.css`**: inside `.app`, `h1`/`h2` are semibold (600) and `h3` medium (500), alignment
+  and size unchanged; form controls (`button`, `input`, `select`, `textarea`) inherit the font
+  family (in 2.x they kept the browser's: Arial, monospace for `textarea`). Both were under the
+  attribute in 2.4.
+- Components: the `var(--nwl-shadow-1, …)` / `var(--nwl-shadow-2, …)` fallbacks are plain
+  `var()` (`Autocomplete`, `Editor` palette, `OntologySelector`, `ImportFilesDialog`).
+- `fonts.css`: unchanged faces; still a separate stylesheet (not in `dist/style.css`), now linked
+  by every page using the kit.
+- Storybook: the toolbar theme switch and `.storybook/theme.js` are gone; the preview always
+  links `fonts.css` (`.storybook/preview-head.html`) and its background is #1a1a1a.
+  `Styles/Theme 2027` is `Styles/Theme` (Swatches, Contrast, TypeScale, Fonts, Controls, Widths
+  on the defaults); `DefaultUnchanged` is replaced by `Defaults`, the 3.0.0 values (also with the
+  attribute set). `Library/Look`, `Library/Base`, `Library/Widgets` and `Pages/Settings` Default
+  expect the 3.0.0 values.
+
 ## 2.4.2
 
 - 2027 theme: Source Sans 3 sits its letters where Lucida Grande did in a centred line. Its own

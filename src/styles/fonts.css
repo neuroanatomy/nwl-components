@@ -1,6 +1,6 @@
-/* nwl-components fonts, for the 2027 theme: `<link rel="stylesheet" href="…/nwl-components/dist/fonts.css">`
-   on a page with `<html data-nwl-theme="2027">`. Not part of dist/style.css: a page loads it
-   when it opts in.
+/* nwl-components fonts: `<link rel="stylesheet" href="…/nwl-components/dist/fonts.css">` on
+   every page that uses the kit (Source Sans 3 is the body font since 3.0.0; without this file a
+   page falls back to Lucida Grande or Helvetica). Not part of dist/style.css: link it.
 
    Self-hosted (no request to a third party): woff2 files in dist/fonts/, Latin subset, only the
    weights the kit uses. Their URLs are relative to this file, so link it from where it is (an
@@ -12,7 +12,7 @@
    100).
    Source Sans 3's own metrics (ascent 1024, descent 400 per 1000) leave more room under the
    letters than Lucida Grande, so in a centred line (table cells, buttons, the slider's − and +)
-   its letters sat about 1px higher than today's. The overrides keep the same line height
+   its letters sat about 1px higher than Lucida Grande's. The overrides keep the same line height
    (109% + 33.4% = 142.4%, as 1024 + 400) and move the letters down 0.068em, so a capital's middle
    is 0.05em below the line's middle, as with Lucida Grande (2.4.2). */
 

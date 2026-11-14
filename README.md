@@ -166,8 +166,8 @@ in `src/styles/tokens.css` (`:root` rules only) in two tiers:
   body text is `--nwl-text-md`), weights, line heights, spacing (`--nwl-space-1` …
   `--nwl-space-16`), radii (`--nwl-radius-sm`, `--nwl-radius-md`) and shadows.
 
-Their values are those the NAAT apps have today, so loading them changes nothing on screen.
-Storybook's `Library/Tokens` page lists every token with a sample.
+Their values are the kit's look (see "Look"); since 3.0.0 there is one set, with no theme
+attribute. Storybook's `Library/Tokens` page lists every token with a sample.
 
 `dist/style.css` and `nwl-components/sort/style.css` each include the tokens, so a page that
 loads either needs nothing else. To use the tokens in an app's own CSS without those files:
@@ -222,10 +222,12 @@ inside the wrapper (`.app`, the root of `Wrapper`) only, except two:
 - `.app`: font (`--nwl-font-body`, `--nwl-text-md`) and colour (`--nwl-text`), inherited by
   everything inside; `box-sizing: border-box`, inherited by every element and pseudo-element;
 - headings, `small`, `sub`, `sup`, `code`, `pre` and form controls take their parent's font
-  size; form controls and `<dialog>` their parent's colour (the controls' font family stays
-  the browser's); links `--nwl-link`;
+  size; form controls and `<dialog>` their parent's colour, and form controls their parent's
+  font family (since 3.0.0; before, they kept the browser's); links `--nwl-link`;
+- `h1` and `h2` are semibold (600), `h3` medium (500), since 3.0.0; their size and alignment
+  stay as they are (as above, or the app's);
 - keyboard focus: `:focus-visible` gets a 2px solid `--nwl-focus` outline, 2px away
-  (`--nwl-focus` is `--nwl-text`, white). Mouse focus shows nothing on buttons; browsers
+  (`--nwl-focus` is `--nwl-text`, #e8e8e8). Mouse focus shows nothing on buttons; browsers
   show it on text fields and Chromium on `<select>`, as they decide what is `:focus-visible`.
 
 `dist/style.css` includes `base.css`. A page without the Vue components (e.g. a Mustache page
@@ -350,78 +352,83 @@ To find one to reuse, search by name, meaning or old file name and copy its path
 `Icons/Finder`, online at <https://neuroanatomy.github.io/nwl-components/?path=/story/icons--finder>
 (or locally with `npm run storybook`).
 
-## Themes
+## Look
 
-Since 2.4.0 the tokens carry a second look, the **2027 theme** (softer greys, off-white text,
-Source Sans 3 and IBM Plex Mono; no accent colour: focus and links stay the text colour). It is opt-in, page
-by page: nothing changes on a page that doesn't ask for it. To opt in, set the attribute on
-`<html>` and link the fonts:
+The look of the kit (decisions U11–U17 of the UI kit plan): dark greys, off-white text, Source
+Sans 3 for text and IBM Plex Mono for data, no accent colour (focus and links are the text
+colour, links underlined in running text), heavier headings, shadows on menus and floating
+panels. First shipped in 2.4 as the opt-in "2027 theme"; since 3.0.0 it is the only look, with no
+attribute to set.
+
+Every page that uses the kit links the fonts, after its tokens:
 
 ```html
-<html data-nwl-theme="2027">
-  <head>
-    <!-- after the page's tokens (dist/style.css, tokens.css or sort/style.css) -->
-    <link rel="stylesheet" href="/lib/nwl-components/fonts.css">
+<head>
+  <!-- after the page's tokens (dist/style.css, tokens.css or sort/style.css) -->
+  <link rel="stylesheet" href="/lib/nwl-components/fonts.css">
 ```
 
 `fonts.css` is a separate stylesheet (`nwl-components/fonts.css`, `dist/fonts.css`), not part of
 `dist/style.css`. Link it from where it is served (here `node_modules/nwl-components/dist/` at
 `/lib/nwl-components/`): its font URLs (`fonts/<file>.woff2`) are relative to it. Don't import it
 through a bundler that leaves `url()` alone (webpack 4's css-loader with `url: false`): the
-browser would then look for the fonts next to the page.
+browser would then look for the fonts next to the page. A page that forgets it still renders,
+in the stack after Source Sans 3 (Lucida Grande, Helvetica, Arial…).
 
-What changes under `[data-nwl-theme="2027"]`:
+A page that still sets `data-nwl-theme="2027"` on `<html>` (the opt-in of 2.4) is fine: nothing
+in the library reads the attribute any more, so it changes nothing.
 
-- tier 2 tokens only (below); components and app CSS keep using the same names;
-- `base.css`: `h1`–`h3` inside `.app` are `h1`/`h2` semibold (600), `h3` medium (500); their
-  size and alignment stay as they are.
-  Form controls (`button`, `input`, `select`, `textarea`) inherit the font family, so the whole
-  page is Source Sans 3 (today they keep the browser's);
-- selected rows and pressed tool buttons look as today (`--nwl-bg-elevated`,
-  `--nwl-bg-pressed`, with the theme's greys);
-- two shadows, `--nwl-shadow-1` (menus) and `--nwl-shadow-2` (floating panels), defined in the
-  theme only. The kit uses them, with today's value as the `var()` fallback, on the
-  `Autocomplete` results (1), the editor's floating tool palette, the `OntologySelector` panel
-  and the `ImportFilesDialog` box (2);
-- a wider content column (2.4.1): `TwoCols` (the user and settings pages) on screens of
-  1023px and up uses `--nwl-content-max` 800px and `--nwl-container-max` 1020px, instead of
-  today's 684 and 984px.
+| Token | 3.0.0 |
+|---|---|
+| `--nwl-bg-canvas` | #000 |
+| `--nwl-bg-nav` | #111 |
+| `--nwl-bg` | #1a1a1a |
+| `--nwl-bg-surface` | #252525 |
+| `--nwl-bg-elevated` | #2e2e2e (menus, selected and hovered rows) |
+| `--nwl-bg-pressed` | #404040 (pressed tool buttons, hovered text buttons) |
+| `--nwl-border-subtle` | #383838 (dividers only) |
+| `--nwl-border` | #777 (3.9 / 3.4 / 3.0:1 on bg / surface / elevated) |
+| `--nwl-border-strong` | #999 |
+| `--nwl-text` | #e8e8e8 |
+| `--nwl-text-2` | #c0c0c0 |
+| `--nwl-text-3` | #999 |
+| `--nwl-text-placeholder` | #999 |
+| `--nwl-text-button` | #ddd |
+| `--nwl-focus`, `--nwl-link`, `--nwl-link-hover` | `--nwl-text` (#e8e8e8) |
+| `--nwl-font-body` | "Source Sans 3", "Lucida Grande", "Lucida Sans Unicode", Helvetica, Arial, Verdana, sans-serif |
+| `--nwl-font-mono` | "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace |
+| `--nwl-font-display` | Roboto, sans-serif (Roboto 100, the wordmark) |
+| `--nwl-shadow-1` | 0 2px 8px rgba(0,0,0,.4): the `Autocomplete` results |
+| `--nwl-shadow-2` | 0 8px 24px rgba(0,0,0,.5): the editor's floating tool palette, the `OntologySelector` panel, the `ImportFilesDialog` box |
+| `--nwl-shadow-sm` | 2px 2px 5px #808080 (the 2.x shadow, kept for app CSS) |
+| `--nwl-content-max`, `--nwl-container-max` | 800px, 1020px: `TwoCols` (user and settings pages) on screens of 1023px and up |
 
-| Token | Today | 2027 |
-|---|---|---|
-| `--nwl-bg-canvas` | #000 | #000 |
-| `--nwl-bg-nav` | #111 | #111 |
-| `--nwl-bg` | #222 | #1a1a1a |
-| `--nwl-bg-surface` | #333 | #252525 |
-| `--nwl-bg-elevated` | #444 | #2e2e2e |
-| `--nwl-bg-pressed` | #555 | #404040 |
-| `--nwl-border-subtle` | #555 | #383838 (dividers only) |
-| `--nwl-border` | #777 | #777 (3.9 / 3.4 / 3.0:1 on bg / surface / elevated) |
-| `--nwl-border-strong` | #ddd | #999 |
-| `--nwl-text` | #fff | #e8e8e8 |
-| `--nwl-text-2` | rgba(255,255,255,.75) | #c0c0c0 |
-| `--nwl-text-3` | rgba(255,255,255,.4) | #999 |
-| `--nwl-text-placeholder` | #ccc | #999 |
-| `--nwl-text-button` | #ddd | #ddd |
-| `--nwl-focus`, `--nwl-link`, `--nwl-link-hover` | `--nwl-text` (#fff) | `--nwl-text` (#e8e8e8) |
-| `--nwl-font-body` | Lucida Grande stack | "Source Sans 3", then the Lucida Grande stack |
-| `--nwl-font-mono` | ui-monospace, Menlo, Consolas, monospace | "IBM Plex Mono", then the same |
-| `--nwl-shadow-1` | (not defined) | 0 2px 8px rgba(0,0,0,.4) |
-| `--nwl-shadow-2` | (not defined) | 0 8px 24px rgba(0,0,0,.5) |
+The accent tokens (cyan, defined, unused), status colours, sizes (body 14px), weights, spacing
+and radii are unchanged from 2.x. No text is darker than #999 (≥ 4.7:1 on every background up to
+`--nwl-bg-elevated`). In `base.css`, form controls inherit the font family and headings are
+heavier (see "Base styles and cascade layers").
 
-The accent tokens (defined, unused), status colours, `--nwl-font-display` (Roboto 100), sizes (body 14px), weights,
-spacing and radii are the same in both. No text is darker than #999 (≥ 4.7:1 on every
-background up to `--nwl-bg-elevated`). Links stay underlined in running text.
+Storybook: `Styles/Theme` shows every tier 2 token with the contrast of each text/background
+pair, and the type scale in the three fonts. Its play tests check the contrasts (text 4.5:1,
+borders and focus 3:1, links 4.5:1; focus and links equal to the text colour), every token's
+3.0.0 value (`Defaults`, also with the old attribute set), that form controls take the body
+font, and that the fonts load from `fonts/`. The preview links `fonts.css`
+(`.storybook/preview-head.html`), as an app's page does.
 
-Storybook: the toolbar's **Theme** switch shows every story in either theme; `Styles/Theme 2027`
-shows every tier 2 token in both themes side by side with the contrast of each text/background
-pair, and the type scale in the three fonts. Its play tests check the 2027 contrasts (text 4.5:1,
-borders and focus 3:1, links 4.5:1; focus and links equal to the text colour), that every token keeps its 2.3.0 value without the
-attribute, and that the fonts load from `fonts/`.
+### Upgrading from 2.x
+
+- Link `fonts.css` on every page (see above). Without it the text falls back to Lucida Grande
+  or Helvetica.
+- The `data-nwl-theme="2027"` attribute is no longer needed; leaving it does no harm.
+- The 2.x values are gone: the old greys (#222 page, #333 panels, #444 menus, #555 pressed),
+  white text, the browser's font in form controls, 684px content column. An app rule that
+  depended on them must set its own values.
+- Removed tokens: `--nwl-grey-22`, `--nwl-grey-55`, `--nwl-white-40`, `--nwl-shadow-md`.
+- An app whose pages all opted in to the 2027 theme on 2.4.x sees no change.
 
 ### Fonts
 
-`dist/fonts/` holds the theme's fonts as woff2, Latin subset, only the weights used: Source Sans 3
+`dist/fonts/` holds the kit's fonts as woff2, Latin subset, only the weights used: Source Sans 3
 400, 400 italic and 600; IBM Plex Mono 400; Roboto 100 (the wordmark). They are copied at build
 from the `@fontsource/source-sans-3`, `@fontsource/ibm-plex-mono` and `@fontsource/roboto`
 packages (devDependencies). The pages make no request to Google Fonts or any other third party.

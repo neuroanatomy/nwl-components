@@ -54,7 +54,7 @@
     flex-direction: column;
   }
 
-  /* today 684 and 984px; 800 and 1020px in the 2027 theme (tokens.css) */
+  /* 800 and 1020px (tokens.css; 684 and 984px before 3.0.0) */
   .content {
     max-width: var(--nwl-content-max);
   }

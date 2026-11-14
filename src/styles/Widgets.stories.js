@@ -17,10 +17,11 @@ const plain = (html) => () => ({
   template: '<div class="widgets-story" v-html="html"></div>'
 });
 
-const white = 'rgb(255, 255, 255)';
+// the values of 3.0.0
+const textColour = 'rgb(232, 232, 232)'; // --nwl-text
 const none = 'rgba(0, 0, 0, 0)';
-const pressed = 'rgb(85, 85, 85)'; // --nwl-bg-pressed
-const outline = { outlineStyle: 'solid', outlineWidth: '2px', outlineColor: white, outlineOffset: '2px' };
+const pressed = 'rgb(64, 64, 64)'; // --nwl-bg-pressed
+const outline = { outlineStyle: 'solid', outlineWidth: '2px', outlineColor: textColour, outlineOffset: '2px' };
 
 // the message names every element and property that differs
 const checkAll = async (elements, expected) => {
@@ -64,7 +65,7 @@ PushButton.play = async ({ canvasElement }) => {
     color: 'rgb(221, 221, 221)',
     borderTopWidth: '1px',
     borderTopStyle: 'solid',
-    borderTopColor: 'rgb(221, 221, 221)',
+    borderTopColor: 'rgb(153, 153, 153)', // --nwl-border-strong
     borderRadius: '6px',
     fontWeight: '700',
     fontSize: '14px',
@@ -123,7 +124,7 @@ ToolButton.play = async ({ canvasElement }) => {
   // a native button, with the browser's look reset: the BrainBox `.a` / microdraw `.mui` look
   const look = {
     backgroundColor: none,
-    color: white,
+    color: textColour,
     borderTopWidth: '1px',
     borderTopStyle: 'solid',
     borderTopColor: 'rgb(119, 119, 119)',
@@ -195,7 +196,7 @@ TextField.play = async ({ canvasElement }) => {
   const q = (s) => canvasElement.querySelector(s);
   const look = {
     backgroundColor: none,
-    color: white,
+    color: textColour,
     fontSize: '14px',
     borderTopWidth: '1px',
     borderTopStyle: 'solid',
@@ -206,8 +207,8 @@ TextField.play = async ({ canvasElement }) => {
   };
   await checkAll({ input: q('#field-input'), textarea: q('#field-textarea') }, look);
   await checkAll({ red: q('#field-red') }, { color: 'rgb(255, 0, 0)', fontSize: '20px' });
-  await expect(getComputedStyle(q('#field-input'), '::placeholder').color).toBe('rgb(204, 204, 204)');
-  await checkAll({ disabled: q('#field-disabled') }, { color: 'rgba(255, 255, 255, 0.4)' });
+  await expect(getComputedStyle(q('#field-input'), '::placeholder').color).toBe('rgb(153, 153, 153)');
+  await checkAll({ disabled: q('#field-disabled') }, { color: 'rgb(153, 153, 153)' });
   await tabTo(q('#field-input'));
 };
 
@@ -224,7 +225,7 @@ export const SelectedRow = plain(`
 </table>`);
 SelectedRow.play = async ({ canvasElement }) => {
   const rows = canvasElement.querySelectorAll('tbody tr');
-  const elevated = 'rgb(68, 68, 68)'; // --nwl-bg-elevated
+  const elevated = 'rgb(46, 46, 46)'; // --nwl-bg-elevated
   await checkAll({ notSelected: rows[0], noAttribute: rows[2] }, { backgroundColor: none });
   await checkAll({ selected: rows[1] }, { backgroundColor: elevated });
   rows[1].setAttribute('aria-selected', 'false');

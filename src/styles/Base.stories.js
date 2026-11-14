@@ -14,10 +14,9 @@ export default {
   title: 'Library/Base'
 };
 
-const white = 'rgb(255, 255, 255)';
-const body = '"Lucida Grande", "Lucida Sans Unicode", Helvetica, Arial, Verdana, sans-serif';
-// form controls keep the browser's font family, as in 1.x: Arial in the test browser
-const controlFont = 'Arial';
+// the text colour (--nwl-text) and the body font of 3.0.0
+const textColour = 'rgb(232, 232, 232)';
+const body = '"Source Sans 3", "Lucida Grande", "Lucida Sans Unicode", Helvetica, Arial, Verdana, sans-serif';
 
 // the message names every element and property that differs
 const checkAll = async (elements, expected) => {
@@ -57,12 +56,11 @@ FormControls.play = async ({ canvasElement }) => {
     plainInput: q('.plain-input'),
     plainSelect: q('.plain-select')
   };
-  // inputs, buttons and selects compute 14px and white, as with 1.x's `*` rule
-  await checkAll(controls, { fontSize: '14px', color: white, fontFamily: controlFont, boxSizing: 'border-box' });
-  // a textarea keeps the browser's monospace font
-  await checkAll({ textarea: q('textarea') }, { fontSize: '14px', color: white, fontFamily: 'monospace', boxSizing: 'border-box' });
+  // inputs, buttons, selects and textareas compute 14px and the text colour, as with 1.x's `*`
+  // rule, and the body font (since 3.0.0; before, the browser's: Arial, monospace for a textarea)
+  await checkAll({ ...controls, textarea: q('textarea') }, { fontSize: '14px', color: textColour, fontFamily: body, boxSizing: 'border-box' });
   // text inherits the wrapper's font and colour
-  await checkAll({ app, text: q('.text'), span: q('.text span') }, { fontSize: '14px', color: white, fontFamily: body, boxSizing: 'border-box' });
+  await checkAll({ app, text: q('.text'), span: q('.text span') }, { fontSize: '14px', color: textColour, fontFamily: body, boxSizing: 'border-box' });
   // 1rem is 14px, as in 1.x
   await expect(getComputedStyle(document.documentElement).fontSize).toBe('14px');
   // no `*` rule: children inherit their parent's font size and colour, controls included
@@ -109,10 +107,10 @@ export const KeyboardFocus = () => ({
     </Table>
   </div>`
 });
-const outline = { outlineStyle: 'solid', outlineWidth: '2px', outlineColor: white, outlineOffset: '2px' };
+const outline = { outlineStyle: 'solid', outlineWidth: '2px', outlineColor: textColour, outlineOffset: '2px' };
 const red = 'rgb(255, 0, 0)';
 // Tab (or Shift+Tab) moves the focus to `el`, which shows the outline
-const tabTo = async (el, label, { shift = false, color = white } = {}) => {
+const tabTo = async (el, label, { shift = false, color = textColour } = {}) => {
   await userEvent.tab({ shift });
   await expect(document.activeElement).toBe(el);
   await checkAll({ [label]: el }, { ...outline, outlineColor: color });

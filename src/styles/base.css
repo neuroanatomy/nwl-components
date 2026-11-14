@@ -36,10 +36,15 @@
   font-size: inherit;
 }
 
-/* Form controls and dialogs don't inherit the colour by default either. The controls' font
-   family stays the browser's, as it was in 1.x. */
+/* Form controls and dialogs don't inherit the colour by default either, and form controls
+   don't inherit the font family: they take the page's, so the whole page is in the body font
+   (since 3.0.0; before, the controls kept the browser's). */
 :where(.app) :where(button, input, select, textarea, dialog) {
   color: inherit;
+}
+
+:where(.app) :where(button, input, select, textarea) {
+  font-family: inherit;
 }
 
 /* links: the link colour, not the browser's blue. The browser's underline stays: links are
@@ -59,18 +64,12 @@
   outline-offset: 2px;
 }
 
-/* The 2027 theme (`<html data-nwl-theme="2027">`, decision U15): headings in the app are
-   heavier than the text; their size and alignment stay as they are (as above, or the app's). */
-:where([data-nwl-theme="2027"] .app) :where(h1, h2) {
+/* Headings in the app are heavier than the text (decision U15); their size and alignment stay
+   as they are (as above, or the app's). */
+:where(.app) :where(h1, h2) {
   font-weight: var(--nwl-weight-semibold);
 }
 
-:where([data-nwl-theme="2027"] .app) :where(h3) {
+:where(.app) :where(h3) {
   font-weight: var(--nwl-weight-medium);
-}
-
-/* Under the 2027 theme, form controls take the page's font family too (today they keep the
-   browser's, as in 1.x), so the whole page is in Source Sans 3. */
-:where([data-nwl-theme="2027"] .app) :where(button, input, select, textarea) {
-  font-family: inherit;
 }

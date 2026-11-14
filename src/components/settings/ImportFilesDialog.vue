@@ -78,8 +78,8 @@ const filesToImport = ref(props.files);
   margin: 2rem auto;
   background-color: var(--nwl-bg-surface);
   max-width: 600px;
-  /* a floating panel: --nwl-shadow-2 in the 2027 theme, none otherwise */
-  box-shadow: var(--nwl-shadow-2, none);
+  /* a floating panel */
+  box-shadow: var(--nwl-shadow-2);
   text-align: center;
   border: 1px solid var(--nwl-border);
   height: calc(100% - 4rem);
