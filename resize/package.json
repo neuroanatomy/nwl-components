@@ -1,0 +1,6 @@
+{
+  "name": "nwl-components-resize",
+  "private": true,
+  "main": "../dist/resize/nwl-components-resize.umd.js",
+  "module": "../dist/resize/nwl-components-resize.es.js"
+}

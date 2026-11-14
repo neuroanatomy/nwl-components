@@ -14,6 +14,31 @@ Storybook only (stories aren't published to npm; no version bump).
   the search, the count, no match, the keyboard and the copy. The map is parsed once in
   `src/icons/map.js`, shared with `Icons/All`.
 
+## 3.1.0
+
+Resizable table columns (UI kit step 15a). See the README's "Resizable columns".
+
+- **`resizableColumns(table, { wrapper })`**, new in `src/components/common/resize.js`: a handle
+  at the right edge of every column header; drag (pointer events with pointer capture: mouse,
+  pen, touch), ArrowLeft/ArrowRight (10px, 50px with Shift), double-click or Enter to go back to
+  the automatic layout. Nothing moves before the first resize, which freezes every column's
+  width in px and switches the table to `table-layout: fixed`; then only the resized column
+  changes; the wrapper scrolls (`overflow-x: auto`, class `nwl-resize-overflow`) only while the
+  table is wider than it, so popups in cells are not clipped. Not remembered. Returns `{ reset(), destroy() }`; a second call on the same table
+  returns the same object. Also `columnHeaders(table)` and `minColumnWidth(th)`. Exported from
+  `nwl-components` and, without Vue, from **`nwl-components/resize`**, with its CSS in
+  **`nwl-components/resize/style.css`** (`vite.resize.config.js`, as `./sort`; `resize/` for
+  webpack 4).
+- **`Table`**: resizable by default (prop `resizable`, default `true`). It renders
+  `<div class="nwl-resize-wrap">` (no box until a resize) around its `<table>`, and its
+  attributes now go to the `<table>` (`inheritAttrs: false`), so apps see the same table.
+- **`ImportFilesDialog`**: its table uses the helper, inside its existing scroller.
+- Tab order in sortable headers: each sort button, then its column's resize handle.
+- Stories: `Common/Table` ResizableColumns (drag, keys, double-click, no sort from the handle,
+  scrolling) and ResizableSameLayout (no layout change at rest); `Common/PlainResize` (the
+  helper's unit tests). The tab-order checks of `Common/Table` and `Library/Look` take the
+  handle into account.
+
 ## 3.0.0
 
 Breaking: the look of the 2.4 opt-in 2027 theme is now the only look (UI kit step 14). Apps whose

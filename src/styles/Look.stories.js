@@ -153,7 +153,9 @@ SortableHeader.play = async ({ canvasElement }) => {
   const ownerButton = canvas.getByRole('button', { name: 'Owner' });
   const indicator = (b) => b.querySelector('.nwl-sort-indicator');
   await userEvent.click(nameButton);
-  // keyboard focus on Owner: the unsorted icon turns brighter (as on hover)
+  // keyboard focus on Owner (after the Name column's resize handle): the unsorted icon turns
+  // brighter (as on hover)
+  await userEvent.tab();
   await userEvent.tab();
   await expect(ownerButton).toHaveFocus();
   await checkLook({

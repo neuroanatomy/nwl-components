@@ -1,0 +1,63 @@
+/* Resizable columns: resizableColumns() in resize.js, for Table.vue and plain-DOM tables */
+/* the wrapper the helper adds: no box until the first resize; then it scrolls the table only
+   while the table is wider than it, so popups in cells are not clipped otherwise */
+.nwl-resize-wrap {
+  display: contents;
+}
+.nwl-resize-wrap.nwl-resize-active {
+  display: block;
+  max-width: 100%;
+}
+.nwl-resize-wrap.nwl-resize-active.nwl-resize-overflow {
+  overflow-x: auto;
+}
+/* the handle's containing block; position: relative alone moves nothing */
+th.nwl-resizable {
+  position: relative;
+}
+/* about 8px wide, the full header height, on the column's right edge (inside the last one) */
+.nwl-col-resize {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: -4px;
+  z-index: 1;
+  width: 8px;
+  cursor: col-resize;
+  touch-action: none;
+  user-select: none;
+}
+th.nwl-resizable:last-child > .nwl-col-resize {
+  right: 0;
+}
+/* invisible at rest; a 1px line on hover, during a drag and on keyboard focus */
+.nwl-col-resize::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 1px;
+  background: transparent;
+}
+th.nwl-resizable:last-child > .nwl-col-resize::after {
+  left: auto;
+  right: 0;
+}
+.nwl-col-resize:hover::after,
+.nwl-col-resize.nwl-dragging::after,
+.nwl-col-resize:focus-visible::after {
+  background: var(--nwl-border-strong);
+}
+/* after a resize: narrowed cells wrap, even inside a word, so nothing is hidden or cut */
+.nwl-resized.nwl-resized :is(th, td) {
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+.nwl-resized.nwl-resized .nwl-sort-button {
+  max-width: 100%;
+  white-space: normal;
+}
+.nwl-resized.nwl-resized .nwl-sort-label {
+  min-width: 0;
+}

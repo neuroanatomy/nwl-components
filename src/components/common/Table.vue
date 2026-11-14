@@ -1,15 +1,49 @@
 <template>
-  <table :id="props.id">
-    <slot />
-  </table>
+  <!-- the scroller of resizableColumns(): no box (display: contents) until a column is resized;
+       the attributes given to Table go to the table, as before 3.1.0 -->
+  <div
+    ref="wrap"
+    class="nwl-resize-wrap"
+  >
+    <table
+      ref="table"
+      :id="props.id"
+      v-bind="$attrs"
+    >
+      <slot />
+    </table>
+  </div>
 </template>
 <script setup>
+import { onBeforeUnmount, onMounted, ref } from 'vue';
+
+import { resizableColumns } from './resize.js';
+
+defineOptions({ inheritAttrs: false });
+
 const props = defineProps({
   id: {
     type: String,
     default: null
-  }});
+  },
+  // a handle at the right edge of every column header (see resize.js); false: none
+  resizable: {
+    type: Boolean,
+    default: true
+  }
+});
+
+const wrap = ref(null);
+const table = ref(null);
+let columns = null;
+onMounted(() => {
+  if (props.resizable) { columns = resizableColumns(table.value, { wrapper: wrap.value }); }
+});
+onBeforeUnmount(() => {
+  if (columns) { columns.destroy(); }
+});
 </script>
+<style src="./resize.css"></style>
 <style scoped>
 table {
   text-align: left;

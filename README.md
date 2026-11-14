@@ -151,6 +151,72 @@ size and colour of every element). With a bundler, `import 'nwl-components/sort/
 `dist/style.css` keeps the same rules for `SortableTh`. Story: `Common/PlainSort`.
 Since 1.6.0.
 
+## Resizable columns
+
+Every `Table` has resizable columns (since 3.1.0): a handle at the right edge of each column
+header, the last one's included. Drag it with a mouse, pen or finger, or focus it (Tab: each
+sort button, then its handle) and press ArrowLeft/ArrowRight (10px; 50px with Shift). A
+double-click on a handle, or Enter on a focused one, goes back to the automatic layout. Widths
+are not remembered: a reload gives the automatic layout again.
+
+- **Nothing moves before a resize.** The handle is absolutely positioned inside its `th`
+  (`position: relative`), about 8px wide and the header's full height; invisible at rest, a 1px
+  line in `--nwl-border-strong` on hover, during a drag and on keyboard focus (plus base.css's
+  focus outline). It is outside the sort button: grabbing or clicking it never sorts.
+- **The first resize** freezes every column's rendered width, in whole px, on its header cell
+  (`width`, `box-sizing: border-box`) and switches the table to `table-layout: fixed`, its width
+  the sum of its columns. From then on only the resized column changes, and the table gets
+  wider or narrower. Rows added or removed later keep the widths. A column added or removed
+  after a resize goes back to the automatic layout. The minimum width is 3em, or the header's
+  padding and sort icon if larger.
+- **Too wide:** the table scrolls horizontally inside its wrapper (`overflow-x: auto`); the page
+  never scrolls sideways. The wrapper is a scroll container only while the table is wider than
+  it (class `nwl-resize-overflow`, checked after each resize and when the wrapper's size
+  changes), so popups in cells (`Autocomplete`) are not clipped otherwise. Resized cells wrap, even inside a word (`overflow-wrap: anywhere`), so
+  nothing is cut.
+- **Screen readers:** the handle is `<span class="nwl-col-resize" role="separator"
+  aria-orientation="vertical" tabindex="0" aria-label="Resize column <header text>">`, with
+  `aria-valuenow` the column's width in px.
+
+`Table` renders `<div class="nwl-resize-wrap"><table>…</table></div>`: the div has no box
+(`display: contents`) until a column is resized. The attributes given to `Table` (`class`,
+`style`, …) go to the `<table>`, as before. `<Table :resizable="false">` has no handles.
+`ImportFilesDialog` uses the same helper. Stories: `Common/Table` ResizableColumns and
+ResizableSameLayout.
+
+### Tables without Vue
+
+Pages that build their tables with template strings and the DOM use `nwl-components/resize`
+(no Vue, about 5 kB) and its CSS, `nwl-components/resize/style.css` (only the
+`.nwl-resize-*`, `.nwl-col-resize`, `th.nwl-resizable` and `.nwl-resized` rules, after the design
+tokens), loaded as `nwl-components/sort/style.css` is (see "Sortable tables"; webpack 4 included,
+or link `node_modules/nwl-components/dist/resize/style.css`).
+
+```js
+import { resizableColumns } from 'nwl-components/resize';
+
+// after the table's header row exists; sortableHeader() before or after, either way
+const columns = resizableColumns(table);
+columns.reset();   // back to the automatic layout
+columns.destroy(); // handles and wrapper removed, the table as it was
+```
+
+- `resizableColumns(table, { wrapper })` adds the handles and returns `{ reset(), destroy() }`.
+  Calling it again on the same table returns the same object and does nothing else.
+- Only tables whose first row holds column headers: the first row of the `thead`, or, without a
+  `thead`, a first row of `th` only. Key/value tables (a `th` per row) and layout tables get
+  nothing.
+- Headers added later, or whose text the page rewrites, get their handle on their own (a
+  `MutationObserver` on the table): there is no need to call it again when columns change.
+- Without `wrapper`, the helper wraps the table in `<div class="nwl-resize-wrap">`. With it, it
+  uses the given element as it is (give it `overflow-x: auto`, or the class `nwl-resize-wrap`).
+  Either way the wrapper has the class `nwl-resize-active` while the columns are resized, and
+  `nwl-resize-overflow` while the table is wider than it.
+- Also exported: `columnHeaders(table)`, `minColumnWidth(th)`.
+
+Story: `Common/PlainResize` (the helper's unit tests, in a shadow root with only
+`resize/style.css`).
+
 ## Design tokens
 
 The library's colours, fonts, font sizes and corner radii are CSS custom properties, defined

@@ -125,7 +125,9 @@ Sortable.play = async ({ canvasElement }) => {
   await expect(icon(canvas, 'Owner').color).toBe(grey);
   // brighter when the header is focused with the keyboard (same rule as :hover, which
   // synthetic pointer events can't trigger)
+  // (Tab goes from each sort button to its column's resize handle, then to the next button)
   button(canvas, 'Collaborators').focus();
+  await userEvent.tab();
   await userEvent.tab();
   await expect(document.activeElement).toBe(button(canvas, 'Owner'));
   await expect(icon(canvas, 'Owner').color).toBe('rgb(187, 187, 187)');
@@ -178,8 +180,10 @@ SwitchColumns.play = async ({ canvasElement }) => {
 export const Keyboard = SortableTemplate.bind({});
 Keyboard.play = async ({ canvasElement }) => {
   const canvas = within(canvasElement);
-  // Tab reaches the header buttons in order
+  // Tab reaches the header buttons in order, each followed by its column's resize handle
   button(canvas, 'Name').focus();
+  await userEvent.tab();
+  await expect(document.activeElement).toBe(header(canvas, 'Name').querySelector('.nwl-col-resize'));
   await userEvent.tab();
   await expect(document.activeElement).toBe(button(canvas, 'Files'));
   await userEvent.keyboard('{Enter}');
@@ -212,6 +216,7 @@ NoLayoutShift.play = async ({ canvasElement }) => {
 
     return userEvent.tab();
   });
+  await unchangedAfter(() => userEvent.tab());
   await unchangedAfter(() => userEvent.click(button(canvas, 'Name')));
   await unchangedAfter(() => userEvent.click(button(canvas, 'Name')));
   await unchangedAfter(() => userEvent.click(button(canvas, 'Collaborators')));
@@ -230,6 +235,9 @@ const contentRight = (cell) => {
   if (b) { return b.getBoundingClientRect().right; }
   const range = document.createRange();
   range.selectNodeContents(cell);
+  // the resize handle (absolutely positioned, last in the header) is no content
+  const handle = cell.querySelector('.nwl-col-resize');
+  if (handle) { range.setEndBefore(handle); }
 
   return range.getBoundingClientRect().right;
 };
@@ -374,4 +382,147 @@ LongWordSortable.play = async ({ canvasElement }) => {
   await userEvent.click(button(canvas, 'Name'));
   await frame();
   await expectFitsPanel(canvasElement);
+};
+
+// Resizable columns (3.1.0): every Table gets a handle at the right edge of each column header
+// (resizableColumns() in resize.js). Nothing moves before a resize; the first one freezes every
+// column's width in px and switches the table to `table-layout: fixed`; from then on only the
+// resized column changes. A double-click (or Enter) on a handle goes back to the automatic layout.
+const handleOf = (canvas, name) => header(canvas, name).querySelector('.nwl-col-resize');
+const columnWidths = (canvasElement) => [...canvasElement.querySelectorAll('thead th')]
+  .map((th) => th.getBoundingClientRect().width);
+const pointer = (target, type, clientX) => target.dispatchEvent(new PointerEvent(type, {
+  bubbles: true, cancelable: true, composed: true, pointerId: 1, pointerType: 'mouse', isPrimary: true, button: 0, buttons: 1, clientX
+}));
+const drag = (handle, dx) => {
+  const x = handle.getBoundingClientRect().left + 4;
+  pointer(handle, 'pointerdown', x);
+  pointer(handle, 'pointermove', x + dx / 2);
+  pointer(handle, 'pointermove', x + dx);
+  pointer(handle, 'pointerup', x + dx);
+};
+const layoutOf = (canvasElement) => {
+  const table = canvasElement.querySelector('table');
+
+  return { layout: getComputedStyle(table).tableLayout, inline: table.getAttribute('style') || '' };
+};
+const expectAutomatic = async (canvasElement, widths) => {
+  await expect(layoutOf(canvasElement)).toEqual({ layout: 'auto', inline: '' });
+  await expect([...canvasElement.querySelectorAll('thead th')].map((th) => th.style.width)).toEqual(widths.map(() => ''));
+  columnWidths(canvasElement).forEach((w, i) => expect(Math.abs(w - widths[i])).toBeLessThan(0.5));
+};
+
+const handlesAtRest = async (canvasElement, before) => {
+  const canvas = within(canvasElement);
+  // a handle in every header, the last one's included, outside the sort button
+  const handles = columnNames.map((name) => handleOf(canvas, name));
+  await expect(handles.map((h) => [h.getAttribute('role'), h.getAttribute('aria-orientation'), h.tabIndex, h.getAttribute('aria-label')]))
+    .toEqual(columnNames.map((name) => ['separator', 'vertical', 0, `Resize column ${name}`]));
+  await expect(handles.some((h) => h.closest('button'))).toBe(false);
+  await expect(handles.map((h) => Number(h.getAttribute('aria-valuenow')))).toEqual(before.map(Math.round));
+  // at rest: invisible, about 8px wide, the header's full height, a col-resize cursor
+  const files = handleOf(canvas, 'Files');
+  const [hr, thr] = [files.getBoundingClientRect(), header(canvas, 'Files').getBoundingClientRect()];
+  await expect(Math.round(hr.width)).toBe(8);
+  await expect(Math.abs(hr.height - thr.height)).toBeLessThan(1);
+  await expect([getComputedStyle(files).cursor, getComputedStyle(files).touchAction, getComputedStyle(files, '::after').backgroundColor])
+    .toEqual(['col-resize', 'none', 'rgba(0, 0, 0, 0)']);
+  await expectAutomatic(canvasElement, before);
+};
+
+// a click on a handle doesn't sort; a drag 60px right widens that column only
+const clickAndDrag = async (canvasElement, before) => {
+  const canvas = within(canvasElement);
+  const files = handleOf(canvas, 'Files');
+  await userEvent.click(files);
+  await expect(ariaSorts(canvasElement)).toEqual(['none', 'none', 'none', 'none', 'none']);
+  await expect(names(canvasElement)).toEqual(initialOrder);
+  await expect(layoutOf(canvasElement).layout).toBe('auto');
+
+  // a drag 60px right: that column 60px wider, the others unchanged, the table fixed
+  const frozen = before.map(Math.round);
+  drag(files, 60);
+  await expect(layoutOf(canvasElement).layout).toBe('fixed');
+  await expect(columnWidths(canvasElement)).toEqual(frozen.map((w, i) => (i === 1 ? w + 60 : w)));
+  await expect(files.getAttribute('aria-valuenow')).toBe(String(frozen[1] + 60));
+  await expect(ariaSorts(canvasElement)).toEqual(['none', 'none', 'none', 'none', 'none']);
+
+  return frozen;
+};
+
+// ArrowRight on a focused handle: 10px more; with Shift, 50px; too wide: the wrapper scrolls
+const keyboardAndScroll = async (canvasElement, frozen) => {
+  const canvas = within(canvasElement);
+  const owner = handleOf(canvas, 'Owner');
+  owner.focus();
+  // keyboard focus: a 1px line in --nwl-border-strong, and base.css's outline
+  const line = getComputedStyle(owner, '::after');
+  await expect([line.width, line.backgroundColor, getComputedStyle(owner).outlineStyle]).toEqual(['1px', 'rgb(153, 153, 153)', 'solid']);
+  await userEvent.keyboard('{ArrowRight}');
+  await expect(columnWidths(canvasElement)[3]).toBe(frozen[3] + 10);
+  await userEvent.keyboard('{Shift>}{ArrowRight}{/Shift}');
+  await expect(columnWidths(canvasElement)).toEqual(frozen.map((w, i) => w + [0, 60, 0, 60, 0][i]));
+  // too wide for its panel: the table scrolls inside its wrapper, not the page
+  await userEvent.keyboard('{Shift>}{ArrowRight}{/Shift}'.repeat(20));
+  await expect(columnWidths(canvasElement)[3]).toBe(frozen[3] + 1060);
+  const wrap = canvasElement.querySelector('.nwl-resize-wrap');
+  await expect(getComputedStyle(wrap).overflowX).toBe('auto');
+  await expect(wrap.scrollWidth).toBeGreaterThan(wrap.clientWidth);
+  await expect(document.documentElement.scrollWidth).toBeLessThanOrEqual(window.innerWidth);
+};
+
+// sorting keeps the widths; a double-click goes back to the automatic layout
+const sortAndReset = async (canvasElement, before) => {
+  const canvas = within(canvasElement);
+  const files = handleOf(canvas, 'Files');
+  const wrap = canvasElement.querySelector('.nwl-resize-wrap');
+  // sorting still works, and keeps the widths
+  const resized = columnWidths(canvasElement);
+  await userEvent.click(button(canvas, 'Files'));
+  await waitFor(() => expect(names(canvasElement)).toEqual(['axolotl', 'Brain atlas', 'ferret', 'Cerebellum']));
+  await expect(columnWidths(canvasElement)).toEqual(resized);
+
+  // a double-click goes back to the automatic layout (the test leaves the table that way)
+  await userEvent.dblClick(files);
+  await expectAutomatic(canvasElement, before);
+  await expect([getComputedStyle(wrap).display, getComputedStyle(wrap).overflowX, wrap.className]).toEqual(['contents', 'visible', 'nwl-resize-wrap']);
+  await userEvent.click(button(canvas, 'Files'));
+  await waitFor(() => expect(names(canvasElement)).toEqual(['ferret', 'Brain atlas', 'axolotl', 'Cerebellum']));
+};
+
+export const ResizableColumns = SortableTemplate.bind({});
+ResizableColumns.play = async ({ canvasElement }) => {
+  await document.fonts.ready;
+  const before = columnWidths(canvasElement);
+  await handlesAtRest(canvasElement, before);
+  const frozen = await clickAndDrag(canvasElement, before);
+  await keyboardAndScroll(canvasElement, frozen);
+  await sortAndReset(canvasElement, before);
+};
+
+// The same table with `:resizable="false"` and without: the same column widths and positions
+// before any resize, so the handles change nothing at rest.
+export const ResizableSameLayout = () => ({
+  components: { Table },
+  setup () {
+    return { projects };
+  },
+  template: ['true', 'false'].map((r) => `
+  <Table :resizable="${r}" class="r-${r}">
+    <thead><tr><th>Name</th><th>Files</th><th>Collaborators</th><th>Owner</th><th>Last modified</th></tr></thead>
+    <tbody><tr v-for="p in projects"><td>{{ p.project }}</td><td>{{ p.numFiles }}</td><td>{{ p.numCollaborators }}</td><td>{{ p.owner }}</td><td>{{ p.modified }}</td></tr></tbody>
+  </Table>`).join('')
+});
+ResizableSameLayout.play = async ({ canvasElement }) => {
+  const [on, off] = ['true', 'false'].map((r) => canvasElement.querySelector(`table.r-${r}`));
+  await expect([on.querySelectorAll('.nwl-col-resize').length, off.querySelectorAll('.nwl-col-resize').length]).toEqual([5, 0]);
+  const boxes = (table) => [...table.querySelectorAll('th, td')].map((c) => {
+    const r = c.getBoundingClientRect();
+
+    return [r.left, r.width, r.height];
+  });
+  const [a, b] = [boxes(on), boxes(off)];
+  await expect(a.length).toBe(b.length);
+  a.flat().forEach((v, i) => expect(Math.abs(v - b.flat()[i])).toBeLessThan(0.5));
+  await expect(on.getBoundingClientRect().width).toBeCloseTo(off.getBoundingClientRect().width, 1);
 };

@@ -1,8 +1,11 @@
 <template>
   <div class="dialog">
     <div class="contents">
-      <div class="scrollable">
-        <table>
+      <div
+        ref="scrollable"
+        class="scrollable"
+      >
+        <table ref="table">
           <thead>
             <tr>
               <th>URL</th>
@@ -46,9 +49,10 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { onBeforeUnmount, onMounted, ref } from 'vue';
 
 import Button from '@/components/common/Button.vue';
+import { resizableColumns } from '@/components/common/resize.js';
 
 const props = defineProps({
   files: {
@@ -60,6 +64,14 @@ const props = defineProps({
 defineEmits(['import', 'cancel']);
 
 const filesToImport = ref(props.files);
+
+// resizable columns (their CSS comes with Table.vue, in dist/style.css); .scrollable
+// already scrolls the table
+const scrollable = ref(null);
+const table = ref(null);
+let columns = null;
+onMounted(() => { columns = resizableColumns(table.value, { wrapper: scrollable.value }); });
+onBeforeUnmount(() => { columns.destroy(); });
 </script>
 
 <style scoped>
