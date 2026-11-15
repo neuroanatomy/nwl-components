@@ -376,6 +376,36 @@ Selected row: `aria-selected="true"` on a `<tr>` gives `--nwl-bg-elevated`.
 <tr aria-selected="true"><td>axolotl</td></tr>
 ```
 
+Floating panel (3.2.0): a box whose header stays while its body scrolls (a viewer's label set
+or layers panel, a dialog). A flex column: the header (`.nwl-panel-header`, at least 36px,
+`--nwl-bg-pressed`) never shrinks; the body (`.nwl-panel-body`, 10px padding) takes the rest
+and scrolls (`overflow: auto; min-height: 0`). Flex rather than `position: sticky`: the header
+is outside the scrolling box, so it needs no offset matching the panel's padding, and the
+scrollbar runs beside the body only. The panel (`--nwl-bg-surface`, 1px `--nwl-border`,
+`--nwl-shadow-2`, `overflow: hidden`) keeps the position and size the app gives it, may be
+`resize: both`, is dragged by its header with the app's own script, and is never larger than
+the viewport. It is a flex box: a script that shows it sets `style.display = "flex"`, not
+`"block"` (or uses the `hidden` attribute).
+
+```html
+<div class="nwl-panel" style="position: fixed; width: 400px; height: 300px; resize: both">
+  <div class="nwl-panel-header">
+    <button class="nwl-icon-button" aria-label="Close" style="float: right"><img class="nwl-icon" src="/img/close.svg" alt=""></button>
+    <b>Layers</b>
+  </div>
+  <div class="nwl-panel-body">…</div>
+</div>
+```
+
+A panel centred with `top: 50%; left: 50%; transform: translate(-50%, -50%)` keeps its centre
+when resized, so it grows in every direction. `floatingPanel(panel)` (from `nwl-components`,
+or `nwl-components/panel` without Vue; on a page with no bundle,
+`/lib/nwl-components/panel/nwl-components-panel.umd.js` gives `window.nwlComponentsPanel`)
+leaves it centred at rest and pins it by its top-left corner at the first `pointerdown` on it
+(`pinPanel`: `transform: none`, `left` / `top` in px, at the same place). A resize then grows
+it towards the corner pulled only; the app's drag places its top-left corner
+(`left = pointerX - (pressX - rect.left)`).
+
 Keyboard focus on the widgets shows `base.css`'s outline (2px `--nwl-focus`), also outside
 `.app`. Links take `--nwl-link` (hover `--nwl-link-hover`), both the text colour: keep their
 underline (the browser's) where they sit in text, so they don't depend on colour alone.

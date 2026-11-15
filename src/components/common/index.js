@@ -10,3 +10,4 @@ export { default as SortableTh } from '@/components/common/SortableTh.vue';
 export { useSortable } from '@/components/common/useSortable.js';
 export { SORT_ICON_ATTRS, SORT_ICON_PATHS, ariaSort, nextSort, renderSortIcon, sortRows, sortValue, sortableHeader } from '@/components/common/sort.js';
 export { columnHeaders, minColumnWidth, resizableColumns } from '@/components/common/resize.js';
+export { floatingPanel, isTransformed, pinPanel } from '@/components/common/panel.js';

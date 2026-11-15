@@ -1,4 +1,5 @@
 import { action } from '@storybook/addon-actions';
+import { expect } from '@storybook/test';
 import { ref } from 'vue';
 
 import OntologySelector from '@/components/project/OntologySelector.vue';
@@ -830,3 +831,38 @@ const Template = (args) => ({
 });
 
 export const Default = Template.bind({});
+
+// 3.2.0: the 80 labels scroll in the body, under a header that stays (widgets.css .nwl-panel);
+// the panel is still dragged by its header
+const headerTop = (panel) => panel.querySelector('.header').getBoundingClientRect().top - panel.getBoundingClientRect().top;
+const mouse = (target, type, x, y) => target.dispatchEvent(new MouseEvent(type, { bubbles: true, clientX: x, clientY: y }));
+// drags the panel by its header; returns how far it moved
+const dragBy = (panel, dx, dy) => {
+  const before = panel.getBoundingClientRect();
+  const header = panel.querySelector('.header');
+  const { left, top } = header.getBoundingClientRect();
+  const [x, y] = [left + 20, top + 10];
+  mouse(header, 'mousedown', x, y);
+  mouse(document, 'mousemove', x + dx, y + dy);
+  mouse(panel, 'mouseup', x + dx, y + dy);
+  const after = panel.getBoundingClientRect();
+
+  return [Math.round(after.left - before.left), Math.round(after.top - before.top)];
+};
+Default.play = async ({ canvasElement }) => {
+  const panel = canvasElement.querySelector('.labelset');
+  const body = panel.querySelector('.nwl-panel-body');
+  panel.style.height = '150px';
+  await expect(body.scrollHeight).toBeGreaterThan(body.clientHeight);
+  body.scrollTop = body.scrollHeight;
+  await expect(body.scrollTop).toBeGreaterThan(0);
+  await expect(headerTop(panel)).toBe(1);
+  await expect(dragBy(panel, 30, 20)).toEqual([30, 20]);
+  await expect(headerTop(panel)).toBe(1);
+  // pinned by its top-left corner since the first press: a resize keeps that corner
+  const { left, top } = panel.getBoundingClientRect();
+  panel.style.width = '400px';
+  const resized = panel.getBoundingClientRect();
+  await expect([resized.left, resized.top, resized.width]).toEqual([left, top, 400]);
+  panel.style.height = '';
+};

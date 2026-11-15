@@ -1,12 +1,13 @@
 <template>
   <div
-    class="labelset"
+    class="labelset nwl-panel"
     v-if="ontology != null && open"
     ref="labelsetRef"
     @mouseup="onHeaderMouseUp"
+    @pointerdown.capture="onPanelPointerDown"
   >
     <div
-      class="header"
+      class="header nwl-panel-header"
       @mousedown="onHeaderMouseDown"
     >
       <img
@@ -18,38 +19,43 @@
       <b>Labels</b>-->
     </div>
 
-    <h3>Label Set</h3>
-    <span id="labels-name">{{ ontology.name }}</span>
+    <!-- the header stays while the body scrolls (widgets.css .nwl-panel, 3.2.0) -->
+    <div class="body nwl-panel-body">
+      <h3>Label Set</h3>
+      <span id="labels-name">{{ ontology.name }}</span>
 
-    <h3>Labels</h3>
-    <ul class="label-list">
-      <li
-        v-for="(label, index) in ontology.labels"
-        :key="label.name"
-        @click="emit('labelClick', index)"
-      >
-        <div
-          class="label-color"
-          :style="`background-color: rgb(${label.color[0]}, ${label.color[1]}, ${label.color[2]});`"
-        />
-        <span class="label-name">{{ label.name }}</span>
-      </li>
-    </ul>
-    <div v-if="opacity !== null">
-      <b>Opacity</b><br>
-      <input
-        id="labels-opacity"
-        type="range"
-        min="0"
-        max="1"
-        step="0.01"
-        v-model.number="opacity"
-      >
+      <h3>Labels</h3>
+      <ul class="label-list">
+        <li
+          v-for="(label, index) in ontology.labels"
+          :key="label.name"
+          @click="emit('labelClick', index)"
+        >
+          <div
+            class="label-color"
+            :style="`background-color: rgb(${label.color[0]}, ${label.color[1]}, ${label.color[2]});`"
+          />
+          <span class="label-name">{{ label.name }}</span>
+        </li>
+      </ul>
+      <div v-if="opacity !== null">
+        <b>Opacity</b><br>
+        <input
+          id="labels-opacity"
+          type="range"
+          min="0"
+          max="1"
+          step="0.01"
+          v-model.number="opacity"
+        >
+      </div>
     </div>
   </div>
 </template>
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue';
+
+import { isTransformed, pinPanel } from '@/components/common/panel.js';
 
 defineProps({
   ontology: {
@@ -68,11 +74,18 @@ const isDragging = ref(false);
 const labelsetRef = ref(null);
 const clickOffset = ref({ x: 0, y: 0 });
 
+// centred until first pressed (resize corner, header): then pinned by its top-left corner, so
+// that a resize grows it towards the corner pulled only (panel.js, 3.2.0)
+const onPanelPointerDown = () => {
+  if (isTransformed(labelsetRef.value)) { pinPanel(labelsetRef.value); }
+};
+
 const onHeaderMouseDown = (e) => {
+  onPanelPointerDown();
   isDragging.value = true;
-  const {top, left, width, height} = labelsetRef.value.getBoundingClientRect();
-  clickOffset.value.x = e.clientX - left - width / 2;
-  clickOffset.value.y = e.clientY - top - height / 2;
+  const {top, left} = labelsetRef.value.getBoundingClientRect();
+  clickOffset.value.x = e.clientX - left;
+  clickOffset.value.y = e.clientY - top;
 };
 
 const onHeaderMouseUp = () => {
@@ -96,8 +109,8 @@ onUnmounted(() => {
 </script>
 <style scoped>
 
+/* widgets.css .nwl-panel lays it out: the header stays, the body scrolls */
 .labelset {
-    overflow: auto;
     position: fixed;
     width: 50%;
     height: 50%;
@@ -108,14 +121,12 @@ onUnmounted(() => {
 
     background-color: var(--nwl-black-80);
     border: thin solid var(--nwl-border);
-    padding: 10px;
     text-align: left;
     z-index: 21;
     /* a floating panel */
     box-shadow: var(--nwl-shadow-2);
     font-size: 0.8rem;
     resize: both;
-    /* padding: 0 20px 20px; */
 }
 
 /* the panel's contents are 14px, as with 1.x's `*` rule (the panel's own 0.8rem doesn't reach them) */
@@ -137,7 +148,11 @@ h3 {
     height: 36px;
     background-color: var(--nwl-grey-66);
     padding: 0 5px 0 10px;
-    margin: -10px -10px 5px -10px;
+}
+
+/* the body's first title stays 20px below the header: 10px of padding, 10px of margin */
+.body > h3:first-child {
+    margin-top: 10px;
 }
 
 .header img {

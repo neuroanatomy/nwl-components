@@ -167,3 +167,58 @@
 :where(tr[aria-selected="true"]) {
   background: var(--nwl-bg-elevated);
 }
+
+/* Floating panel (3.2.0): a box with a title bar that stays and a body that scrolls (the label
+   set, layers and text annotation panels of the viewers, dialogs). A flex column, not
+   `position: sticky`: the header is outside the scrolling box, so it never scrolls away, needs
+   no offset matching the panel's padding, and the scrollbar runs beside the body only.
+
+     <div class="nwl-panel" style="position: fixed; width: 400px; height: 300px">
+       <div class="nwl-panel-header">…title, close button: drag the panel by it…</div>
+       <div class="nwl-panel-body">…anything, as tall as it likes…</div>
+     </div>
+
+   The panel keeps its own position and size (set them on it: fixed, absolute or in flow) and
+   may be `resize: both` (its overflow is hidden, which resize needs). It shows as a flex box: a
+   script that shows it sets `style.display = "flex"` (or removes `display: none`), not "block".
+   It never gets larger than the viewport, so on a narrow screen its body scrolls instead. */
+:where(.nwl-panel) {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  max-width: 100vw;
+  max-height: 100vh;
+  overflow: hidden;
+  padding: 0;
+  border: 1px solid var(--nwl-border);
+  background-color: var(--nwl-bg-surface);
+  color: var(--nwl-text);
+  /* a floating panel */
+  box-shadow: var(--nwl-shadow-2);
+}
+
+/* the title bar: never shrinks, never scrolls */
+:where(.nwl-panel-header) {
+  box-sizing: border-box;
+  flex: none;
+  min-height: 36px;
+  padding: 0 5px 0 10px;
+  background-color: var(--nwl-bg-pressed);
+  user-select: none;
+}
+
+/* the body: takes the rest of the panel and scrolls; min-height: 0 lets it shrink below its
+   content (a flex item doesn't, otherwise); a scroll that reaches its end doesn't go on to the
+   page behind the panel */
+:where(.nwl-panel-body) {
+  box-sizing: border-box;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+  overscroll-behavior: contain;
+  padding: 10px;
+}
+
+:where(.nwl-panel[hidden]) {
+  display: none;
+}

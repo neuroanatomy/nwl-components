@@ -1,5 +1,6 @@
 import { expect, userEvent, within } from '@storybook/test';
 
+import { floatingPanel } from '@/components/common/panel.js';
 import searchIcon from '@/icons/search.svg';
 
 // src/styles/widgets.css (2.1.0): the class-based widgets, as an app's Mustache page or a viewer's
@@ -232,6 +233,104 @@ SelectedRow.play = async ({ canvasElement }) => {
   rows[2].setAttribute('aria-selected', 'true');
   await checkAll({ deselected: rows[1] }, { backgroundColor: none });
   await checkAll({ selected: rows[2] }, { backgroundColor: elevated });
+};
+
+/* Floating panel (3.2.0) */
+
+// a body much taller than the panel: 60 labels
+const labels = Array.from({ length: 60 }, (_, i) => `<li>Label ${i + 1}</li>`).join('');
+export const Panel = plain(`
+<div class="nwl-panel" id="panel" style="position: relative; width: 300px; height: 200px; resize: both">
+  <div class="nwl-panel-header" id="panel-header"><b>Labels</b>
+    <button class="nwl-icon-button" aria-label="Close" style="float: right; margin-top: 8px">${icon('')}</button></div>
+  <div class="nwl-panel-body" id="panel-body"><ul>${labels}</ul></div>
+</div>
+<div class="nwl-panel" id="panel-hidden" hidden><div class="nwl-panel-header">Hidden</div></div>`);
+// the look of the three parts
+const checkPanelLook = async (panel, header, body) => {
+  await checkAll({ panel }, {
+    display: 'flex',
+    flexDirection: 'column',
+    overflowY: 'hidden',
+    boxSizing: 'border-box',
+    paddingTop: '0px',
+    borderTopWidth: '1px',
+    borderTopColor: 'rgb(119, 119, 119)', // --nwl-border
+    backgroundColor: 'rgb(37, 37, 37)', // --nwl-bg-surface
+    color: textColour
+  });
+  await checkAll({ header }, { flexShrink: '0', minHeight: '36px', backgroundColor: pressed, userSelect: 'none' });
+  await checkAll({ body }, { overflowY: 'auto', minHeight: '0px', paddingTop: '10px', overscrollBehaviorY: 'contain' });
+};
+
+// the header's top, from the panel's top: 1px, the panel's border
+const headerTop = (panel, header) => header.getBoundingClientRect().top - panel.getBoundingClientRect().top;
+
+// scrolled to the end, the header is still at the top, and the body's last item is in view
+const checkScrolled = async (panel, header, body) => {
+  await expect(headerTop(panel, header)).toBe(1);
+  body.scrollTop = body.scrollHeight;
+  await expect(body.scrollTop).toBeGreaterThan(0);
+  await expect(headerTop(panel, header)).toBe(1);
+  await expect(body.lastElementChild.getBoundingClientRect().bottom).toBeLessThanOrEqual(body.getBoundingClientRect().bottom + 1);
+};
+
+// wider than the viewport (a narrow screen): no wider than the viewport
+const checkNarrow = async (panel) => {
+  panel.style.width = `${window.innerWidth + 200}px`;
+  await expect(panel.getBoundingClientRect().width).toBeLessThanOrEqual(window.innerWidth);
+  panel.style.width = '300px';
+  panel.style.height = '200px';
+};
+
+Panel.play = async ({ canvasElement }) => {
+  const q = (s) => canvasElement.querySelector(s);
+  const [panel, header, body] = [q('#panel'), q('#panel-header'), q('#panel-body')];
+  await checkPanelLook(panel, header, body);
+  // the panel keeps its own size; only the body scrolls
+  await expect(panel.getBoundingClientRect().height).toBe(200);
+  await expect(panel.scrollHeight).toBe(panel.clientHeight);
+  await expect(body.scrollHeight).toBeGreaterThan(body.clientHeight);
+  await checkScrolled(panel, header, body);
+  // resized smaller (as with its resize handle): the same, and the header keeps its height
+  panel.style.height = '100px';
+  await expect(header.getBoundingClientRect().height).toBe(36);
+  await checkScrolled(panel, header, body);
+  await expect(body.getBoundingClientRect().bottom).toBeLessThanOrEqual(panel.getBoundingClientRect().bottom);
+  await checkNarrow(panel);
+  // the hidden attribute hides it
+  await checkAll({ hidden: q('#panel-hidden') }, { display: 'none' });
+};
+
+// floatingPanel (nwl-components/panel, 3.2.0): a panel centred by a transform, as the apps'
+// panels, is pinned by its top-left corner at the first press, without moving; then a resize
+// keeps that corner in place (centred, it grew in every direction)
+export const CentredPanel = plain(`
+<div class="nwl-panel" id="centred" style="position: fixed; top: 50%; left: 50%; width: 200px; height: 120px; transform: translate(-50%, -50%); resize: both">
+  <div class="nwl-panel-header"><b>Layers</b></div>
+  <div class="nwl-panel-body">Pull the bottom-right corner</div>
+</div>`);
+const rectOf = (el) => {
+  const { left, top, width, height } = el.getBoundingClientRect();
+
+  return { left, top, width, height };
+};
+CentredPanel.play = async ({ canvasElement }) => {
+  const panel = floatingPanel(canvasElement.querySelector('#centred'));
+  const rest = rectOf(panel);
+  await expect(Math.round(rest.left + rest.width / 2)).toBe(Math.round(window.innerWidth / 2));
+  // the first press pins it where it is
+  panel.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true }));
+  await checkAll({ panel }, { transform: 'none' });
+  await expect(rectOf(panel)).toEqual(rest);
+  // a resize (as by its corner) keeps its top-left corner
+  Object.assign(panel.style, { width: '260px', height: '160px' });
+  const resized = rectOf(panel);
+  await expect([resized.left, resized.top, resized.width, resized.height]).toEqual([rest.left, rest.top, 260, 160]);
+  // a second call, a second press: nothing changes
+  await expect(floatingPanel(panel)).toBe(panel);
+  panel.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true }));
+  await expect(rectOf(panel)).toEqual(resized);
 };
 
 /* The layer contract: app CSS, outside any layer, beats the widgets */

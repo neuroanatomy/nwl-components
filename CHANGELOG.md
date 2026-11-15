@@ -14,6 +14,36 @@ Storybook only (stories aren't published to npm; no version bump).
   the search, the count, no match, the keyboard and the copy. The map is parsed once in
   `src/icons/map.js`, shared with `Icons/All`.
 
+## 3.2.0
+
+Floating panels keep their header while they scroll. See the README's "Widgets".
+
+- **`widgets.css`: `.nwl-panel`, `.nwl-panel-header`, `.nwl-panel-body`**, for plain HTML (the
+  apps' Mustache and viewer panels): a flex column whose header never shrinks or scrolls and
+  whose body takes the rest and scrolls (`overflow: auto; min-height: 0`,
+  `overscroll-behavior: contain`). Flex, not `position: sticky`: no offset tied to the panel's
+  padding, and no scrollbar beside the header. The panel keeps its own position and size, may be
+  `resize: both` (`overflow: hidden`), is no larger than the viewport, and takes its colours
+  from the tokens (`--nwl-bg-surface`, `--nwl-border`, `--nwl-shadow-2`; header
+  `--nwl-bg-pressed`). It shows as `display: flex` (the `hidden` attribute hides it).
+- **`floatingPanel(panel)`, `pinPanel(panel)`, `isTransformed(panel)`**, new in
+  `src/components/common/panel.js`: a panel centred with `translate(-50%, -50%)` keeps its
+  centre when its size changes, so its resize corner grew it in every direction. At rest it
+  stays centred; at the first `pointerdown` on it (resize corner, header), `floatingPanel`
+  pins it by its top-left corner (`transform: none`, `left` / `top` in px, same place), so a
+  resize keeps the opposite edges in place. A drag then places the top-left corner
+  (offset = press point - rect's left/top, no more `width / 2`). Exported from
+  `nwl-components` and, without Vue, from **`nwl-components/panel`**
+  (`dist/panel/nwl-components-panel.umd.js`: the global `nwlComponentsPanel` on a page with no
+  bundle; `panel/` for webpack 4; `vite.panel.config.js`).
+- **`OntologySelector`**: its header stays while the labels scroll (it scrolled away with them);
+  the panel is still dragged by its header and resizable, and is pinned at its first press, so
+  a resize grows it towards the corner pulled only.
+- Stories: `Library/Widgets` Panel (a long body: the header stays after scrolling to the end and
+  after a resize, no wider than the viewport) and CentredPanel (pinned at the first press
+  without moving; a resize keeps its top-left corner); `Project/OntologySelector` Default checks
+  the header after scrolling the 80 labels, dragging by the header, and a resize after it.
+
 ## 3.1.0
 
 Resizable table columns (UI kit step 15a). See the README's "Resizable columns".

@@ -1,0 +1,6 @@
+{
+  "name": "nwl-components-panel",
+  "private": true,
+  "main": "../dist/panel/nwl-components-panel.umd.js",
+  "module": "../dist/panel/nwl-components-panel.es.js"
+}

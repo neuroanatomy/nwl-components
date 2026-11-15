@@ -1,6 +1,6 @@
 {
   "name": "nwl-components",
-  "version": "3.1.0",
+  "version": "3.2.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/neuroanatomy/nwl-components.git"
@@ -12,6 +12,7 @@
     "dist",
     "sort",
     "resize",
+    "panel",
     "tokens.css",
     "base.css",
     "widgets.css"
@@ -72,12 +73,17 @@
     "./resize/style.css": {
       "import": "./dist/resize/style.css",
       "require": "./dist/resize/style.css"
-    }
+    },
+    "./panel": {
+      "import": "./dist/panel/nwl-components-panel.es.js",
+      "require": "./dist/panel/nwl-components-panel.umd.js"
+    },
+    "./dist/panel/*": "./dist/panel/*"
   },
   "scripts": {
     "dev": "vite",
-    "build": "vite build && vite build -c vite.sort.config.js && vite build -c vite.resize.config.js",
-    "lint": "eslint --ext .js,.vue src scripts vite.config.js vite.sort.config.js vite.resize.config.js && node scripts/check-tokens.js",
+    "build": "vite build && vite build -c vite.sort.config.js && vite build -c vite.resize.config.js && vite build -c vite.panel.config.js",
+    "lint": "eslint --ext .js,.vue src scripts vite.config.js vite.sort.config.js vite.resize.config.js vite.panel.config.js && node scripts/check-tokens.js",
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
