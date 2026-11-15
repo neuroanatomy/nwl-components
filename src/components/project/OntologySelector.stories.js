@@ -849,6 +849,38 @@ const dragBy = (panel, dx, dy) => {
 
   return [Math.round(after.left - before.left), Math.round(after.top - before.top)];
 };
+// 3.3.0: its resize handle (floatingPanel, as the apps' panels), with a finger and the mouse;
+// the top-left corner stays; no smaller than 160 x 100
+const pointer = (target, type, x, y, pointerType) => {
+  const button = type === 'pointermove' ? -1 : 0;
+  const init = { bubbles: true, cancelable: true, isPrimary: true, pointerId: 1, pointerType, button, clientX: x, clientY: y };
+  target.dispatchEvent(new PointerEvent(type, init));
+};
+const pullHandle = (handle, dx, dy, pointerType) => {
+  const r = handle.getBoundingClientRect();
+  const [x, y] = [r.left + r.width / 2, r.top + r.height / 2];
+  pointer(handle, 'pointerdown', x, y, pointerType);
+  pointer(handle, 'pointermove', x + dx, y + dy, pointerType);
+  pointer(handle, 'pointerup', x + dx, y + dy, pointerType);
+};
+const rectOf = (el) => {
+  const { left, top, width, height } = el.getBoundingClientRect();
+
+  return { left, top, width: Math.round(width), height: Math.round(height) };
+};
+const checkHandle = async (panel) => {
+  const handle = panel.querySelector(':scope > .nwl-panel-resize-handle');
+  await expect(handle.getAttribute('aria-label')).toBe('Resize');
+  await expect(getComputedStyle(panel).resize).toBe('none');
+  const before = rectOf(panel);
+  pullHandle(handle, -60, -40, 'touch');
+  await expect(rectOf(panel)).toEqual({ ...before, width: before.width - 60, height: before.height - 40 });
+  pullHandle(handle, 30, 20, 'mouse');
+  await expect(rectOf(panel)).toEqual({ ...before, width: before.width - 30, height: before.height - 20 });
+  pullHandle(handle, -2000, -2000, 'touch');
+  await expect([rectOf(panel).width, rectOf(panel).height]).toEqual([160, 100]);
+  Object.assign(panel.style, { width: '', height: '' });
+};
 Default.play = async ({ canvasElement }) => {
   const panel = canvasElement.querySelector('.labelset');
   const body = panel.querySelector('.nwl-panel-body');
@@ -865,4 +897,5 @@ Default.play = async ({ canvasElement }) => {
   const resized = panel.getBoundingClientRect();
   await expect([resized.left, resized.top, resized.width]).toEqual([left, top, 400]);
   panel.style.height = '';
+  await checkHandle(panel);
 };

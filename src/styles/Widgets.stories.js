@@ -1,6 +1,6 @@
 import { expect, userEvent, within } from '@storybook/test';
 
-import { floatingPanel } from '@/components/common/panel.js';
+import { MIN_HEIGHT, MIN_WIDTH, floatingPanel } from '@/components/common/panel.js';
 import searchIcon from '@/icons/search.svg';
 
 // src/styles/widgets.css (2.1.0): the class-based widgets, as an app's Mustache page or a viewer's
@@ -283,6 +283,63 @@ const checkNarrow = async (panel) => {
   panel.style.height = '200px';
 };
 
+// The resize handle (3.3.0): floatingPanel() gives a resizable panel (its `resize: both` here)
+// a handle in its bottom-right corner and turns the native resize off. Pointer events are
+// dispatched on the handle, as a finger's (pointerType 'touch') or a mouse's.
+const pointer = (target, type, x, y, pointerType) => {
+  const button = type === 'pointermove' ? -1 : 0;
+  const pointerId = pointerType === 'touch' ? 2 : 1;
+  const init = { bubbles: true, cancelable: true, isPrimary: true, pointerId, pointerType, button, clientX: x, clientY: y };
+  target.dispatchEvent(new PointerEvent(type, init));
+};
+const pullHandle = (handle, dx, dy, pointerType = 'mouse') => {
+  const r = handle.getBoundingClientRect();
+  const [x, y] = [r.left + r.width / 2, r.top + r.height / 2];
+  pointer(handle, 'pointerdown', x, y, pointerType);
+  pointer(handle, 'pointermove', x + dx / 2, y + dy / 2, pointerType);
+  pointer(handle, 'pointermove', x + dx, y + dy, pointerType);
+  pointer(handle, 'pointerup', x + dx, y + dy, pointerType);
+};
+const sizeOf = (el) => {
+  const { left, top, width, height } = el.getBoundingClientRect();
+
+  return { left, top, width, height };
+};
+const key = (el, k, shiftKey = false) => el.dispatchEvent(new KeyboardEvent('keydown', { key: k, shiftKey, bubbles: true, cancelable: true }));
+
+// the handle of a panel in flow (position: relative): its look, where it is, what it covers
+const checkHandlePlace = async (panel, body, handle) => {
+  await expect([handle.getAttribute('aria-label'), handle.tabIndex]).toEqual(['Resize', 0]);
+  await checkAll({ panel }, { resize: 'none' });
+  await checkAll({ handle }, { position: 'absolute', width: '24px', height: '24px', touchAction: 'none', cursor: 'nwse-resize' });
+  // in the corner, inside the 1px border, above the body (and its scrollbar)
+  const [p, h] = [panel.getBoundingClientRect(), handle.getBoundingClientRect()];
+  await expect([p.right - h.right, p.bottom - h.bottom]).toEqual([1, 1]);
+  await expect(document.elementFromPoint(h.right - 2, h.bottom - 2)).toBe(handle);
+  await expect(body.contains(document.elementFromPoint(h.left - 2, h.bottom - 2))).toBe(true);
+  // the corner mark: 8px, the tokens' --nwl-text-3
+  const mark = getComputedStyle(handle, '::after');
+  await expect([mark.width, mark.borderRightColor]).toEqual(['8px', 'rgb(153, 153, 153)']);
+};
+// a resize by the handle and by the keyboard; a second floatingPanel() call adds no second handle
+const checkHandle = async (panel, body) => {
+  floatingPanel(panel);
+  const handles = panel.querySelectorAll(':scope > .nwl-panel-resize-handle');
+  await expect(handles.length).toBe(1);
+  const [handle] = handles;
+  await checkHandlePlace(panel, body, handle);
+  // a finger's drag
+  const before = sizeOf(panel);
+  pullHandle(handle, 40, 30, 'touch');
+  await expect(sizeOf(panel)).toEqual({ ...before, width: before.width + 40, height: before.height + 30 });
+  // the keyboard: 10px, 50px with Shift
+  key(handle, 'ArrowLeft');
+  key(handle, 'ArrowUp', true);
+  await expect(sizeOf(panel)).toEqual({ ...before, width: before.width + 30, height: before.height - 20 });
+  floatingPanel(panel);
+  await expect(panel.querySelectorAll('.nwl-panel-resize-handle').length).toBe(1);
+};
+
 Panel.play = async ({ canvasElement }) => {
   const q = (s) => canvasElement.querySelector(s);
   const [panel, header, body] = [q('#panel'), q('#panel-header'), q('#panel-body')];
@@ -300,26 +357,27 @@ Panel.play = async ({ canvasElement }) => {
   await checkNarrow(panel);
   // the hidden attribute hides it
   await checkAll({ hidden: q('#panel-hidden') }, { display: 'none' });
+  await checkHandle(panel, body);
 };
 
 // floatingPanel (nwl-components/panel, 3.2.0): a panel centred by a transform, as the apps'
 // panels, is pinned by its top-left corner at the first press, without moving; then a resize
-// keeps that corner in place (centred, it grew in every direction)
+// keeps that corner in place (centred, it grew in every direction). 3.3.0: resized by its
+// handle, with a finger or the mouse, within the limits
 export const CentredPanel = plain(`
 <div class="nwl-panel" id="centred" style="position: fixed; top: 50%; left: 50%; width: 200px; height: 120px; transform: translate(-50%, -50%); resize: both">
   <div class="nwl-panel-header"><b>Layers</b></div>
   <div class="nwl-panel-body">Pull the bottom-right corner</div>
+</div>
+<div class="nwl-panel nwl-panel-resizable" id="absolute" style="position: absolute; top: 10px; left: 10px; width: 200px; height: 120px">
+  <div class="nwl-panel-header"><b>By its class</b></div>
+  <div class="nwl-panel-body">Absolute</div>
 </div>`);
-const rectOf = (el) => {
-  const { left, top, width, height } = el.getBoundingClientRect();
-
-  return { left, top, width, height };
-};
-CentredPanel.play = async ({ canvasElement }) => {
-  const panel = floatingPanel(canvasElement.querySelector('#centred'));
+const rectOf = sizeOf;
+// pinned at the first press without moving; a second call, a second press: nothing changes
+const checkPinned = async (panel) => {
   const rest = rectOf(panel);
   await expect(Math.round(rest.left + rest.width / 2)).toBe(Math.round(window.innerWidth / 2));
-  // the first press pins it where it is
   panel.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true }));
   await checkAll({ panel }, { transform: 'none' });
   await expect(rectOf(panel)).toEqual(rest);
@@ -327,10 +385,37 @@ CentredPanel.play = async ({ canvasElement }) => {
   Object.assign(panel.style, { width: '260px', height: '160px' });
   const resized = rectOf(panel);
   await expect([resized.left, resized.top, resized.width, resized.height]).toEqual([rest.left, rest.top, 260, 160]);
-  // a second call, a second press: nothing changes
   await expect(floatingPanel(panel)).toBe(panel);
   panel.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true }));
   await expect(rectOf(panel)).toEqual(resized);
+
+  return resized;
+};
+// the limits: no smaller than 160 x 100, never past the viewport's right and bottom edges
+const checkLimits = async (panel, handle, corner) => {
+  pullHandle(handle, -1000, -1000, 'touch');
+  await expect([rectOf(panel).width, rectOf(panel).height]).toEqual([MIN_WIDTH, MIN_HEIGHT]);
+  pullHandle(handle, 5000, 5000);
+  const { clientWidth, clientHeight } = document.documentElement;
+  const big = rectOf(panel);
+  await expect([big.left, big.top, big.left + big.width, big.top + big.height]).toEqual([corner.left, corner.top, clientWidth, clientHeight]);
+};
+CentredPanel.play = async ({ canvasElement }) => {
+  const panel = floatingPanel(canvasElement.querySelector('#centred'));
+  const handle = panel.querySelector('.nwl-panel-resize-handle');
+  await checkAll({ panel }, { resize: 'none' });
+  const resized = await checkPinned(panel);
+  // by its handle, with a finger, then the mouse: the top-left corner stays
+  pullHandle(handle, 50, 40, 'touch');
+  await expect(rectOf(panel)).toEqual({ ...resized, width: 310, height: 200 });
+  pullHandle(handle, -30, -20);
+  await expect(rectOf(panel)).toEqual({ ...resized, width: 280, height: 180 });
+  await checkLimits(panel, handle, resized);
+  // an absolute panel, resizable by its class (no native resize): the same
+  const abs = floatingPanel(canvasElement.querySelector('#absolute'));
+  const absBefore = rectOf(abs);
+  pullHandle(abs.querySelector('.nwl-panel-resize-handle'), 40, 20, 'touch');
+  await expect(rectOf(abs)).toEqual({ ...absBefore, width: 240, height: 140 });
 };
 
 /* The layer contract: app CSS, outside any layer, beats the widgets */

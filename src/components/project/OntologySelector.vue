@@ -4,7 +4,6 @@
     v-if="ontology != null && open"
     ref="labelsetRef"
     @mouseup="onHeaderMouseUp"
-    @pointerdown.capture="onPanelPointerDown"
   >
     <div
       class="header nwl-panel-header"
@@ -53,9 +52,9 @@
   </div>
 </template>
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref, watch, onMounted, onUnmounted } from 'vue';
 
-import { isTransformed, pinPanel } from '@/components/common/panel.js';
+import { floatingPanel, isTransformed, pinPanel } from '@/components/common/panel.js';
 
 defineProps({
   ontology: {
@@ -74,14 +73,17 @@ const isDragging = ref(false);
 const labelsetRef = ref(null);
 const clickOffset = ref({ x: 0, y: 0 });
 
-// centred until first pressed (resize corner, header): then pinned by its top-left corner, so
-// that a resize grows it towards the corner pulled only (panel.js, 3.2.0)
-const onPanelPointerDown = () => {
-  if (isTransformed(labelsetRef.value)) { pinPanel(labelsetRef.value); }
-};
+// centred until first pressed (resize handle, header): then pinned by its top-left corner, so
+// that a resize grows it towards the corner pulled only (panel.js, 3.2.0); resizable (its
+// `resize: both`), it gets the resize handle that works with a finger too (3.3.0). Each
+// opening makes a new panel (v-if).
+watch(labelsetRef, (panel) => {
+  if (panel) { floatingPanel(panel); }
+}, { flush: 'post' });
 
 const onHeaderMouseDown = (e) => {
-  onPanelPointerDown();
+  // the press was a pointerdown first (floatingPanel pinned it), but not always a mouse's
+  if (isTransformed(labelsetRef.value)) { pinPanel(labelsetRef.value); }
   isDragging.value = true;
   const {top, left} = labelsetRef.value.getBoundingClientRect();
   clickOffset.value.x = e.clientX - left;

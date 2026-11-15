@@ -14,6 +14,33 @@ Storybook only (stories aren't published to npm; no version bump).
   the search, the count, no match, the keyboard and the copy. The map is parsed once in
   `src/icons/map.js`, shared with `Icons/All`.
 
+## 3.3.0
+
+Floating panels resize with a finger: a resize handle of their own. See the README's "Widgets".
+
+- **`resizablePanel(panel)`**, new in `src/components/common/panel.js`, and called by
+  **`floatingPanel(panel)`** for a resizable panel (the class `nwl-panel-resizable`, or a computed
+  `resize` other than `none`: the apps' `resize: both` panels keep working unchanged). iOS and
+  iPadOS Safari have no `resize: both` corner. The handle, `.nwl-panel-resize-handle`
+  (`role="button"`, `aria-label="Resize"`, focusable), sits in the panel's bottom-right corner;
+  dragged with pointer events (mouse, pen, touch; pointer capture, `touch-action: none`), it
+  pins the panel first (`pinPanel`), then sets `width` and `height` in px. Arrow keys resize by
+  10px, 50px with Shift. Limits: at least 160 × 100 (`MIN_WIDTH`, `MIN_HEIGHT`), never larger
+  than the viewport nor past its right or bottom edge (`sizePanel(panel, width, height)`). The
+  native resize is turned off (inline `resize: none`), so there is one corner and one behaviour
+  everywhere. A panel that isn't positioned becomes `position: relative`. A second call does
+  nothing. Also `isResizable(panel)`. Exported from `nwl-components` and `nwl-components/panel`.
+- **`widgets.css`: `.nwl-panel-resize-handle`**: a 24 × 24 px hit area inside the panel's
+  border, above the body and its scrollbar, transparent but for an 8px corner mark
+  (`--nwl-text-3`; `--nwl-text` on hover and while dragged), `cursor: nwse-resize`, a focus
+  outline (`--nwl-focus`).
+- **`OntologySelector`** gets the handle through `floatingPanel()` (its own capture listener
+  is gone).
+- Stories: `Library/Widgets` Panel (the handle's place, look, what it covers, a finger's drag,
+  the keyboard, a second call) and CentredPanel (a finger's and the mouse's drag keep the
+  top-left corner, the limits, an absolute panel resizable by its class);
+  `Project/OntologySelector` Default (finger and mouse drags, the minimum size).
+
 ## 3.2.0
 
 Floating panels keep their header while they scroll. See the README's "Widgets".

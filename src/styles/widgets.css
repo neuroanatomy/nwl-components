@@ -179,7 +179,8 @@
      </div>
 
    The panel keeps its own position and size (set them on it: fixed, absolute or in flow) and
-   may be `resize: both` (its overflow is hidden, which resize needs). It shows as a flex box: a
+   may be resizable: the class nwl-panel-resizable, or `resize: both`, and floatingPanel() from
+   panel.js (3.3.0), which gives it the resize handle below. It shows as a flex box: a
    script that shows it sets `style.display = "flex"` (or removes `display: none`), not "block".
    It never gets larger than the viewport, so on a narrow screen its body scrolls instead. */
 :where(.nwl-panel) {
@@ -221,4 +222,43 @@
 
 :where(.nwl-panel[hidden]) {
   display: none;
+}
+
+/* The resize handle of a resizable panel (3.3.0; panel.js resizablePanel(), added by
+   floatingPanel() to a panel that has the class nwl-panel-resizable or a `resize` other than
+   none, whose native resize it turns off: iOS and iPadOS have no resize corner). A 24px square
+   in the panel's bottom-right corner, inside its border, above the body and its scrollbar;
+   transparent but for a small corner mark, so it hides no more of the body's last line than
+   that mark. Dragged by mouse, pen or finger (`touch-action: none`), or the arrow keys. */
+:where(.nwl-panel-resize-handle) {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  box-sizing: border-box;
+  width: 24px;
+  height: 24px;
+  cursor: nwse-resize;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+:where(.nwl-panel-resize-handle)::after {
+  content: "";
+  position: absolute;
+  right: 3px;
+  bottom: 3px;
+  box-sizing: border-box;
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid var(--nwl-text-3);
+  border-bottom: 2px solid var(--nwl-text-3);
+}
+:where(.nwl-panel-resize-handle:hover, .nwl-panel-resize-handle.nwl-dragging)::after {
+  border-color: var(--nwl-text);
+}
+:where(.nwl-panel-resize-handle:focus-visible) {
+  outline: 2px solid var(--nwl-focus);
+  outline-offset: -2px;
 }

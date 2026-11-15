@@ -383,12 +383,12 @@ and scrolls (`overflow: auto; min-height: 0`). Flex rather than `position: stick
 is outside the scrolling box, so it needs no offset matching the panel's padding, and the
 scrollbar runs beside the body only. The panel (`--nwl-bg-surface`, 1px `--nwl-border`,
 `--nwl-shadow-2`, `overflow: hidden`) keeps the position and size the app gives it, may be
-`resize: both`, is dragged by its header with the app's own script, and is never larger than
+resizable (by the handle below), is dragged by its header with the app's own script, and is never larger than
 the viewport. It is a flex box: a script that shows it sets `style.display = "flex"`, not
 `"block"` (or uses the `hidden` attribute).
 
 ```html
-<div class="nwl-panel" style="position: fixed; width: 400px; height: 300px; resize: both">
+<div class="nwl-panel nwl-panel-resizable" style="position: fixed; width: 400px; height: 300px">
   <div class="nwl-panel-header">
     <button class="nwl-icon-button" aria-label="Close" style="float: right"><img class="nwl-icon" src="/img/close.svg" alt=""></button>
     <b>Layers</b>
@@ -405,6 +405,19 @@ leaves it centred at rest and pins it by its top-left corner at the first `point
 (`pinPanel`: `transform: none`, `left` / `top` in px, at the same place). A resize then grows
 it towards the corner pulled only; the app's drag places its top-left corner
 (`left = pointerX - (pressX - rect.left)`).
+
+Resize handle (3.3.0): iOS and iPadOS Safari draw no `resize: both` corner, so a finger could
+not resize a panel. `floatingPanel(panel)` gives a resizable panel (the class
+`nwl-panel-resizable`, or a computed `resize` other than `none`) a handle of its own,
+`resizablePanel(panel)`: a `<span class="nwl-panel-resize-handle" role="button" tabindex="0"
+aria-label="Resize">` in its bottom-right corner, a 24 × 24 px hit area above the body and its
+scrollbar, drawn as an 8px corner mark (`--nwl-text-3`, `--nwl-text` on hover). It is dragged
+with pointer events (mouse, pen, finger: pointer capture, `touch-action: none`), pins the panel
+first, and sets its `width` and `height` in px (`sizePanel`): at least 160 × 100, never larger
+than the viewport nor past its right and bottom edges. Arrow keys resize it by 10px, 50px with
+Shift. The panel's native resize is turned off (inline `resize: none`), so there is one corner
+everywhere. A panel that isn't positioned becomes `position: relative`; fixed and absolute
+panels keep theirs. A second call does nothing.
 
 Keyboard focus on the widgets shows `base.css`'s outline (2px `--nwl-focus`), also outside
 `.app`. Links take `--nwl-link` (hover `--nwl-link-hover`), both the text colour: keep their
