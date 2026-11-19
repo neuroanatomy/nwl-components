@@ -1,6 +1,8 @@
 import { expect, userEvent, within } from '@storybook/test';
 
 import { MIN_HEIGHT, MIN_WIDTH, floatingPanel } from '@/components/common/panel.js';
+import '@/components/common/resize.css';
+import { resizableColumns } from '@/components/common/resize.js';
 import searchIcon from '@/icons/search.svg';
 
 // src/styles/widgets.css (2.1.0): the class-based widgets, as an app's Mustache page or a viewer's
@@ -452,5 +454,71 @@ AppCssWins.play = async ({ canvasElement }) => {
     await expect(getComputedStyle(q('.app-push')).borderTopLeftRadius).toBe('9px');
   } finally {
     styles.forEach((s) => s.remove());
+  }
+};
+
+/* Table (3.4.0): .nwl-table spaces the columns of a plain table; a resized table clips */
+
+const tableHtml = (cls) => `<table class="${cls}">
+  <thead><tr><th>Name</th><th>Size</th><th>Date</th></tr></thead>
+  <tbody>
+    <tr><td>brain.nii.gz</td><td>12</td><td>2026-01-01</td></tr>
+    <tr><td>a much longer file name that does not fit.nii.gz</td><td>1234</td><td>2026-10-20</td></tr>
+  </tbody>
+</table>`;
+const cellsOf = (table) => [...table.querySelectorAll('th, td')];
+const gapsOf = (table) => cellsOf(table).map((cell) => getComputedStyle(cell).paddingRight);
+// 1em at 14px after the first two cells of each of the three rows; the last keeps the
+// browser's 1px
+const spacedGaps = ['14px', '14px', '1px', '14px', '14px', '1px', '14px', '14px', '1px'];
+
+export const TableSpacing = plain(`${tableHtml('nwl-table spaced')}${tableHtml('unspaced')}`);
+TableSpacing.play = async ({ canvasElement }) => {
+  const spaced = canvasElement.querySelector('table.spaced');
+  // 1em at 14px: every cell but the last of its row
+  await expect(getComputedStyle(spaced).fontSize).toBe('14px');
+  await expect(gapsOf(spaced)).toEqual(spacedGaps);
+  // the class is opt-in: a table without it keeps the browser's padding
+  await expect(gapsOf(canvasElement.querySelector('table.unspaced'))).not.toContain('14px');
+};
+
+// the cells as an app styles them (unlayered, an id): ellipsis before a resize; `app-scoped`
+// limits it to tables that weren't resized, as the apps do from 3.4.0, `app-unscoped` doesn't
+const appCellsCss = (id, scoped) => `#${id} table${scoped ? ':not(.nwl-resized)' : ''} :is(th, td) {
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }`;
+
+export const ResizedTableClips = plain(`<div style="width: 400px">
+<div id="app-scoped">${tableHtml('nwl-table')}</div>
+<div id="app-unscoped">${tableHtml('nwl-table')}</div>
+<div id="no-app">${tableHtml('nwl-table')}</div>
+</div>`);
+ResizedTableClips.play = async ({ canvasElement }) => {
+  const tables = Object.fromEntries(['app-scoped', 'app-unscoped', 'no-app']
+    .map((id) => [id, canvasElement.querySelector(`#${id} table`)]));
+  const styles = [
+    appStyle('app-cells-scoped', appCellsCss('app-scoped', true)),
+    appStyle('app-cells-unscoped', appCellsCss('app-unscoped', false))
+  ];
+  const overflowOf = (table) => [...new Set(cellsOf(table).map((cell) => getComputedStyle(cell).textOverflow))];
+  const columns = Object.values(tables).map((table) => resizableColumns(table));
+  try {
+    await expect(overflowOf(tables['app-scoped'])).toEqual(['ellipsis']);
+    // a resize (the keyboard on the first handle): the table gets .nwl-resized
+    Object.values(tables).forEach((table) => table.querySelector('.nwl-col-resize')
+      .dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowLeft', bubbles: true, cancelable: true })));
+    await expect(Object.values(tables).map((table) => table.classList.contains('nwl-resized'))).toEqual([true, true, true]);
+    // the library's rule: clip, wrapped, also where the app's scoped rule set ellipsis before
+    const resizedCells = ['app-scoped', 'no-app'].flatMap((id) => cellsOf(tables[id])
+      .map((cell, i) => [`${id}[${i}]`, cell]));
+    await checkAll(Object.fromEntries(resizedCells),
+      { textOverflow: 'clip', whiteSpace: 'normal', overflowWrap: 'anywhere' });
+    // the layers: an unscoped app rule (outside any layer) keeps its ellipsis, whatever the
+    // library's specificity; this is why the apps scope theirs
+    await expect(overflowOf(tables['app-unscoped'])).toEqual(['ellipsis']);
+    // the spacing stays after a resize
+    await expect(gapsOf(tables['no-app'])).toEqual(spacedGaps);
+  } finally {
+    columns.forEach((c) => c.destroy());
+    styles.forEach((style) => style.remove());
   }
 };

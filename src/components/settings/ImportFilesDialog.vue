@@ -5,7 +5,10 @@
         ref="scrollable"
         class="scrollable"
       >
-        <table ref="table">
+        <table
+          ref="table"
+          class="nwl-table"
+        >
           <thead>
             <tr>
               <th>URL</th>

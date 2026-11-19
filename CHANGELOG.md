@@ -14,6 +14,39 @@ Storybook only (stories aren't published to npm; no version bump).
   the search, the count, no match, the keyboard and the copy. The map is parsed once in
   `src/icons/map.js`, shared with `Icons/All`.
 
+## 3.4.0
+
+Two table rules the apps each carried. See the README's "Widgets" and "Resizable columns".
+
+- **`widgets.css`: `.nwl-table`**: a plain `<table class="nwl-table">` gets the column spacing
+  of `Table` and `SortableTh` (since 1.5.1): `padding-right: 1em` on every cell but the last of
+  its row (14px at 14px; 1em rather than a `--nwl-space-*` token, so it follows the font size).
+  In `:where()` and `@layer nwl.widgets`, as the other widgets: an app rule wins.
+- **`resize.css`: `text-overflow: clip`** on the cells of a resized table
+  (`.nwl-resized.nwl-resized :is(th, td)`, with `white-space: normal` and
+  `overflow-wrap: anywhere`): a resized column shows what fits up to its edge, no ellipsis. The
+  doubled class beats `Table`'s scoped `nowrap` in the same layer. No specificity beats an app
+  rule outside the layers, so an app that sets `ellipsis` or `nowrap` on cells limits that rule
+  to tables that weren't resized (`table:not(.nwl-resized)`).
+- **`ImportFilesDialog`**: its table has the class `nwl-table`.
+- Stories: `Library/Widgets` TableSpacing (14px after every cell but the last; opt-in) and
+  ResizedTableClips (after a keyboard resize: `clip`, `normal`, `anywhere`, also where an app's
+  scoped rule set `ellipsis` before; an unscoped app rule keeps its `ellipsis`; the spacing
+  stays); `Settings/ImportFilesDialog` Default (the class and its spacing).
+
+What the apps must do (their rules still apply until then):
+
+- **microdraw**: `app/public/css/project-style.css`: limit the ellipsis rule (:30–:35) to
+  `#projectFiles table:not(.nwl-resized) :is(th, td)` and `#vecAnnotations:not(.nwl-resized)
+  :is(th, td)` (keep `overflow: hidden` on all cells), and remove the resized rule (:53–:62);
+  `app/public/css/shared-style.css`: remove the spacing rule (:79–:90); add `class="nwl-table"`
+  to the two tables of `app/views/scripts/src/project-page.js` (:224, :250).
+- **BrainBox**: `view/brainbox/src/style/project-style.css`: limit the ellipsis rule (:24–:29)
+  to `#projectFiles table:not(.nwl-resized)` cells (keep `overflow: hidden`), and remove the
+  resized rule (:30–:37); `view/brainbox/src/style/tables.css`: remove the spacing rule and its comment (:1–:12);
+  add `class="nwl-table"` to `#projectFiles table`, `#volAnnotations`, `#annotationsPane table`
+  and `#landmarksDialog table`.
+
 ## 3.3.0
 
 Floating panels resize with a finger: a resize handle of their own. See the README's "Widgets".

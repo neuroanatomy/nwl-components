@@ -370,6 +370,24 @@ Text field (`<input>`, `<textarea>`): its parent's font size and colour, `--nwl-
 <input class="nwl-text-field" placeholder="Project name">
 ```
 
+Table (3.4.0): `.nwl-table` on a plain `<table>` spaces its columns as `Table` and
+`SortableTh` do: `padding-right: 1em` on every cell but the last of its row (14px at 14px).
+`ImportFilesDialog`'s table has it.
+
+```html
+<table class="nwl-table"><tr><th>Name</th><th>Size</th></tr></table>
+```
+
+Resized table (3.4.0, `resize.css`, also in `nwl-components/resize/style.css`): once a column
+is resized (`.nwl-resized`), its cells wrap, even inside a word, and clip what still overflows
+(`text-overflow: clip`), with no ellipsis. An app rule outside the layers wins over it whatever
+the specificity, so an app that puts `text-overflow: ellipsis` or `white-space: nowrap` on cells
+limits that rule to tables that weren't resized:
+
+```css
+#projectFiles table:not(.nwl-resized) :is(th, td) { text-overflow: ellipsis; white-space: nowrap; }
+```
+
 Selected row: `aria-selected="true"` on a `<tr>` gives `--nwl-bg-elevated`.
 
 ```html

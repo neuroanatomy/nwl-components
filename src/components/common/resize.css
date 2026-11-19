@@ -49,10 +49,16 @@ th.nwl-resizable:last-child > .nwl-col-resize::after {
 .nwl-col-resize:focus-visible::after {
   background: var(--nwl-border-strong);
 }
-/* after a resize: narrowed cells wrap, even inside a word, so nothing is hidden or cut */
+/* after a resize: narrowed cells wrap, even inside a word, so nothing is hidden or cut, and a
+   cell clips what still overflows at its edge, with no ellipsis (3.4.0). The class is doubled
+   to beat Table.vue's scoped `table th { white-space: nowrap }` (one class and two elements)
+   in the same layer. No specificity beats an app rule outside the layers: an app that puts
+   `text-overflow: ellipsis` or `white-space: nowrap` on cells limits that rule to tables that
+   weren't resized, `table:not(.nwl-resized) :is(th, td)`, and this rule applies to the others. */
 .nwl-resized.nwl-resized :is(th, td) {
   white-space: normal;
   overflow-wrap: anywhere;
+  text-overflow: clip;
 }
 .nwl-resized.nwl-resized .nwl-sort-button {
   max-width: 100%;

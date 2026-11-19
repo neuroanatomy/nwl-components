@@ -168,6 +168,13 @@
   background: var(--nwl-bg-elevated);
 }
 
+/* Table (3.4.0): the column spacing of a plain <table class="nwl-table">, as Table.vue and
+   SortableTh give theirs since 1.5.1: a 1em gap after every cell but the last of its row (1em,
+   not a --nwl-space-* token: the gap follows the table's font size, 14px at 14px). */
+:where(.nwl-table :is(th, td):not(:last-child)) {
+  padding-right: 1em;
+}
+
 /* Floating panel (3.2.0): a box with a title bar that stays and a body that scrolls (the label
    set, layers and text annotation panels of the viewers, dialogs). A flex column, not
    `position: sticky`: the header is outside the scrolling box, so it never scrolls away, needs
