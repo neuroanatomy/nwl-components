@@ -19,6 +19,8 @@ Exports by group:
 | Layout | `Wrapper`, `Header`, `Nav`, `Footer` |
 | Settings | `Settings`, `ProjectInfo`, `Files`, `Collaborators`, `Annotations`, `Access`, `ImportFilesDialog`, `PureFiles`, `PureCollaborators`, `PureAnnotations` |
 | Common widgets | `Button`, `Checkbox`, `Select`, `TextInput`, `TextArea`, `Autocomplete`, `Table`, `SortableTh` and `useSortable` (sortable table columns), `Tabs`, `Tab` |
+| Settings page files loader | `useBatchedFiles` (3.5.0, see "Settings page files loader") |
+| Page helpers | `fetchJSON`, `postJSON`, `defaultFetchLabelSets` (the label sets of `/api/getLabelsets`, `PureAnnotations`' default), `formatDate`, `pad`, `localDate`, `shownName` (3.5.0, see "Settings page files loader") |
 | Building blocks | `Editor` (floating/dockable tool window with content and tools slots), `Row`, `Col`, `ButtonsGroup`, `RangeSlider`, `AdjustSettings`, `Chat`, `ScriptConsole`, `TextAnnotations`, `VolumeAnnotations`, `AnnotationCell`, `OntologySelector` (label-set selector) |
 
 ### To clean up
@@ -34,6 +36,35 @@ App-specific content that should become neutral later (no component is deprecate
   targets the global id `#logScript`; both should become configurable;
 - `Chat` renders messages as raw HTML (`v-html`): they must be sanitised before an
   app uses it.
+
+## Settings page files loader
+
+The server sends a project's settings page without its files: `useBatchedFiles` fetches them in
+batches from `/project/json/<shortname>/files` and shows them as they arrive (3.5.0).
+
+```js
+import { SettingsPage, useBatchedFiles } from 'nwl-components';
+
+const { files, filesLoaded, loadFiles } = useBatchedFiles({ shortname: project.shortname, filesTotal });
+project.filesLoaded = filesLoaded; // { count }: sent when saving
+
+createApp({
+  template: '<SettingsPage :project="project" :files="files" />',
+  setup: () => ({ project, files }),
+  mounted () { loadFiles(); }
+});
+```
+
+Options: `batchLength` (100) and `retryDelays` (`[500, 1000]` ms). While loading, the "Files"
+heading shows ` (loading… r / t)` and the files' section has `.filesLoading` (not editable);
+after the retries, the error and a Retry button. Its CSS is in `dist/style.css`.
+
+The page helpers: `fetchJSON(url, options)` and `postJSON(url, data)` throw `body.error`,
+`body.msg` or `'<status> <statusText>'` when the answer isn't ok or has `success: false`;
+`formatDate(date, { time = false })` (`YYYY-MM-DD`, or `YYYY-MM-DD HH:MM` as stored);
+`localDate(iso, dateTime = false)` (local time) and `pad(n)`;
+`shownName(row, { nameKey = 'name', shortnameKey = 'shortname' })` (the name, or the shortname
+when it is blank).
 
 ## Sortable tables
 

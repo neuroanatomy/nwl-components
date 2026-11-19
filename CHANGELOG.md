@@ -14,6 +14,62 @@ Storybook only (stories aren't published to npm; no version bump).
   the search, the count, no match, the keyboard and the copy. The map is parsed once in
   `src/icons/map.js`, shared with `Icons/All`.
 
+## 3.5.0
+
+The settings page's batched files loader and the admin and user page helpers, which both apps
+carried. All exported from the root (`import { useBatchedFiles } from 'nwl-components'`). See
+the README's "Scope" and "Settings page files loader".
+
+- **`useBatchedFiles({ shortname, filesTotal, batchLength = 100, retryDelays = [500, 1000] })`**
+  returns `{ files, filesLoaded, loadFiles }`, as the apps' copies: `files`, the ref of the
+  files received, for `SettingsPage :files`; `filesLoaded`, the `{ count }` object to put on the
+  project given to `SettingsPage` (when saving, a count that isn't the number of files stored
+  makes the server keep the stored list); `loadFiles()`, called from `mounted()`. It fetches
+  `/project/json/<shortname>/files?start=…&length=…&names=true` (the shortname encoded with
+  `encodeURIComponent`) until a batch isn't full, nothing when `filesTotal` is 0; tries a failed
+  batch again after each retry delay; shows ` (loading… r / t)` after the "Files" heading
+  (`t = max(filesTotal, received)`), then ` (could not load all the files: <message>) ` and a
+  Retry button that calls `loadFiles()` again; `.filesLoading` on the files' section keeps them
+  from being edited until they are all in. A call during a load does nothing.
+- **Its CSS** (`.filesStatus`, `.filesStatus button`, `.filesLoading`) is in `dist/style.css`,
+  in `@layer nwl.components`. The status colour is `var(--nwl-text-3)` (`#999`), where
+  BrainBox had `#aaa`.
+- **`fetchJSON(url, options)`**, **`postJSON(url, data)`**: JSON headers merged with the
+  caller's; a body that isn't JSON counts as `{success: false, error: '<status> <statusText>'}`;
+  they throw `body.error || body.msg || '<status> <statusText>'` when the answer isn't ok or has
+  `success: false`.
+- **`defaultFetchLabelSets()`**: the label sets of `/api/getLabelsets`. `PureAnnotations` uses it
+  when the config has no `fetchLabelSets` (before, the label sets failed to load: `fetchLabelSets
+  is not a function`, and the layers' menus stayed empty).
+- **`formatDate(date, { time = false } = {})`**: `YYYY-MM-DD`, or `YYYY-MM-DD HH:MM` as stored,
+  `''` for a missing date. **`pad(n)`**, **`localDate(iso, dateTime = false)`**: a local
+  `YYYY-MM-DD` (`YYYY-MM-DD HH:MM:SS`), `''` when missing or not a date.
+  **`shownName(row, { nameKey = 'name', shortnameKey = 'shortname' } = {})`**: the display name,
+  or the shortname when the name is missing or blank.
+- Stories: `Pages/Settings` BatchedFiles (three batches, the status and its colour, the files
+  not editable while loading, a second `loadFiles()`, the count saved), BatchedFilesEncoded (a
+  space and a slash in the shortname, the total never less than what was received),
+  BatchedFilesRetry (the retry delays, the error and Retry's look, Retry finishes the load),
+  BatchedFilesNone (`filesTotal` 0, no request); `Settings/Annotations` DefaultFetchLabelSets;
+  `Library/Helpers` FetchJSON and DatesAndNames.
+
+What the apps must do (their copies still work until then):
+
+- **microdraw**: `app/views/scripts/src/project-settings-page.js`: remove the loader (:55–:199)
+  and call `useBatchedFiles({ shortname: project.shortname, filesTotal })`, putting `filesLoaded`
+  on `projectWithLists`; `app/public/css/projectSettings-style.css`: remove its CSS (:32–:52);
+  `nwl-components-config.js`: remove `fetchLabelSets` (:10) and wrap `defaultFetchLabelSets` in
+  `withStoredLabelSets`; `admin-page.js`: remove `fetchJSON`, `postJSON`, `formatDate` (:14–:37),
+  `admin-damaged.js`: remove `formatDate` (:6–:9), and call `formatDate(d, { time: true })`;
+  `user-page.js`: remove `pad`, `localDate`, `shownName` (:7–:27).
+- **BrainBox**: `view/brainbox/src/pages/project-settings-page.js`: remove the loader (:11–:142)
+  and call `useBatchedFiles({ shortname: project.shortname, filesTotal })`, putting `filesLoaded`
+  on `project` (the shortname is now encoded); `templates/projectSettings.mustache`: remove its
+  CSS (:13–:32); `nwl-components-config.js`: remove `fetchLabelSets` (:10); `admin-page.js`:
+  remove `fetchJSON`, `postJSON`, `formatDate` (:7–:29); `user-page.js`: remove `pad`,
+  `localDate`, `shownName` (:7–:27) and call `shownName(row, { nameKey: 'projectName',
+  shortnameKey: 'project' })`.
+
 ## 3.4.0
 
 Two table rules the apps each carried. See the README's "Widgets" and "Resizable columns".

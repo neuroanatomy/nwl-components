@@ -91,8 +91,10 @@ import Checkbox from '@/components/common/Checkbox.vue';
 import Select from '@/components/common/Select.vue';
 import Table from '@/components/common/Table.vue';
 import TextInput from '@/components/common/TextInput.vue';
+import { defaultFetchLabelSets } from '@/helpers/json.js';
 
-const { fetchLabelSets, annotationTypes } = inject('config');
+// a config without fetchLabelSets gets the label sets of /api/getLabelsets (3.5.0)
+const { fetchLabelSets = defaultFetchLabelSets, annotationTypes } = inject('config');
 
 const props = defineProps({
   annotations: {

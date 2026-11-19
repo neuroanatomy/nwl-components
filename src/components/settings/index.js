@@ -8,3 +8,4 @@ export { default as Files } from '@/components/settings/Files.vue';
 export { default as Collaborators } from '@/components/settings/Collaborators.vue';
 export { default as Annotations } from '@/components/settings/Annotations.vue';
 export { default as Access } from '@/components/settings/Access.vue';
+export { useBatchedFiles } from '@/components/settings/useBatchedFiles.js';
