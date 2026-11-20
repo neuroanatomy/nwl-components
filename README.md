@@ -248,6 +248,35 @@ columns.destroy(); // handles and wrapper removed, the table as it was
 Story: `Common/PlainResize` (the helper's unit tests, in a shadow root with only
 `resize/style.css`).
 
+## Embeddable viewer
+
+`nwl-components/embed` (no Vue, since 3.6.0) holds what BrainBox's `/mri/embed` and microdraw's
+`/data/embed` share: the embed page's sizing, and the `/embed.js` loader a host page includes to
+get the viewer in an iframe kept at the height it asks for.
+
+```js
+// server: the text of /embed.js, built once at start-up
+import { embedScript } from 'nwl-components/embed';
+
+const embedJs = embedScript({
+  prefix: 'microdraw', // microdraw:embed-resize, window.__microdrawEmbeds, data-microdraw-embedded
+  appName: 'MicroDraw', // console messages, iframe title
+  endpoint: '/data/embed',
+  required: 'source', // data-source
+  params: { source: 'source', project: 'project', slice: 'slice', maxHeight: 'maxHeight', microdrawLink: 'microdrawLink' },
+  optionsDoc: [['data-source', 'source URL of the dataset (required)'], ['data-project', 'project whose regions are shown']]
+});
+
+// embed page: the height to ask the host page for
+import { desiredEmbedHeight, positiveIntParam } from 'nwl-components/embed';
+const height = desiredEmbedHeight({ width, aspect, toolbarHeight, maxHeight: positiveIntParam(params.maxHeight) || Infinity });
+```
+
+The served text is `src/embed/loader.js`, unminified and with its comments, with the app's
+names as a JSON literal at its top. A page with no bundle loads
+`dist/embed/nwl-components-embed.umd.js` and finds the same names on `nwlComponentsEmbed`.
+Story: `Library/Embed`.
+
 ## Design tokens
 
 The library's colours, fonts, font sizes and corner radii are CSS custom properties, defined

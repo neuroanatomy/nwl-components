@@ -1,0 +1,6 @@
+{
+  "name": "nwl-components-embed",
+  "private": true,
+  "main": "../dist/embed/nwl-components-embed.umd.js",
+  "module": "../dist/embed/nwl-components-embed.es.js"
+}

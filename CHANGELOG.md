@@ -14,6 +14,60 @@ Storybook only (stories aren't published to npm; no version bump).
   the search, the count, no match, the keyboard and the copy. The map is parsed once in
   `src/icons/map.js`, shared with `Icons/All`.
 
+## 3.6.0
+
+The apps' embeddable viewer, without Vue: the embed page's sizing and the `/embed.js` loader,
+which both apps carried (BrainBox's `public/embed.js` and microdraw's `app/public/embed.js` were
+line-for-line ports of each other). A new subpath, **`nwl-components/embed`** (`dist/embed/`,
+built by `vite.embed.config.js`; `embed/package.json` for webpack 4, which ignores `exports`; on
+a page with no bundle, `dist/embed/nwl-components-embed.umd.js` as the global
+`nwlComponentsEmbed`). Not exported from the root. See the README's "Embeddable viewer".
+
+- **`desiredEmbedHeight({ width, aspect, toolbarHeight, minHeight = 160, maxHeight = Infinity })`**
+  and **`positiveIntParam(value)`** (`src/embed/sizing.js`): the apps' bodies, unchanged. The
+  aspect functions stay in the apps (BrainBox's `planeAspect`, microdraw's `imageAspect`).
+- **`embedScript(config)`** (`src/embed/script.js`; the plan's `createEmbedSDK`) returns the text
+  of an app's `/embed.js`: `src/embed/loader.js`, imported as text (`?raw`), unminified and with
+  its comments, with a header comment made from the config on its first line and the app's names
+  as a JSON literal in `const CONFIG` at its top. `config`: `prefix` (`'brainbox'`), `appName`
+  (`'BrainBox'`), `endpoint` (`'/mri/embed'`), `required` (`'url'`), `params` (dataset key →
+  query parameter, in the query string's order), `optionsDoc` (`[attribute, description]` of the
+  app's options; the CSS options `data-width`, `data-max-width`, `data-height` and `data-target`
+  are added after them). It throws on a config it can't use. The loader is microdraw's:
+  `findScript`, the origin from the script's `src`, the query string, the starting size
+  (`100%`, `560px`, `420px`), `MAX_SANE_HEIGHT = 4000`, `data-target`, the page-wide registry
+  `window.__<prefix>Embeds = { frames, listening }` and one `message` listener per page. The
+  URLs, `data-*` attributes and defaults, iframe URLs, message names and fields don't change.
+  For BrainBox, the registry is new: two copies of the script on one page now share one
+  listener (before, each kept its own `embeds` array and listener).
+- Stories: `Library/Embed` Sizing (both apps' spec cases), LoaderBrainBox and LoaderMicroDraw
+  (no placeholder left; the text parses; one iframe with the expected `src`, title and starting
+  size; a resize message from its frame sets its height up to 4000, not 4001, not another app's,
+  not one from the page; a second copy, into `data-target`, adds its frame to the registry and no
+  listener; no frame and a console error without the required attribute), BadConfig.
+
+What the apps must do (their copies still work until then):
+
+- **microdraw**: `package.json` (:31): `nwl-components` `^3.6.0`. `app/app.js`: serve
+  `/embed.js` from `embedScript(config)`, built once at start-up, by a route before
+  `express.static` (:135), with `Content-Type: application/javascript; charset=UTF-8` and
+  `Cache-Control: public, max-age=0` (CORS from the app's middleware, the ETag from `res.send`);
+  remove `app/public/embed.js`. `app/public/js/embed-sizing.js`: keep `imageAspect` only (remove
+  :32–:66, and the two names from `api` at :68). `app/views/dataEmbed.mustache` (:48): also load
+  `/lib/nwl-components/embed/nwl-components-embed.umd.js`. `app/public/js/embed-page.js`
+  (:364, :368): `nwlComponentsEmbed.desiredEmbedHeight`, `nwlComponentsEmbed.positiveIntParam`
+  (and the global at :21). Tests: `test/api/embed-sizing.spec.js` (:4) and
+  `test/e2e/embed.spec.js` (:15) take `desiredEmbedHeight` and `positiveIntParam` from
+  `nwl-components/embed`.
+- **BrainBox**: `package.json` (:56): `nwl-components` `^3.6.0`. `app.js`: the same `/embed.js`
+  route, ahead of `publicFiles`' static (:129), with today's CORS headers; config `required:
+  'url'`, `params` `url, view, slice, project, annotation, maxHeight, brainboxLink`; remove
+  `public/embed.js`. `view/brainbox/src/pages/embed-page.js`: remove `positiveIntParam`
+  (:53–:63), import `desiredEmbedHeight` and `positiveIntParam` from `nwl-components/embed` (:7,
+  :78, :82). `view/shared/embedSizing.js`: keep `planeAspect` only (remove :36–:57, and the name
+  from `module.exports` at :59). Tests: `test/unit/embed.sizing.spec.js` (:2) takes
+  `desiredEmbedHeight` from `nwl-components/embed`.
+
 ## 3.5.0
 
 The settings page's batched files loader and the admin and user page helpers, which both apps

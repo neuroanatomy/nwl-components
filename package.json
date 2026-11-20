@@ -1,6 +1,6 @@
 {
   "name": "nwl-components",
-  "version": "3.5.0",
+  "version": "3.6.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/neuroanatomy/nwl-components.git"
@@ -13,6 +13,7 @@
     "sort",
     "resize",
     "panel",
+    "embed",
     "tokens.css",
     "base.css",
     "widgets.css"
@@ -78,12 +79,16 @@
       "import": "./dist/panel/nwl-components-panel.es.js",
       "require": "./dist/panel/nwl-components-panel.umd.js"
     },
-    "./dist/panel/*": "./dist/panel/*"
+    "./dist/panel/*": "./dist/panel/*",
+    "./embed": {
+      "import": "./dist/embed/nwl-components-embed.es.js",
+      "require": "./dist/embed/nwl-components-embed.umd.js"
+    }
   },
   "scripts": {
     "dev": "vite",
-    "build": "vite build && vite build -c vite.sort.config.js && vite build -c vite.resize.config.js && vite build -c vite.panel.config.js",
-    "lint": "eslint --ext .js,.vue src scripts vite.config.js vite.sort.config.js vite.resize.config.js vite.panel.config.js && node scripts/check-tokens.js",
+    "build": "vite build && vite build -c vite.sort.config.js && vite build -c vite.resize.config.js && vite build -c vite.panel.config.js && vite build -c vite.embed.config.js",
+    "lint": "eslint --ext .js,.vue src scripts vite.config.js vite.sort.config.js vite.resize.config.js vite.panel.config.js vite.embed.config.js && node scripts/check-tokens.js",
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
