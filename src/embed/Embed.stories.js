@@ -1,4 +1,4 @@
-import { expect, spyOn, waitFor } from '@storybook/test';
+import { expect, spyOn } from '@storybook/test';
 
 import { embedScript } from '@/embed/script.js';
 import { desiredEmbedHeight, positiveIntParam } from '@/embed/sizing.js';
@@ -79,38 +79,24 @@ Sizing.play = async () => {
 };
 
 // a <script> as a host page writes it, but not fetched (not JavaScript): the loader finds it by
-// its src, document.currentScript being null under new Function. Port 9 refuses at once.
+// its src, document.currentScript being null under new Function. Same origin as this page, so the
+// iframe never navigates cross-site (its page is this server's, whatever it answers).
 const hostScript = (parent, data) => {
   const script = document.createElement('script');
   script.type = 'text/x-embed-test';
-  script.src = 'http://127.0.0.1:9/embed.js';
+  script.src = `${window.location.origin}/embed.js`;
   Object.assign(script.dataset, data);
   parent.appendChild(script);
 
   return script;
 };
 
-// post `data` to this page from inside `frame` (same origin once it shows about:blank), and
-// resolve once this page's listeners have seen it (Storybook posts messages too: `sent` tells ours)
-let sent = 0;
-const postFrom = async (frame, data) => {
-  sent += 1;
-  const message = { ...data, sent };
-  const seen = new Promise((resolve) => {
-    const done = (event) => {
-      if (!event.data || event.data.sent !== message.sent) { return; }
-      window.removeEventListener('message', done);
-      resolve();
-    };
-    window.addEventListener('message', done);
-  });
-  frame.contentWindow.eval(`parent.postMessage(${JSON.stringify(message)}, '*')`);
-  await seen;
-};
-
-const toBlank = async (frame) => {
-  frame.src = 'about:blank';
-  await waitFor(() => expect(frame.contentWindow.location.href).toBe('about:blank'));
+// a message event from `source` (an iframe's window, or this page's), as the browser delivers a
+// postMessage: the loader tells the frames apart by event.source. Dispatched synchronously, so it
+// doesn't depend on which document the iframe has loaded, nor on when (a real postMessage from
+// inside the frame raced the frame's own navigation on a slow runner).
+const messageFrom = (source, data) => {
+  window.dispatchEvent(new MessageEvent('message', { data, source }));
 };
 
 // eslint-disable-next-line max-statements
@@ -144,7 +130,7 @@ const playLoader = (name, data, expectedSrc) => async ({ canvasElement }) => {
   await expect(frames().length).toBe(1);
   const [frame] = frames();
   await expect(frame.nextElementSibling).toBe(first);
-  await expect(frame.getAttribute('src')).toBe(expectedSrc);
+  await expect(frame.getAttribute('src')).toBe(window.location.origin + expectedSrc);
   await expect(frame.title).toBe(`${config.appName} viewer`);
   await expect(frame.style.height).toBe('420px');
   await expect(frame.style.maxWidth).toBe('560px');
@@ -155,17 +141,15 @@ const playLoader = (name, data, expectedSrc) => async ({ canvasElement }) => {
 
   // its frame's resize message sets its height, up to 4000; another app's, or one from this
   // page, doesn't
-  await toBlank(frame);
-  await postFrom(frame, { type: `${name}:embed-resize`, height: 512 });
+  messageFrom(frame.contentWindow, { type: `${name}:embed-resize`, height: 512 });
   await expect(frame.style.height).toBe('512px');
-  await postFrom(frame, { type: `${name}:embed-resize`, height: 4000 });
+  messageFrom(frame.contentWindow, { type: `${name}:embed-resize`, height: 4000 });
   await expect(frame.style.height).toBe('4000px');
-  await postFrom(frame, { type: `${name}:embed-resize`, height: 4001 });
+  messageFrom(frame.contentWindow, { type: `${name}:embed-resize`, height: 4001 });
   await expect(frame.style.height).toBe('4000px');
-  await postFrom(frame, { type: 'other:embed-resize', height: 300 });
+  messageFrom(frame.contentWindow, { type: 'other:embed-resize', height: 300 });
   await expect(frame.style.height).toBe('4000px');
-  window.postMessage({ type: `${name}:embed-resize`, height: 300 }, '*');
-  await postFrom(frame, { type: 'flush' });
+  messageFrom(window, { type: `${name}:embed-resize`, height: 300 });
   await expect(frame.style.height).toBe('4000px');
 
   // a second copy on the page: its frame is in the same registry, no second listener
@@ -180,8 +164,7 @@ const playLoader = (name, data, expectedSrc) => async ({ canvasElement }) => {
   await expect(second.style.maxWidth).toBe('400px');
   await expect(window[`__${name}Embeds`].frames).toEqual([frame, second]);
   await expect(window[`__${name}Embeds`].listening).toBe(true);
-  await toBlank(second);
-  await postFrom(second, { type: `${name}:embed-resize`, height: 222 });
+  messageFrom(second.contentWindow, { type: `${name}:embed-resize`, height: 222 });
   await expect(second.style.height).toBe('222px');
   await expect(frame.style.height).toBe('4000px');
   listeners.mockRestore();
@@ -202,7 +185,7 @@ export const LoaderBrainBox = show([
 LoaderBrainBox.play = playLoader(
   'brainbox',
   { url: 'https://example.org/brain.nii.gz', view: 'sag', maxHeight: '600', brainboxLink: '0' },
-  'http://127.0.0.1:9/mri/embed?url=https%3A%2F%2Fexample.org%2Fbrain.nii.gz&view=sag&maxHeight=600&brainboxLink=0'
+  '/mri/embed?url=https%3A%2F%2Fexample.org%2Fbrain.nii.gz&view=sag&maxHeight=600&brainboxLink=0'
 );
 
 export const LoaderMicroDraw = show([
@@ -212,7 +195,7 @@ export const LoaderMicroDraw = show([
 LoaderMicroDraw.play = playLoader(
   'microdraw',
   { source: 'https://example.org/data.json', project: 'my project', slice: '3' },
-  'http://127.0.0.1:9/data/embed?source=https%3A%2F%2Fexample.org%2Fdata.json&project=my%20project&slice=3'
+  '/data/embed?source=https%3A%2F%2Fexample.org%2Fdata.json&project=my%20project&slice=3'
 );
 
 export const BadConfig = show(['embedScript throws on a config it cannot use, and on */ in the header texts']).bind({});
