@@ -10,6 +10,8 @@ export * from '@/components/settings';
 export * from '@/components/layout';
 export * from '@/components/pages';
 export * from '@/components/project';
+// the admin page's sections (3.7.0): DamagedProjects, useDamagedProjects
+export * from '@/components/admin';
 // the helpers of the apps' pages: JSON requests, label sets, dates and names
 export { defaultFetchLabelSets, fetchJSON, postJSON } from '@/helpers/json.js';
 export { formatDate, localDate, pad, shownName } from '@/helpers/pages.js';

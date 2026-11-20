@@ -14,6 +14,62 @@ Storybook only (stories aren't published to npm; no version bump).
   the search, the count, no match, the keyboard and the copy. The map is parsed once in
   `src/icons/map.js`, shared with `Icons/All`.
 
+## 3.7.0
+
+The admin page's "Damaged projects" section, for both apps: one panel replaces microdraw's
+(`app/views/admin.mustache` and `app/views/scripts/src/admin-damaged.js`) and BrainBox's
+(`templates/admin.mustache` and `view/brainbox/src/pages/admin-page.js`). Exported from the root.
+The routes it calls don't change (`GET /admin/json/projects/damaged`, `POST
+/admin/json/projects/restore-files` and `fix-current`, NeuroWebLab 1.23.0's `admin/damaged.js`
+behind them).
+
+- **`useDamagedProjects({ fetchJSON, postJSON, showTime = false, undoURL = '' })`**
+  (`src/components/admin/useDamagedProjects.js`): microdraw's composable, same returned names
+  (`damaged`, `damagedLoading`, `damagedError`, `damagedResult`, `loadDamaged`, `restoreFiles`,
+  `fixCurrent`, `undoRestoreFiles`) plus `formatDate`, `problems` and `settingsLink`.
+  - `fetchJSON` and `postJSON` default to the library's (3.5.0).
+  - **Fixed:** an error from a fix (such as the 409 "has changed since it was listed") stays shown
+    after the list is read again, as in BrainBox; microdraw's `act()` lost it.
+  - `showTime`: the dates show the time (`YYYY-MM-DD HH:MM`, microdraw), or not (BrainBox).
+  - `undoURL`: with it (microdraw's `/admin/json/projects/restore`, posted `{ log }`), a restore's
+    result offers **Restore the previous version**, and the confirms are microdraw's (they mention
+    the undo); without it, nothing is offered and the confirms are BrainBox's, as today.
+  - Also exported: `damagedProblems(p)` (BrainBox's `problems(p)`: `incomplete save`,
+    `files removed`, `N current versions`) and `damagedSettingsLink(p)`.
+- **`DamagedProjects`** (`src/components/admin/DamagedProjects.vue`): a `<section>` with its
+  `<h2>`, microdraw's layout (a block per project, the help text) with BrainBox's problem labels
+  in each block's counts line. Microdraw's class names stay (`button.find-damaged`,
+  `div.project[data-shortname]`, `li.event[data-save]`, `button.restore-files`,
+  `button.fix-current`, `p.result`, `button.undo-restore-files`, `p.error`), so its e2e selectors
+  still match. Props: `showTime`, `undoUrl` (`undo-url` in a DOM or string template; `undoURL`
+  also works), `fetchJSON` and `postJSON` (optional). Native `<button>`s in the tab order (not
+  `Button`, which has `tabindex="-1"`, nor BrainBox's toggle link), a visible `:focus-visible`
+  outline, the error in `role="alert"`, the result in `role="status"`; the confirms stay
+  `window.confirm`. Its styles are in `@layer nwl.components`, from the tokens. An `id` on the
+  element goes to the section.
+- Story `Admin/DamagedProjects` (a mocked server, `window.confirm` stubbed): List (keyboard,
+  focus, labels, dates with the time), RestoreAndUndo, FixCurrent (and a cancelled confirm),
+  Conflict (the 409 stays shown after the reload), NoUndo (BrainBox's: no time, no undo, its
+  confirms), CustomRequests.
+
+What the apps must do (their copies still work until then):
+
+- **microdraw**: `package.json` (:31): `nwl-components` `^3.7.0`. `app/views/admin.mustache`:
+  replace :193–:236 with `<damaged-projects id="damaged-projects" show-time
+  undo-url="/admin/json/projects/restore"></damaged-projects>`, and remove the CSS only it used
+  (`ul.events`, `ul.events li`, `.examples`, :452–:462; `div.project`, `.tag`, `.help`, `.error`
+  and `.result` stay, the other sections use them). Remove
+  `app/views/scripts/src/admin-damaged.js`. `app/views/scripts/src/admin-page.js`: remove the
+  import (:9) and `...useDamagedProjects(…)` (:189); import `DamagedProjects` from
+  `nwl-components` and `app.component('DamagedProjects', DamagedProjects)` (after :205).
+- **BrainBox**: `package.json` (:56): `nwl-components` `^3.7.0`. `templates/admin.mustache`:
+  replace :58–:103 with `<damaged-projects id="projects"></damaged-projects>` (no time, no undo),
+  and remove its CSS (:212–:235: `tr.details ul`, `li`, `li .tag`, `li button`, `.examples`,
+  `.tag.notice`, `.tag + .tag`; `tr.details td` at :209 stays, the orphans use it).
+  `view/brainbox/src/pages/admin-page.js`: remove the state (:29–:33), the logic (:49–:108) and
+  the returned names (:234–:243; `formatDate` at :256 stays, the other sections use it); import
+  `DamagedProjects` and `app.component('DamagedProjects', DamagedProjects)` (after :266).
+
 ## 3.6.0
 
 The apps' embeddable viewer, without Vue: the embed page's sizing and the `/embed.js` loader,
