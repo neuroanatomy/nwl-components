@@ -14,6 +14,22 @@ Storybook only (stories aren't published to npm; no version bump).
   the search, the count, no match, the keyboard and the copy. The map is parsed once in
   `src/icons/map.js`, shared with `Icons/All`.
 
+## 3.7.1
+
+Roboto 100 in Latin Extended, for project names such as "Łódź" (microdraw shows the project name
+in Roboto).
+
+- **`fonts.css`** has a second Roboto 100 face, `fonts/roboto-latin-ext-100-normal.woff2`, from
+  `@fontsource/roboto` as the Latin one, with fontsource's `unicode-range` (U+0100-02BA and the
+  rest of Latin Extended). The build copies it to `dist/fonts/` with the other faces
+  (`scripts/fonts.js`). A browser downloads it only for a page with such letters.
+- Story `Styles/Theme` Fonts: its `play` test checks `document.fonts.check('100 16px Roboto',
+  'ŁódźĄę')`, the face in fonts.css and its woff2 served from `fonts/`.
+
+**What the apps must do:** nothing, if they link `nwl-components/fonts.css`. They may now drop
+their own Roboto copies (microdraw's `app/public/lib/roboto/`, BrainBox's `public/fonts/roboto/`)
+and the `<link>`s to them, where they use Roboto only at weight 100 (the only weight the kit has).
+
 ## 3.7.0
 
 The admin page's "Damaged projects" section, for both apps: one panel replaces microdraw's

@@ -299,6 +299,26 @@ Controls.play = async ({ canvasElement }) => {
   await expect(controls.map((el) => getComputedStyle(el).fontFamily).filter((font) => font !== body)).toEqual([]);
 };
 
+// Roboto 100 in Latin Extended (3.7.1), for project names such as "Łódź": fonts.css declares the
+// face (preview.js also imports @fontsource/roboto/100.css, so check() alone wouldn't tell them
+// apart), and its woff2 is served from fonts/ beside fonts.css.
+const checkRobotoLatinExt = async (base) => {
+  await document.fonts.load('100 16px Roboto', 'ŁódźĄę');
+  await expect(document.fonts.check('100 16px Roboto', 'ŁódźĄę')).toBe(true);
+  // the kit's fonts.css, beside the page (Storybook links its own sb-common-assets/fonts.css too)
+  const fontsCss = [...document.styleSheets].find((sheet) => sheet.href === new URL('fonts.css', document.baseURI).href);
+  const latinExt = [...fontsCss.cssRules].filter((rule) => rule instanceof CSSFontFaceRule &&
+    rule.style.getPropertyValue('src').includes('fonts/roboto-latin-ext-100-normal.woff2'));
+  const described = latinExt.map((rule) => [
+    rule.style.getPropertyValue('font-family').replace(/"/gu, ''),
+    rule.style.getPropertyValue('font-weight'),
+    rule.style.getPropertyValue('unicode-range').split(',')[0].trim()
+  ]);
+  await expect(described).toEqual([['Roboto', '100', 'U+100-2BA']]);
+  const woff2 = await fetch(`${base}roboto-latin-ext-100-normal.woff2`);
+  await expect([woff2.status, woff2.headers.get('content-type')]).toEqual([200, 'font/woff2']);
+};
+
 // The fonts: with fonts.css linked, Source Sans 3 and IBM Plex Mono are loaded, from
 // fonts/ next to the page (dist/fonts in the library), never from a third party.
 export const Fonts = () => ({
@@ -306,6 +326,7 @@ export const Fonts = () => ({
   <main>
     <p style="font-family: var(--nwl-font-body)">Source Sans 3, <b>semibold</b>, <i>italic</i></p>
     <p style="font-family: var(--nwl-font-mono)">IBM Plex Mono 0123456789</p>
+    <p style="font-family: var(--nwl-font-display); font-weight: 100">Roboto 100 ŁódźĄę</p>
   </main>`
 });
 Fonts.play = async ({ canvasElement }) => {
@@ -332,6 +353,7 @@ Fonts.play = async ({ canvasElement }) => {
     `${base}source-sans-3-latin-400-normal.woff2`,
     `${base}ibm-plex-mono-latin-400-normal.woff2`
   ]));
+  await checkRobotoLatinExt(base);
 };
 
 // TwoCols' widths on a wide screen (1023px and up): the content column is 800px, in a 1020px
